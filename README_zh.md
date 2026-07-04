@@ -61,7 +61,35 @@ agon-artifacts/
 
 本地设置可以写在 `.settings.toml` (从复制 `.settings.example.toml` 开始).
 
+## claude-ds 的安装
+
+`claude-ds` 是 deepseek 驱动的 claude code
+
+1. 首次启动前建空 `~/.claude-ds/`，只处理 symlink（其余由 claude 首次启动自动生成）:
+   - 设置侧 (symlink): `CLAUDE.md` `mcp-needs-auth-cache.json` `memory/` `plugins/` `settings.json` `settings.local.json` `skills/`
+   - 会话侧 (隔离): `backups/` `cache/` `downloads/` `ide/` `stats-cache.json` `projects/` `sessions/` `session-env/` `file-history/` `history.jsonl` `paste-cache/` `shell-snapshots/` `.claude.json`
+   - symlink 是为了在 `claude` 和 `claude-ds` 之间共享 skills, MCP, plugins
+
+2. 在 `~/.bashrc` 中写入 `claude-ds()` 函数
+```
+claude-ds() {
+  CLAUDE_CONFIG_DIR="$HOME/.claude-ds" \
+  ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
+  ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY" \
+  ANTHROPIC_MODEL="deepseek-v4-pro[1m]" \
+  ANTHROPIC_SMALL_FAST_MODEL="deepseek-v4-flash" \
+  claude --effort max "$@"
+}
+```
+注意:
+- 写到 `# If not running interactively` 守卫之前，确保非交互式 shell 如 Claude Code 的 Bash 工具也能看到
+- 模型 ID 加 `[1m]` 后缀解锁 1M context
+3. 运行 `claude-ds`
+
 ## 友情链接
 
 - [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
 - [AutoResearch-SibylSystem](https://github.com/Sibyl-Research-Team/AutoResearch-SibylSystem)
+- [Telegram MCP Communicator](https://github.com/WhymustIhaveaname/mcp-communicator-telegram)
+- [Claude Memory Manager](https://github.com/WhymustIhaveaname/claude-memory-manager)
+- [humanizer](https://github.com/blader/humanizer)

@@ -61,7 +61,35 @@ agon-artifacts/
 
 Optional local settings live at `.settings.toml`. Start from `.settings.example.toml` when you need to customize model routing or parallelism.
 
+## claude-ds installation
+
+`claude-ds` is DeepSeek-backed Claude Code.
+
+1. Before first launch, create an empty `~/.claude-ds/` and only handle symlinks. Claude will generate the rest on first launch:
+   - Settings side (symlink): `CLAUDE.md` `mcp-needs-auth-cache.json` `memory/` `plugins/` `settings.json` `settings.local.json` `skills/`
+   - Session side (isolated): `backups/` `cache/` `downloads/` `ide/` `stats-cache.json` `projects/` `sessions/` `session-env/` `file-history/` `history.jsonl` `paste-cache/` `shell-snapshots/` `.claude.json`
+   - The symlinks let `claude` and `claude-ds` share skills, MCP, and plugins
+
+2. Add the `claude-ds()` function to `~/.bashrc`:
+```
+claude-ds() {
+  CLAUDE_CONFIG_DIR="$HOME/.claude-ds" \
+  ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" \
+  ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY" \
+  ANTHROPIC_MODEL="deepseek-v4-pro[1m]" \
+  ANTHROPIC_SMALL_FAST_MODEL="deepseek-v4-flash" \
+  claude --effort max "$@"
+}
+```
+Notes:
+- Put it before the `# If not running interactively` guard, so non-interactive shells such as Claude Code's Bash tool can see it
+- Add the `[1m]` suffix to the model ID to unlock 1M context
+3. Run `claude-ds`
+
 ## References
 
 - [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
 - [AutoResearch-SibylSystem](https://github.com/Sibyl-Research-Team/AutoResearch-SibylSystem)
+- [Telegram MCP Communicator](https://github.com/WhymustIhaveaname/mcp-communicator-telegram)
+- [Claude Memory Manager](https://github.com/WhymustIhaveaname/claude-memory-manager)
+- [humanizer](https://github.com/blader/humanizer)
