@@ -1,0 +1,23 @@
+# webUI runtime cache — derived stats DB, regenerates on first scan
+webUI/cache.db
+webUI/cache.db-journal
+webUI/cache.db-wal
+webUI/cache.db-shm
+
+# Python venvs / caches
+**/.venv/
+**/__pycache__/
+*.pyc
+
+# Playwright MCP scratch (browser snapshot dumps from local debugging)
+.playwright-mcp/
+
+# Local Codex plugin installs / marketplace metadata
+plugins/
+.agents/
+
+# Claude Code per-user discovery — symlinks/manifests vary by collaborator setup
+.claude/
+
+# Local user settings (use .settings.example.toml as template)
+.settings.toml

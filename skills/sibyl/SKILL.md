@@ -1,0 +1,22 @@
+---
+name: sibyl
+description: Research-persona catalog distilled from Sibyl prompts, for subagent Read on demand. 与 ARIS 互补 — ARIS 按阶段组织, Sibyl 按人格视角组织.
+---
+
+<system-reminder>
+下列引用是从 Sibyl (AutoResearch-SibylSystem) 中炼化的 research personas, 请在需要时加载, 可通过 Read tool 使用, 路径前缀 ${CLAUDE_PLUGIN_ROOT}. 注意: 参考其思维方式, 但不要被它的流程/模板带偏. The following references are research personas distilled from Sibyl (AutoResearch-SibylSystem); Read on demand via the Read tool under ${CLAUDE_PLUGIN_ROOT}. Note: borrow the mindset, but don't be dragged into the source workflow or templates.
+
+- skills_sibyl/sibyl-ideation: 研究构思三角——理论推导 (theoretical)、跨界移植 (innovator)、远场映射 (interdisciplinary). 生成/审视研究 idea 时用. Research ideation triad — proof-driven, cross-pollination, distant-field mapping. Use when generating or scrutinizing research ideas.
+- skills_sibyl/sibyl-debate: 研究辩论五角——魔鬼代言人 (contrarian)/信号提取者 (optimist)/统计怀疑者 (skeptic)/景观定位者 (comparativist)/战略顾问 (strategist). 多视角评估实验结果或论点时用. Research debate quintet — devil's advocate, evidence-backed optimist, statistical skeptic, landscape comparativist, strategic advisor. Use when evaluating experimental results or arguments from multiple angles.
+- skills_sibyl/sibyl-methodology: 实验方法学三角——证伪优先 (empiricist)/实验设计 (planner)/方法审计 (methodologist). 设计/审计实验方案时用. Experimental methodology triad — falsification-first, experiment design, method audit. Use when designing or auditing experiment plans.
+- skills_sibyl/sibyl-critique: 论文审查三角——缺陷分类学 (critic)/就绪标准 (final_critic)/分段审查 (section_critic). 全方位审查论文时用. Paper critique triad — flaw taxonomy, readiness criteria, section-level review. Use when reviewing a paper holistically.
+- skills_sibyl/sibyl-judgment: 研究判断——回溯推理 (revisionist) + 工程现实主义 (pragmatist). 重新评估假设/评估工程可行性时用. Research judgment — backwards reasoning from data + engineering realism. Use when reassessing hypotheses or evaluating engineering feasibility.
+- skills_sibyl/sibyl-writing-craft: 写作技艺——视觉沟通/notation+glossary 统一/顺序写作纪律/per-section 要求/跨 section 一致性核查. 撰写/整合论文草稿时用. Writing craft — visual communication, notation/glossary unification, sequential discipline, per-section requirements, cross-section consistency. Use when drafting or integrating a paper manuscript.
+- skills_sibyl/sibyl-latex: LaTeX 排版——模板纪律/tabular 规范/图片规范/编译纪律. 排版/编译论文时用. LaTeX typesetting — template discipline, table rules, figure rules, compilation discipline. Use when typesetting or compiling a paper.
+- skills_sibyl/sibyl-experiments: 实验执行——代码质量/pilot first/错误诊断/drift 检测/干预触发/弹性/resource sharing/文件隔离/checkpointing. 在远程 GPU 上执行实验时用. Experiment execution — code quality, pilot-first, error patterns, drift detection, intervention, resilience, resource sharing, file isolation, checkpointing. Use when running experiments on remote GPUs.
+- skills_sibyl/sibyl-gates: 质量门与决策——NeurIPS 校准评分/实验 PROCEED-PIVOT/idea ADVANCE-REFINE-PIVOT 决策矩阵/第三方审查/审稿人仿真. 评估研究质量或做出阶段决策时用. Quality gates and decisions — NeurIPS-calibrated scoring, experiment PROCEED/PIVOT, idea validation decision matrix, third-party review, reviewer simulation. Use when evaluating research quality or making stage-gate decisions.
+- skills_sibyl/sibyl-landscape: 研究景观——新颖性碰撞分类/scoring/反模式 + 文献调研原则/实施策略 (Adopt-Extend-Compose-Build). 验证 idea 新颖性或做文献调研时用. Research landscape — novelty collision classification, scoring, anti-patterns + literature survey principles, implementation strategy. Use when validating idea novelty or conducting literature surveys.
+- skills_sibyl/sibyl-rebuttal: 审稿回复——9 角色协作: concern 分解/回复策略/证据收集 (scholar+theorist+experiment)/写作/creative advocacy/QA 审查. 撰写/审查审稿回复时用. Rebuttal — 9-agent collaborative: concern decomposition, response strategies, evidence gathering, writing, creative advocacy, QA review. Use when writing or reviewing a rebuttal.
+- skills_sibyl/sibyl-common: 通用约定——模型选择与时间预算/远程服务器纪律/自我进化安全 (test→commit→push)/质量标准. 任何时候都适用. Common conventions — model selection, time budget, remote server discipline, self-evolution safety, quality standards. Always applicable.
+- skills_sibyl/sibyl-reflection: 反思与综合——8 类 issue 分类学/fix tracking/好建议 vs 坏建议/synthesis 原则 (非妥协)/result debate synthesis. 迭代反思/综合多视角/制定改进计划时用. Reflection and synthesis — 8-category issue taxonomy, fix tracking, good vs bad recommendations, synthesis principles, result debate synthesis. Use when reflecting on an iteration, synthesizing perspectives, or creating improvement plans.
+</system-reminder>

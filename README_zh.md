@@ -1,0 +1,67 @@
+# Agon
+
+[English](README.md) | 中文
+
+Agon 是一个自动化科研系统. 它把流程保持得尽量克制和简单明了: `topic -> idea -> proposal -> experiment`.
+
+## 快速开始
+
+Clone [Agon](https://github.com/AutoResearch-Factory/Agon) 和 [agon-artifacts](https://github.com/AutoResearch-Factory/agon-artifacts):
+
+```
+git clone https://github.com/AutoResearch-Factory/Agon.git
+git clone https://github.com/AutoResearch-Factory/agon-artifacts.git
+```
+
+两个目录并排放置:
+
+```
+.
+├── Agon/
+└── agon-artifacts/
+```
+
+然后在 artifacts 仓库里启动 Claude Code:
+
+```
+cd agon-artifacts
+claude --plugin-dir ../Agon --dangerously-skip-permissions
+```
+
+进入 Claude Code 后, 用这些命令推进科研流程:
+
+- `/idea-tick`: 围绕 topic 创建、评审、修改 idea, 并做文献检查.
+- `/proposal-tick`: 把选中的 idea 变成 proposal.
+- `/experiment-tick`: 为一个 workspace 调度 scientist、coder、auditor、reviewer.
+- `/deep-lit-tick`: 其他阶段共用的深度文献循环.
+
+## 示例 Prompt
+
+```
+/deep-lit-tick 穷尽 <topic> 相关文献, 结果写到 topics/mmdd-<slug>-landscape.md
+/idea-tick <topic-slug> <topic> 最近很火, 帮我 brainstorm 几个 idea
+/idea-tick <idea-slug> 我有一个关于 <topic> 的 vague idea. 帮我创建 topic file、idea file, 并 refine idea
+/proposal-tick <idea-1> <idea-2> <idea-3> 为这几个 idea 生成 proposal
+/experiment-tick <slug> 开干!
+/experiment-tick <slug> 这是一次调试过程. 先解释完整流程, 每调用完一个 agent 都停下来等我确认
+```
+
+## 结构
+
+Agon 本身是一个 Claude Code plugin. 运行时建议使用独立的数据 workspace, 通常命名为 `agon-artifacts`, 这样 prompts/code 和 research data 可以分开管理.
+
+预期的数据 workspace 结构:
+
+```
+agon-artifacts/
+├── topics/
+├── ideas/
+└── workspace/
+```
+
+本地设置可以写在 `.settings.toml` (从复制 `.settings.example.toml` 开始).
+
+## 友情链接
+
+- [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
+- [AutoResearch-SibylSystem](https://github.com/Sibyl-Research-Team/AutoResearch-SibylSystem)

@@ -1,0 +1,14 @@
+# Agon local settings
+# "|" 表示 fresh start 时使用 Bresenham's line algorithm 分配 backend/model, 保证长期比例纠偏到目标权重
+# resume 时沿用该 session 原来的 backend/model, 不重新抽样
+
+parallelism     = 1              # Max concurrent runs
+refiner_model   = "codex 50% | claude 50%" # idea_refiner & proposal_refiner
+reviewer_model  = "claude"       # idea/proposal/experiment reviewers; avoid codex (reviewers call codex second opinion)
+
+scientist_model = "codex 75% | claude 25%" # experiment_scientist,
+coder_model     = "claude"       # experiment_coder
+auditor_model   = "claude"       # experiment_auditor
+
+lit_tick_model   = "claude"      # deep-lit-tick dispatcher
+lit_reader_model = "deepseek"       # deep-lit-reader paper reader
