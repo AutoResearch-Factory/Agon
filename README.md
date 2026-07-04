@@ -86,6 +86,18 @@ Notes:
 - Add the `[1m]` suffix to the model ID to unlock 1M context
 3. Run `claude-ds`
 
+## Required Claude Code settings
+
+| Item | Purpose |
+|------|------|
+| `DISABLE_TELEMETRY` | Disable Statsig telemetry (usage stats, no code or file paths) |
+| `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` | Let the main agent resume background/asynchronous subagents, and let subagents message each other |
+| `cleanupPeriodDays: 3650` | Keep session history under `~/.claude/projects/` (default cleanup is after 30 days); set this at the top level of `~/.claude/settings.json` |
+
+**Configure statusline**
+
+Tell `claude` or `claude-ds`: "call statusline-setup, I want `[5h:6% 7d:69%(2d17h)] Ctx:7% Opus 4.6 (1M context)`"
+
 ## References
 
 - [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)

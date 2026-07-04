@@ -86,6 +86,18 @@ claude-ds() {
 - 模型 ID 加 `[1m]` 后缀解锁 1M context
 3. 运行 `claude-ds`
 
+## Claude Code 必要设置
+
+| 项 | 作用 |
+|------|------|
+| `DISABLE_TELEMETRY` | 关闭 Statsig 遥测（用量统计，不含代码/文件路径） |
+| `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` | 允许主 agent 向后台/异步子 agent 发消息 resume, 以及子 agent 之间互发消息协作 |
+| `cleanupPeriodDays: 3650` | 保留 `~/.claude/projects/` 下的 session 历史（默认 30 天会被自动清掉），写在 `~/.claude/settings.json` 顶层 |
+
+**配置 statusline**
+
+直接和 `claude` 或者 `claude-ds` 说: "把 statusline-setup 叫出来, 我要 `[5h:6% 7d:69%(2d17h)] Ctx:7% Opus 4.6 (1M context)`"
+
 ## 友情链接
 
 - [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
