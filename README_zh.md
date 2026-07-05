@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文
 
-Agon 是一个自动化科研系统. 它把流程保持得尽量克制和简单明了: `topic -> idea -> proposal -> experiment`.
+Agon ([论文](https://arxiv.org/abs/2606.24177)) 是一个自动化科研系统. 它把流程保持得尽量克制和简单明了: `topic -> idea -> proposal -> experiment`.
 
 ## 快速开始
 

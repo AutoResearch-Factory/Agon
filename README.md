@@ -2,7 +2,7 @@
 
 English | [中文](README_zh.md)
 
-Agon is an automated research system. It keeps the workflow minimal and explicit: `topic -> idea -> proposal -> experiment`.
+Agon ([paper](https://arxiv.org/abs/2606.24177)) is an automated research system. It keeps the workflow minimal and explicit: `topic -> idea -> proposal -> experiment`.
 
 ## Quick start
 
