@@ -25,7 +25,7 @@ git clone https://github.com/AutoResearch-Factory/agon-artifacts.git
 
 ```
 cd agon-artifacts
-claude --plugin-dir ../Agon --dangerously-skip-permissions
+claude --plugin-dir ../Agon --dangerously-skip-permissions --model claude-sonnet-5[1m]
 ```
 
 进入 Claude Code 后, 用这些命令推进科研流程:

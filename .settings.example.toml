@@ -1,6 +1,5 @@
 # Agon local settings
-# "|" 表示 fresh start 时使用 Bresenham's line algorithm 分配 backend/model, 保证长期比例纠偏到目标权重
-# resume 时沿用该 session 原来的 backend/model, 不重新抽样
+model_routing_policy = "'|' 表示 fresh start 时使用 Bresenham's line algorithm 分配 backend/model, 保证长期比例纠偏到目标权重；resume 时沿用该 session 原来的 backend/model, 不重新抽样"
 
 parallelism     = 1              # Max concurrent runs
 refiner_model   = "codex 50% | claude 50%" # idea_refiner & proposal_refiner

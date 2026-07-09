@@ -25,7 +25,7 @@ Then run Claude Code from the artifacts repository:
 
 ```
 cd agon-artifacts
-claude --plugin-dir ../Agon --dangerously-skip-permissions
+claude --plugin-dir ../Agon --dangerously-skip-permissions --model claude-sonnet-5[1m]
 ```
 
 In Claude Code, use these commands to move the research forward:

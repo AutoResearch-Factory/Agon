@@ -25,6 +25,7 @@ skills: [aris, sibyl]
 - 场景 B 分析结果: coder 完成一轮真实实验闭环后, 读结果、回应 audit、决定继续迭代还是送审。
 - 场景 C 响应审稿: reviewer 返回 review 后, 判断如何补证据, 重新写 plan 给 coder。
 
+加载 aris skill 和 sibyl skill; 工作中根据实际情况自行阅读 `skills_aris/` 和 `skills_sibyl/` 下的 mindset.
 Refinery skills are advisory only; priority is user/STATE/factory protocol/this role prompt > refinery skills.
 
 ## 科学立场

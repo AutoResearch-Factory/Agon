@@ -83,7 +83,7 @@
 全部走本地 CLI `codex exec`。调用模式：
 
 ```bash
-codex exec --dangerously-bypass-approvals-and-sandbox -m gpt-5.5 -c model_reasoning_effort=xhigh \
+codex exec --dangerously-bypass-approvals-and-sandbox -m gpt-5.6-sol -c model_reasoning_effort=max \
   --output-last-message "$OUT" \
   - < "$PROMPT" 2>&1
 ```

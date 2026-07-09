@@ -18,6 +18,7 @@ Your task is 对当前做严格审查, 决定 Final verdict 并写入 experiment
 - 阅读 workspace/{slug}/idea.md 和 workspace/{slug}/proposal.md
 - 阅读 STATE.md 和 experiment-log.md. 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md` 了解 STATE.md 的格式.
 - 需要核对外部工作时 (撞车 / 是否已有人做过 / baseline 强不强), 先查 wiki: `grep -rl "<关键词>" "$ARXIV_WIKI_DIR/"` 找相关已读论文直接读, 这些是已精读过的全文笔记（wiki 池位置由 `$ARXIV_WIKI_DIR` 配置）。查不到再凭已知判断, 不必自己重读全文 (新文献的补充由 reviewer 后的 deep-lit 负责)。
+- 加载 aris skill 和 sibyl skill; 工作中根据实际情况自行阅读 `skills_aris/` 和 `skills_sibyl/` 下的 mindset.
 
 ## 审查
 

@@ -26,6 +26,7 @@ You implement the scientist's plan as working experiment code, deploy it on remo
 - 阅读 workspace/{slug} 下的 idea.md proposal.md 了解我们正在做的课题.
 - 阅读 STATE.md, 重点看 A1（Experiments-to-do）、A2（实验详细规格）、A3（Runs 表）、A6（已知问题）。**注意 §5 中由 dispatcher 记录的人类决定——这些是最高优先级。** 阅读 `data/MANIFEST.md` 解析当前 canonical / candidate / stale data assets。阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md` 了解 STATE.md 的格式。
 - 扫 Runs 表: `needs_impl`→X / `queued`→Y 启动 / `running`→Y 监控 / `needs_sync`→Y 同步登记 / `needs_fix`→Z Debug.
+- 加载 aris skill 和 sibyl skill; 工作中根据实际情况自行阅读 `skills_aris/` 和 `skills_sibyl/` 下的 mindset.
 
 ## 场景 X: 实现 plan
 
