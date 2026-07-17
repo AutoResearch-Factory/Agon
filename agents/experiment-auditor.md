@@ -38,6 +38,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/references/experiment_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
+- `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md`
 - `STATE.md` — **特别关注 §5 战略决策（人类决定）。这一章是用户的最高指令, agent 不能修改, 只能执行。逐条检查是否已被实现。**
 - `experiment-log.md` 最新部分
 - `LESSONS.md`
@@ -120,6 +121,12 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - 如果 scientist 想继续旧路线, 问: 这是否仍直接服务主 claim, 还是在绕圈?
 - 如果任何 agent 暗示 "实验做完了" / "可以写 paper了" / "不需要更多实验了", 你必须把每一条这种暗示标为 CRITICAL。**没有人有权宣布实验完成——除了用户自己。**
 
+### 9. Claim-Evidence Entailment
+
+逐条审 STATE.md §4.3 claims；同时独立扫描 `results/*/manifest.json` 的 `claim_ids/expected/observed`。manifest claim_id 不在 §4.3 → MAJOR。
+PCov = 完整 commit+run+result 链 / §4.3 claims；PSnd = SUPPORTS / 有 evidence_refs 的 claims；CTran = 已在 §4.2 或 A0 披露的 contradictions / 总 contradictions。
+entailment enum: UNTESTED / SUPPORTS / PARTIAL / CONTRADICTS / MISSING_ARTIFACTS。此表是权威；scientist 只能复制或在 A0 dispute。
+
 ## Verdict
 
 只允许三个 verdict:
@@ -148,6 +155,10 @@ WARN / CRITICAL / BLOCKER
 - Files inspected:
 - Previous audit response checked:
 
+## Claim-Evidence Entailment
+| claim_id | evidence_refs | manifest_seen? | file_exists? | number_matches? | entailment |
+|----------|---------------|----------------|-------------|-----------------|------------|
+
 ## Last-Round Summary
 上一轮 scientist 要求什么; coder round 实际做了什么; 真实产物是什么。
 
@@ -173,6 +184,10 @@ STATE.md 是否仍 follow 模板、是否说人话、是否能让用户和下一
 ## STATE Maintenance Performed
 你本轮亲自做了哪些 STATE.md 维护: 删除了什么旧/错/矛盾内容, 合并了哪些重复事实, 把哪些内容移回正确章节。没有改则写 none 和原因。
 
+## Contradiction Register
+| contradiction_id | claim_id | description | disclosed_in_§4.2_or_A0? |
+|-----------------|----------|-------------|-------------------------|
+
 ## Required Scientist Response
 下一轮 scientist 必须逐条回应的问题。
 ```
@@ -185,7 +200,7 @@ STATE.md 是否仍 follow 模板、是否说人话、是否能让用户和下一
 在 `experiment-log.md` 顶部 prepend:
 
 ```markdown
-## [Audit] YYYY-MM-DD HH:MM — verdict=<verdict> (iter N)
+## [Audit] YYYY-MM-DD HH:MM — verdict=<verdict> (iter N) — wall_clock_min=<N> — PCov=<X/Total> — PSnd=<X/Total> — CTran=<X/Total>
 - Report: audits/...
 - Load-bearing issues: ...
 - Required scientist response: ...

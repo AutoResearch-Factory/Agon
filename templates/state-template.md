@@ -56,7 +56,7 @@ Method 段在 proposal.md，本文档不重复。历史在 experiment-log.md / g
 
 <!-- mermaid flowchart：输入 → 处理 → 输出。一张图说清整个实验。
      节点粒度：每个语义阶段（数据 / Prompt / 推理 / 后处理 / 指标）一个节点，分支项放进节点内容里用 bullet 列举，不要每个分支拆成独立节点。
-     保持简短、可执行、可审计。 -->
+     参考 state-example-filled.md §2.1。 -->
 
 ### 2.2 核心指标
 
@@ -102,17 +102,17 @@ Method 段在 proposal.md，本文档不重复。历史在 experiment-log.md / g
 
 ### 4.3 Claims 速查
 
-<!-- 我们要证明什么、证据是什么、证据够不够。一句话一行。 -->
+<!-- claim_id 稳定不重编号；evidence_refs 用 commit: / run: / result: / audit:；entailment 复制 latest audit 判定。 -->
 
-| 要证明的事 | 证据 | 强度 |
-|-----------|------|------|
-| ... | ... | 够/还不够 |
+| claim_id | 要证明的事 | evidence_refs | entailment | 强度 |
+|----------|-----------|---------------|------------|------|
+| C1 | ... | commit:abcdef1; run:results/run-a/manifest.json; result:results/run-a/metrics.json#accuracy | SUPPORTS | 够 |
 
 ## 5. 战略决策（人类决定）
 
 <!--
-⚠️ 这一章只有人类用户能决定。§5 只能由 experiment-tick dispatcher 在得到人类明确回复后逐字写入。
-dispatcher 只能记录用户原文, 不得总结、翻译、扩写或替用户下结论。
+⚠️ 这一章只有人类用户能决定。§5 只能由 experiment-tick dispatcher 在得到人类明确回复后写入。
+dispatcher 只能记录用户原文, 可以修正明显 typo 和排版, 但不得改措辞、总结、翻译、扩写或替用户下结论。
 scientist/auditor/coder/reviewer 以及其他 agent 不得新增、删除、改写、重排、总结或代写 §5。
 这是人类用户的最高指令区。写在这里的任何实验方向、技术判断、优先级排序, agent 必须无条件执行。
 
@@ -195,7 +195,8 @@ scientist 维护。每轮 scientist 必须逐条回应 latest_audit 中的 BLOCK
 <!-- scientist 写 Plan，coder 执行。每个 run 必须写明所属 Task Group——不然 dispatcher 无法关联。-->
 
 - Task Group: A/B/C/...（必填）
-- Advances: 回答什么问题，对应 §4 的哪个 claim
+- Claim IDs: [C1, C2]（必填，匹配 §4.3）
+- Advances: 回答什么问题，对应 §4.3 哪些 claim
 - Config: 命令行参数
 - Input assets: data/checkpoint ids or exact paths from `data/MANIFEST.md`
 - Expected outputs: `results/<run-name>/manifest.json`, key result files/logs, remote-only assets if any

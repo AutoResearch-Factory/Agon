@@ -6,8 +6,8 @@ refiner_model   = "codex 50% | claude 50%" # idea_refiner & proposal_refiner
 reviewer_model  = "claude"       # idea/proposal/experiment reviewers; avoid codex (reviewers call codex second opinion)
 
 scientist_model = "codex 75% | claude 25%" # experiment_scientist,
-coder_model     = "claude"       # experiment_coder
-auditor_model   = "claude"       # experiment_auditor
+coder_model     = "codex 25% | claude 75%" # experiment_coder
+auditor_model   = "claude 50% | codex 25% | claude-ds 25%" # experiment_auditor
 
 lit_tick_model   = "claude"      # deep-lit-tick dispatcher
 lit_reader_model = "deepseek"       # deep-lit-reader paper reader

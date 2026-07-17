@@ -16,7 +16,7 @@ Your task is 对当前做严格审查, 决定 Final verdict 并写入 experiment
 
 - 阅读 ${CLAUDE_PLUGIN_ROOT}/references 中的: project_manual.md 理解项目结构和其他背景知识, experiment_manual.md 了解与实验工厂有关的更多知识. 将来如果有需要, 就经常 revisit 这些 manual.
 - 阅读 workspace/{slug}/idea.md 和 workspace/{slug}/proposal.md
-- 阅读 STATE.md 和 experiment-log.md. 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md` 了解 STATE.md 的格式.
+- 阅读 STATE.md 和 experiment-log.md. 如果 STATE.md frontmatter `latest_audit` 非空, 必须打开该 audit report；必要时再读 audits/ 中更早的相关 report。阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md` 了解 STATE.md 的格式, 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md` 了解什么叫"好的 STATE.md".
 - 需要核对外部工作时 (撞车 / 是否已有人做过 / baseline 强不强), 先查 wiki: `grep -rl "<关键词>" "$ARXIV_WIKI_DIR/"` 找相关已读论文直接读, 这些是已精读过的全文笔记（wiki 池位置由 `$ARXIV_WIKI_DIR` 配置）。查不到再凭已知判断, 不必自己重读全文 (新文献的补充由 reviewer 后的 deep-lit 负责)。
 - 加载 aris skill 和 sibyl skill; 工作中根据实际情况自行阅读 `skills_aris/` 和 `skills_sibyl/` 下的 mindset.
 
@@ -42,7 +42,7 @@ DO THE FOLLOWING:
 
 ### Layer 2: Claim/evidence support
 
-逐条检查 STATE.md 的 claim:
+逐条检查 STATE.md §4.3 的 claim；若 latest audit 有 Claim-Evidence Entailment 表，先用它定位 evidence_refs，但必须自己打开 evidence files 复核。
 - claim_supported: supported / partial / no / measurement-invalid
 - confidence: high / medium / low
 - evidence path: exact result file / table / log path
@@ -129,6 +129,9 @@ ready / almost / not ready
 ## Must-fix before next review
 - [strict evidence requirements]
 
+## Next experiment manual
+- [保留 second opinion 中可执行的实验手册: due diligence 结论、实验矩阵、P0/P1 操作计划、资源/可行性风险、decision rules. 不要只写泛泛建议.]
+
 </review>
 </review-format>
 
@@ -152,6 +155,7 @@ ready / almost / not ready
 - Score: 取两者平均值, 保留到 0.1, 若分歧 >= 2 要标注分歧.
 - Verdict: 取两者中更严的 (not ready > almost > ready).
 - Primary concern: 两者一致或指向同一根因则合为一条; 否则并列写两条 (scientist 下轮两条都要处理).
+- Next experiment manual: 必须保留 second opinion 的可执行实验规划, 尤其是实验矩阵、P0/P1、资源/可行性和 decision rules; 这是 scientist 下轮工作的主要输入.
 
 ### 1. 覆盖 STATE.md 末尾的 `<review>` 块
 

@@ -45,6 +45,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/references/experiment_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/references/researcher_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
+- `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md`
 - topic.md, landscape.md, idea.md, proposal.md
 - STATE.md, LESSONS.md, experiment-log.md 最新条目 — **重点关注 §5 战略决策（人类决定）。这是用户的最高指令。你的下一轮 plan 必须逐条响应 §5 中的每条指令——做完了的汇报结果, 没做完的解释为什么并列为 P0。不允许跳过。**
 
@@ -74,8 +75,8 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写。单次
 
 2. 写首轮 plan:
 - 从 main 开一个 `route/<name>` 分支。
-- 按 state-template.md 初始化完整 STATE.md。STATE.md 必须是当前快照, 人能读, agent 能接力。
-- 每个 planned run 必须写清 claim/evidence target、priority、config、server、input data/checkpoint asset、expected outputs/sync evidence、success criterion、failure interpretation、evaluation type、claim ceiling。
+- 按 state-template.md 和 state-example-filled.md 初始化完整 STATE.md。STATE.md 必须是当前快照, 人能读, agent 能接力。
+- 初始化 §4.3 claim_id；每个 planned run 写 `Claim IDs`。
 - 设置 STATE.md frontmatter: `route`, `git_branch`, `phase: coding_and_running`。
 
 ## 场景 B: 分析结果
@@ -89,10 +90,10 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写。单次
 - Evidence reconstruction: 回到上一轮 A1/A2, 重建你原本想验证什么、coder 实际产出什么、哪些 run 真正 collected、哪些只是 partial / proxy / smoke / failed / needs_sync。每个关键数字必须能追到 run manifest、result files、logs、configs、commands、source commit、data/checkpoint id 和本地/远端同步状态。
 - Execution trustworthiness: 判断代码、参数、metric、dataset/split、baseline、checkpoint、server/env 的偏差是否污染科学结论。发现潜在 bug 时, 把它当成解释当前信号的候选假设, 不是写一份 bug bounty 报告。
 - Truth assessment: 判断每个重要结果是否可信、是否支持机制解释、是否可能来自 overfitting、leakage、stale data、missing sync、proxy metric、seed luck、统计噪声、baseline 缺失、资源误配或搜索空间缺口。too-good-to-be-true 和离谱负结果都要先当成需要解释的信号。
-- Claim matrix: 对 primary claim / supporting claim / anti-claim, 写清当前证据是 supports / weak / missing / contradicted, 以及强 reviewer 还会要求的 minimum evidence。
+- Claim matrix: latest audit 的 Claim-Evidence Entailment 表是权威；复制到 §4.3，或在 A0 明确 disagree。`CONTRADICTS` / `PARTIAL` 不得静默删除，必须留在 §4.2 或 A0。
 - Scientific interpretation: 每个重要发现用 Observation → Interpretation → Alternative explanations → Implication → Next experiment 组织。负结果必须诚实记录为诊断信号, 然后转成能区分解释的实验动作, 不得作为收工理由。
 - Evidence gap selection: 选择下一轮最能改变 reviewer belief 的 load-bearing gap。优先主实验、强 baseline、关键 ablation、必要 sanity/debug; deadline-critical 或主线缺口不得被 appendix/polish 任务挤到后面。
-- Next-round design: 每个 A1 run 必须写清要验证的解释、control variables、success/failure 分别说明什么、claim ceiling, 以及 coder 必须使用/产出/同步的 data assets。能并行的 run 分开写, 有依赖的 run 写清依赖。
+- Next-round design: 每个 A1 run 必须写清 `Claim IDs`、要验证的解释、control variables、success/failure 分别说明什么、claim ceiling, 以及 coder 必须使用/产出/同步的 data assets。能并行的 run 分开写, 有依赖的 run 写清依赖。
     **用 Task Group 组织 run**：将互相独立、可在不同 server 并行推进的 run 归入同一个 group 并标 `can_split: true`（dispatcher 视 server 空闲情况决定拆几个 coder）；有依赖或必须共享同一 server 的 run 归入同一个 group 并标 `can_split: false`。写好 `depends_on` 和 `priority`。你不需要知道 GPU 空闲情况，只需要诚实标注 run 之间的依赖和独立度。
 
 决策:
@@ -101,10 +102,11 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写。单次
 
 ## 场景 C: 响应审稿
 
-阅读 latest reviewer output（来自 experiment-log.md / STATE.md 中记录的位置）。不要只做 reframe 或 desk rewrite; 两次送审之间必须有实质性实验、分析或证据改进。
+完整阅读 STATE.md 末尾 `<review>`，尤其是 `Next experiment manual`。不要只做 reframe 或 desk rewrite; 两次送审之间必须有实质性实验、分析或证据改进。
 如果这是 reviewer 后 deep-lit 回流, 先确认 Start routine 已消费 lit-feed.md 的新增文献, 再响应 reviewer。
 
 - 对每条 reviewer 反馈做 accept / partially accept / pushback 决定, 并在 A0/§6/A1/A2 写清证据和策略。不得新增或改写 §5。
+- 必须逐条处理 `Next experiment manual`: due diligence 结论、实验矩阵、P0/P1、资源/可行性风险、decision rules。接受的条目写进 A1/A2/A3; 不接受的条目必须在 A0 写明 pushback 理由和替代实验。
 - 从 main 开新的 `route/<name>` 分支, 将下一轮 plan 写入 A1/A2/A3。
 - 设置 STATE.md frontmatter: `route`, `git_branch`, `phase: coding_and_running`。
 
