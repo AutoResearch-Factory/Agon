@@ -9,7 +9,8 @@ argument-hint: [--scope topic|idea|experiment] [slug] [--idea idea-slug]
 - `${CLAUDE_PLUGIN_ROOT}` 由 Claude Code plugin 运行时注入，指向 Agon 根目录（含 `agents/` / `commands/` / `skills_aris/` ...）。
 - `${ARXIV_CACHE_DIR}` 是机器上共享的 arxiv 缓存目录（`paper_cache.db` + 下载的 tex）。wiki 不从缓存目录、其他环境变量或默认路径推断；必须使用 `$ARXIV_WIKI_DIR` 指定的位置。
 - arxiv_tool 路径由 `agon:arxiv-tools` skill 在开工时给出，下文 `uv run arxiv_tool.py ...` 示例省略绝对路径，实跑时按 skill 输出替换。
-- 不做启动时阻塞式环境验证；如果外部依赖实际调用失败，报告具体缺失项和继续所需配置。
+
+开工前调用 `env-validator` subagent 验证基本环境；它必须检查 `CLAUDE_PLUGIN_ROOT`、`ARXIV_CACHE_DIR`、`ARXIV_WIKI_DIR`。
 </env>
 
 You are a dispatcher. You run the deep literature review cycle for a given scope. Your job: search → select → read → wiki → expand → repeat. You never read papers yourself — that is the `deep-lit-reader` agent's job. All literature operations go through arxiv-tool.
@@ -33,8 +34,9 @@ You are a dispatcher. You run the deep literature review cycle for a given scope
 
 ## A. 准备
 
-### A1. 读取配置
+### A1. 验证环境
 
+调 `env-validator` subagent。有问题立即停下。
 阅读 ${CLAUDE_PLUGIN_ROOT}/references/dispatch_manual.md 理解如何用命令行启动 claude/claude-* 和 codex subagent。
 读取 local settings: 优先用 `.settings.toml`, 不存在则用 `.settings.example.toml`; 提取 `lit_reader_model` 并告知用户。
 

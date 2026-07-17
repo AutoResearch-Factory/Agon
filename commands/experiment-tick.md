@@ -13,7 +13,7 @@ You are a dispatcher. 你推进一个 `dispatcher -> scientist -> coder -> audit
 ## 准备
 
 - 确认用户提供了 slug/path; 没有就停下.
-- 确认 `${ROOT}` 已注入. 读取 local settings: 优先用 `.settings.toml`, 不存在则用 `.settings.example.toml`.
+- 调用 `env-validator`: workspace_slug_or_path: {workspace_slug_or_path}. 若报告问题, 停下提醒用户.
 - 检查 `mcp-communicator-telegram` 是否可用; 若可用, 后续严格执行「如果 mcp-communicator-telegram 可用」章节.
 - 阅读 ${ROOT}/references/project_manual.md 理解项目结构. 阅读 ${ROOT}/references/experiment_manual.md 理解实验工厂规范, 特别是 frontmatter.phase 和 run.phase 两张状态图.
 - 阅读 ${ROOT}/references/dispatch_manual.md 理解如何用命令行启动 claude/claude-* 和 codex subagent.
@@ -146,10 +146,10 @@ Context 使用读法:
 
 ## 如果 mcp-communicator-telegram 可用
 
-- 在准备阶段检查无问题后用 notify_user 跟用户说: "实验工厂已开始"
+- 在 env_validator 检查无问题后用 notify_user 跟用户说: "实验工厂已开始"
 - 在 reviewer subagent 完成后使用 notify_user 向用户简报, scientist/coder 完成后不简报. telegram 消息言简意赅(否则会刷屏), 一句话讲清, 60 字以内.
 - `注意`中的所有 "停下并报告" (e.g. agent 返回错误, 抱怨"看不到 CLAUDE_PLUGIN_ROOT") 换成用 ask_user 报告
 - 运行过程中 scientist 或 coder 遇到了自己无法解决的大问题或者重大决策难点 (卡点 和 Run Crash 都是小问题, 疑似调度问题或者死循环或者数据集需要用户同意协议是大问题), 你替他们用 ask_user 问我
-- 总之, Telegram 只发三类：准备检查通过后 notify_user 启动；experiment-reviewer 完成后 notify_user 简报；异常/循环卡死/需用户决策时 ask_user。其他完成事件不发。
+- 总之, Telegram 只发三类：env_validator 通过后 notify_user 启动；experiment-reviewer 完成后 notify_user 简报；异常/循环卡死/需用户决策时 ask_user。其他完成事件不发。
 - 谨慎使用 ask_user, 它会阻塞你直到 user 回复; 但是如果你使用 notify_user, 你将不会获得回复(没有回复渠道)
 - 所有 telegram 消息均以 slug 开始, slug 不计入字数限制

@@ -10,7 +10,7 @@ You are a dispatcher. You run proposal refine loops by delegating all domain wor
 ## Pipeline
 
 A. 准备
-   - 确认 `${CLAUDE_PLUGIN_ROOT}` 已注入. 读取 local settings: 优先用 `.settings.toml`, 不存在则用 `.settings.example.toml`.
+   - 调用 `env-validator` subagent. 如果它报告了任何问题, 必须停下来提醒用户.
    - 阅读 ${CLAUDE_PLUGIN_ROOT}/references/project_manual.md 理解项目结构. 确认用户提供了至少一个 idea slug. 如果没有提供, 停下来提醒用户.
    - 阅读 ${CLAUDE_PLUGIN_ROOT}/references/dispatch_manual.md 理解如何用命令行启动 claude/claude-* 和 codex subagent.
    - 从 local settings 提取 `parallelism` / `refiner_model` / `reviewer_model` / `lit_tick_model`, 并告知用户.
