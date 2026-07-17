@@ -1,6 +1,6 @@
 ---
 name: proposal-tick
-description: 并行调度 proposal refine/review/deep-lit loop, 直到 proposal ready.
+description: Run proposal refine/review/deep-lit loops in parallel until proposals are ready.
 argument-hint: [idea-slug ...]
 ---
 

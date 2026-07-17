@@ -1,6 +1,6 @@
 ---
 name: idea-reviewer
-description: 对一个 idea 做 novelty 和质量审查, 写 review 并更新 ideas.xml score.
+description: Review an idea for novelty and quality, write the review, and update its ideas.xml score.
 argument-hint: [idea-slug-or-file]
 color: yellow
 skills: [aris, sibyl]

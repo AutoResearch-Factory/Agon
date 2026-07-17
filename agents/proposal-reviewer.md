@@ -1,6 +1,6 @@
 ---
 name: proposal-reviewer
-description: 对一个 proposal 做多维审查, 写 review 并更新 proposals.xml score.
+description: Review a proposal across multiple dimensions, write the review, and update its proposals.xml score.
 argument-hint: [idea-slug-or-proposal-file]
 color: yellow
 skills: [aris, sibyl]

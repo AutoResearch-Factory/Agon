@@ -1,6 +1,6 @@
 ---
 name: deep-lit-tick
-description: 按 scope 运行深度文献循环, 搜索、精读、扩展直到相关论文饱和.
+description: Run the scoped deep literature loop until relevant papers are saturated.
 argument-hint: [--scope topic|idea|experiment] [slug] [--idea idea-slug]
 ---
 

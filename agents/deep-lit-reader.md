@@ -1,6 +1,6 @@
 ---
 name: deep-lit-reader
-description: 深度文献审读者, 精读一篇 arXiv 论文全文, 写 wiki 并输出 deep-lit result JSON.
+description: Read one arXiv paper in depth, write its wiki note, and emit a deep-lit result JSON.
 argument-hint: [arxiv-id] [topic-slug]
 color: blue
 skills: [aris, sibyl]

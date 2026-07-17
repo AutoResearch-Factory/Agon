@@ -1,6 +1,6 @@
 ---
 name: idea-refiner
-description: 根据 reviewer 反馈改进一个已有 idea, 写出下一版 idea 文件.
+description: Improve an existing idea using reviewer feedback and write the next idea version.
 argument-hint: [idea-slug-or-file]
 color: cyan
 skills: [aris, sibyl]

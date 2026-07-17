@@ -1,6 +1,6 @@
 ---
 name: idea-creator
-description: 从一个 topic 文件调研 landscape、生成并筛选研究 ideas、落盘到 ideas/.
+description: Research a topic landscape, generate and select research ideas, and save them under ideas/.
 argument-hint: [topic-file]
 color: magenta
 skills: [aris, sibyl]

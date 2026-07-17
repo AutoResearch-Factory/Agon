@@ -1,6 +1,6 @@
 ---
 name: experiment-tick
-description: 调度实验 auditor/scientist/coder/reviewer 循环推进 workspace.
+description: Orchestrate the experiment auditor/scientist/coder/reviewer loop for a workspace.
 argument-hint: [workspace-slug]
 ---
 

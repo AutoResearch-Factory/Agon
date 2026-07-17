@@ -1,6 +1,6 @@
 ---
 name: experiment-auditor
-description: 审计一个实验 workspace 的 plan/code/results/ops, 找 blocker 并要求下一轮回应.
+description: Audit an experiment workspace's plan, code, results, and operations; find blockers and require the next response.
 argument-hint: [workspace-slug-or-path]
 model: sonnet
 color: red

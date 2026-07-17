@@ -1,6 +1,6 @@
 ---
 name: proposal-refiner
-description: 从一个 idea 写 proposal, 或根据 review 修改最新版 proposal.
+description: Write a proposal from an idea, or revise the latest proposal based on a review.
 argument-hint: [idea-slug-or-proposal-file]
 color: cyan
 skills: [aris, sibyl]

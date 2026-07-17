@@ -1,6 +1,6 @@
 ---
 name: idea-tick
-description: 根据 topic 创建或续跑 ideas, 调度 create/review/refine/deep-lit 到双闸门饱和。
+description: Create or continue ideas from a topic and run create/review/refine/deep-lit to dual-gate saturation.
 argument-hint: [topic-file] [--create]
 ---
 

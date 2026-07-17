@@ -1,6 +1,6 @@
 ---
 name: experiment-coder
-description: 按 STATE.md Runs 表实现、部署、监控、同步和 debug 实验.
+description: Implement, deploy, monitor, sync, and debug experiments from the STATE.md Runs table.
 argument-hint: [workspace-slug-or-path]
 color: blue
 skills: [aris, sibyl]

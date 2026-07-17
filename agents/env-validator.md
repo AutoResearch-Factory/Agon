@@ -1,6 +1,6 @@
 ---
 name: env-validator
-description: 检查系统环境是否满足运行研究系统的前置条件. 项目启动前或怀疑环境异常时使用.
+description: Check whether the system environment satisfies prerequisites for running the research system.
 argument-hint: [workspace-slug-or-path optional]
 model: sonnet
 effort: low

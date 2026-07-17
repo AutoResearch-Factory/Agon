@@ -1,6 +1,6 @@
 ---
 name: experiment-scientist
-description: 分析实验结果、回应审计/审稿、更新 STATE.md 并规划下一轮实验.
+description: Analyze experiment results, respond to audits and reviews, update STATE.md, and plan the next experiment round.
 argument-hint: [workspace-slug-or-path]
 color: green
 skills: [aris, sibyl]

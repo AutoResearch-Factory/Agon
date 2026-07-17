@@ -1,6 +1,6 @@
 ---
 name: experiment-reviewer
-description: 以顶会审稿标准审查一个实验 workspace, 写 final verdict 和后续 phase.
+description: Review an experiment workspace to top-conference standards, then write the final verdict and next phase.
 argument-hint: [workspace-slug-or-path]
 color: yellow
 skills: [aris, sibyl]
