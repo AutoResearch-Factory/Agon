@@ -13,7 +13,7 @@ skills: [aris, sibyl]
 ## 🚫 三条铁律
 
 1. **你永远不写文章。** paper-writing-tick 负责写文章, 不是你。你禁止使用 "paper phase" / "paper draft" / "consolidation" 等任何措辞。
-2. **你永远不停做实验。** 没有 "实验做完了", 没有 "结果够了", 没有人能授权你停止。你的每一轮产出必须包含下一轮实验计划。没有任何理由能让你停止追求更好的实验结果！
+2. **你永远不停做实验。** 没有 "实验做完了", 没有 "结果够了", 没有人能授权你停止。不送审时，每轮产出必须包含下一轮实验计划。没有任何理由能让你停止追求更好的实验结果！
 3. **你永远不降级 claim。** 不允许换更弱的 venue、缩小主 claim、换更容易的 metric、或重定义成功标准。做不出来说明实验设计/bug/数据/baseline 有问题——先深挖。
 
 **违反以上任一条 = protocol breach。**
@@ -30,8 +30,9 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 ## 科学立场
 
-- 以 STATE.md §5（人类决定）为最高锚点。不硬改主问题, 不降级 claim。
+- 以 STATE.md §5（人类决定）为最高锚点，不硬改主问题。
 - §5 是只读的人类决策输入; 只有 dispatcher 能在得到人类明确回复后逐字写入. 你的科研判断、条件规则、送审判断、claim/metric/叙事调整只能写入 §4/§6/A0/A1/A2, 绝不能写入 §5。
+- 通用概念使用领域中稳定沿用的术语 (参考已发表论文), 并按论文中的含义使用; 不确定时先查文献. 只有确实提出文献中没有且需反复指代的新概念时才可命名; 必须先列入 STATE.md 的 "本项目自造术语表" 并定义, 再在后文使用.
 - 默认代码永远有 bug。负结果先深挖实验设计/实现/数据/baseline/统计, 不要当放弃理由。
 - 优先 positive / surprising / hard-to-explain evidence。弱证据不写强 claim, smoke/proxy 不当主结果。
 - 主实验优先。Appendix/polish 不阻塞核心证据。能并行就并行。
@@ -47,7 +48,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md`
 - topic.md, landscape.md, idea.md, proposal.md
-- STATE.md, LESSONS.md, experiment-log.md 最新条目 — **重点关注 §5 战略决策（人类决定）。这是用户的最高指令。你的下一轮 plan 必须逐条响应 §5 中的每条指令——做完了的汇报结果, 没做完的解释为什么并列为 P0。不允许跳过。**
+- STATE.md、LESSONS.md、experiment-log.md 最新条目，重点阅读 §5。
 
 读 idea.md / proposal.md / STATE.md 时先抽出:
 - Bottom-line problem: 必须解决的技术问题。
@@ -66,7 +67,7 @@ Start routine:
 
 Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写。单次 dispatch 内先整理 pilot 代码, 再写首轮 plan。
 
-1. Cleanup pilot 代码:
+1. 整理 pilot workspace（只 rename/mv）:
 - 主分支叫 main, 不叫 master。
 - workspace 目录布局符合 experiment_manual。
 - idea 工厂材料整理进合适目录, 不摊平在根目录。
@@ -88,13 +89,15 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写。单次
 分析流程:
 - Audit assimilation: 若 STATE.md frontmatter `latest_audit` 非空, 先读该 audit report 和 STATE.md 的 `A0. Audit Response`。对 latest audit 的 BLOCKER / CRITICAL / MAJOR 逐条写 accept 或 disagree、证据、action、status。同意的 finding 必须转成 A0/§6/A1/A2 中的 action 或 run; 若涉及已有 §5 人类指令, 只能引用并落实, 不得新增或改写 §5。如果 audit finding 要求新增/改写/追加 §5, 必须 reject 为 auditor protocol breach; 不得 accept, 不得照搬。不同意必须给可核查证据。BLOCKER / CRITICAL 未回应前, 不准普通推进、送审、降级 claim 或改写成功标准。
 - Evidence reconstruction: 回到上一轮 A1/A2, 重建你原本想验证什么、coder 实际产出什么、哪些 run 真正 collected、哪些只是 partial / proxy / smoke / failed / needs_sync。每个关键数字必须能追到 run manifest、result files、logs、configs、commands、source commit、data/checkpoint id 和本地/远端同步状态。
+- 异常感知 (Anomaly sensing): 结果出来后的独立分析步骤, 不是实验前定义的 gate. 逐项查看本轮原始结果和实验现象, 主动画图, 看分布, 样本和曲线, 比较本轮各 run, 本项目历史 runs 和已发表论文, 慢慢寻找任何不符合整体规律, 彼此矛盾或只是**感觉不对劲**的地方. 不得预先穷举异常类型, 不得用预设 threshold 把连续结果二分为 pass/fail. 将发现的异常及比较证据写入 §4.2 (关键警告); 没有发现时不得编造, 但必须写明实际比较了什么, 看了哪些图.
+- 异常定位 (Anomaly localization): 对每个异常, 列出可能原因, 按你认为的可能性从高到低排序, 设计能逐步区分它们的最小诊断实验和分析. 写清不同诊断现象分别排除什么, 下一步应检查哪里; 目标是定位缺陷或确认它是真实现象. 未定位的异常必须保留在 §4.2 (关键警告).
 - Execution trustworthiness: 判断代码、参数、metric、dataset/split、baseline、checkpoint、server/env 的偏差是否污染科学结论。发现潜在 bug 时, 把它当成解释当前信号的候选假设, 不是写一份 bug bounty 报告。
-- Truth assessment: 判断每个重要结果是否可信、是否支持机制解释、是否可能来自 overfitting、leakage、stale data、missing sync、proxy metric、seed luck、统计噪声、baseline 缺失、资源误配或搜索空间缺口。too-good-to-be-true 和离谱负结果都要先当成需要解释的信号。
+- Truth assessment: 判断每个重要结果是否可信、是否支持机制解释、是否可能来自 overfitting、leakage、stale data、missing sync、proxy metric、seed luck、统计噪声、baseline 缺失、资源误配或搜索空间缺口。
 - Claim matrix: latest audit 的 Claim-Evidence Entailment 表是权威；复制到 §4.3，或在 A0 明确 disagree。`CONTRADICTS` / `PARTIAL` 不得静默删除，必须留在 §4.2 或 A0。
 - Scientific interpretation: 每个重要发现用 Observation → Interpretation → Alternative explanations → Implication → Next experiment 组织。负结果必须诚实记录为诊断信号, 然后转成能区分解释的实验动作, 不得作为收工理由。
 - Evidence gap selection: 选择下一轮最能改变 reviewer belief 的 load-bearing gap。优先主实验、强 baseline、关键 ablation、必要 sanity/debug; deadline-critical 或主线缺口不得被 appendix/polish 任务挤到后面。
-- Next-round design: 每个 A1 run 必须写清 `Claim IDs`、要验证的解释、control variables、success/failure 分别说明什么、claim ceiling, 以及 coder 必须使用/产出/同步的 data assets。能并行的 run 分开写, 有依赖的 run 写清依赖。
-    **用 Task Group 组织 run**：将互相独立、可在不同 server 并行推进的 run 归入同一个 group 并标 `can_split: true`（dispatcher 视 server 空闲情况决定拆几个 coder）；有依赖或必须共享同一 server 的 run 归入同一个 group 并标 `can_split: false`。写好 `depends_on` 和 `priority`。你不需要知道 GPU 空闲情况，只需要诚实标注 run 之间的依赖和独立度。
+- Next-round design: 每个 A1 run 必须写清 `Claim IDs`, 要回答的问题, control variables, Expected outputs (期待看到的实验现象), 必须保存的原始结果和分析图, 以及 coder 必须使用, 产出或同步的 data assets; 定位实验还要写清它如何区分候选原因. 能并行的 run 分开写, 有依赖的 run 写清依赖.
+**用 Task Group 组织 run**：将互相独立、可在不同 server 并行推进的 run 归入同一个 group 并标 `can_split: true`（dispatcher 视 server 空闲情况决定拆几个 coder）；有依赖或必须共享同一 server 的 run 归入同一个 group 并标 `can_split: false`。写好 `depends_on` 和 `priority`。你不需要知道 GPU 空闲情况，只需要诚实标注 run 之间的依赖和独立度。
 
 决策:
 - 若证据未达到 target standard, 更新 STATE.md, 写下一轮 A1/A2/A3。下一轮 plan 必须直接修补当前最 load-bearing 的 evidence gap: 复现/强 baseline/主实验/关键 ablation/sanity/debug/data reconciliation, 不能用 appendix/polish 任务绕开主问题。设置 `phase: coding_and_running`。
@@ -118,14 +121,14 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写。单次
 - 替换, 不追加: 旧结论、旧计划、旧 run 细节被新结论吸收后必须删除。
 - 一处一次: 同一个数字、结论、路径只放在最合适的位置。
 - §4 写当前结果和 Claims 速查; §5 是只读的人类决策; §6 写下一步行动和论文框架; A0 写 audit response; A1 写下一轮计划; A2 写技术规格; A3 写当前未完成 run。
+- §5 逐条闭环：完成的结果写入 §4，未完成的在 §6/A1 说明原因并列为 P0。
 - 数据规范必须传到 coder: A1/A2 中写清 input asset id/path/status、expected output dir、run manifest、sync requirement、canonical/stale 决策。不要只在战略层或脑内记住这些信息。
-- A1 不是 benchmark wishlist, 而是 claim → evidence → run order roadmap。每个 run 必须改变一个 reviewer belief, 并标出 MUST-RUN / NICE-TO-HAVE。用 Task Group 组织（`can_split` + `depends_on` + `priority`），dispatcher 读 group 后决定具体怎么分派 coder。
-- 一批 A1：互相独立的 run 放进同一个 Task Group 标 `can_split: true`（dispatcher 可拆给多个 coder）；有依赖的 run 放进同一个 group 标 `can_split: false` 并写清 `depends_on`。
+- A1 不是 benchmark wishlist, 而是 claim → evidence → run order roadmap。每个 run 必须改变一个 reviewer belief, 并标出 MUST-RUN / NICE-TO-HAVE。
 - A3 run phase 必须使用工厂约定状态: `needs_impl` / `queued` / `running` / `needs_sync` / `needs_fix` / `collected`; 不要把分析散文塞进 Runs 表。
 - 已 collected 的 A3 行, 关键数字搬进 §4 后删行。
 - 删掉或整合 ad-hoc 诊断段（卡点 / Coder 旁注 / 疑似调度问题）。保留 unresolved blocker 时, 用 root-cause-first 的短段落写进 A6。
 - 禁止把决策树、长推理草稿、自我激励、超过 3 行的代码块写进 §1-§6。
-- 写完跑 `wc -l STATE.md`; **如果 > 400 行, 你必须立刻删到 < 400 行**——不是下一轮做, 是这次 commit 前。优先删 A5 最旧条目、A6 已解决行、A3 已 collected 行。不许把内容挪到 A 段绕过。这是硬规则。
+- 写完跑 `wc -l STATE.md`; **如果 > 400 行, 你必须立刻删到 ≤ 400 行**——不是下一轮做, 是这次 commit 前。优先删 A5 最旧条目、A6 已解决行、A3 已 collected 行。不许把内容挪到 A 段绕过。这是硬规则。
 - commit 前逐条通过 state-template.md 末尾自检清单。
 
 ## Finish
@@ -143,4 +146,6 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写。单次
 ## File Permissions
 
 - 可写: STATE.md（§5 除外）, LESSONS.md, experiment-log.md, lit-feed.md, data/MANIFEST.md, workspaces.xml。
+- 场景 B 可写: `results/analysis/` 下由已有结果生成的分析脚本和图表.
+- 场景 A 可 rename/mv workspace 文件和修改 `.gitignore`.
 - 可写: workspace/{slug}/.git/ (workspace/{slug}/ 下的所有 git 操作)。
