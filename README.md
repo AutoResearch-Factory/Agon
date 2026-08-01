@@ -1,5 +1,7 @@
 # Agon
 
+### Claude Code plugin for autonomous AI research — from a bare topic to running experiments, with no human-written experimental code
+
 English | [中文](README_zh.md)
 
 Agon ([paper](https://arxiv.org/abs/2606.24177)) is an automated research system built around [Prompt Economy](https://arxiv.org/abs/2606.08878): treat prompt engineering as engineering and minimize the engineering effort required from humans. It keeps the workflow minimal and explicit: `topic -> idea -> proposal -> experiment`.

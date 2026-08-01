@@ -1,5 +1,7 @@
 # Agon
 
+### 面向自主 AI 科研的 Claude Code 插件 —— 从一句课题描述到跑起来的实验, 全程无人编写实验代码
+
 [English](README.md) | 中文
 
 Agon ([论文](https://arxiv.org/abs/2606.24177)) 是一个围绕 [Prompt Economy](https://arxiv.org/abs/2606.08878) 构建的自动化科研系统, 即把 prompt engineering 当作工程问题, 并最小化工程师投入. 它把流程保持得尽量克制和简单明了: `topic -> idea -> proposal -> experiment`.
