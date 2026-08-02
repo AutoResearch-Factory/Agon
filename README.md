@@ -8,9 +8,9 @@
 
 English | [中文](README_zh.md)
 
-Agon ([paper](https://arxiv.org/abs/2606.24177)) is an automated research system built around [Prompt Economy](https://arxiv.org/abs/2606.08878): treat prompt engineering as engineering and minimize the engineering effort required from humans. It keeps the workflow minimal and explicit: `topic -> idea -> proposal -> experiment`.
+**Agon** ([paper](https://arxiv.org/abs/2606.24177)) takes a research project from a one-line topic to running experiments. Agents plan, implement, audit and review each other in closed loops, and every handoff goes through a file on disk — so a run is recoverable, auditable, and reusable across projects. The workflow stays minimal and explicit: `topic → idea → proposal → experiment`.
 
-Agon has been used across more than ten research domains; see the [paper](https://arxiv.org/abs/2606.24177) for deployment details.
+Agon is built on [**Prompt Economy**](https://arxiv.org/abs/2606.08878): treat prompt engineering as engineering, and minimize the engineering effort it demands from humans. See the [paper](https://arxiv.org/abs/2606.24177) for deployment details across more than ten research domains.
 
 ![Agon workflow](figures/figure_xp.png)
 

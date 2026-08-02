@@ -8,9 +8,9 @@
 
 [English](README.md) | 中文
 
-Agon ([论文](https://arxiv.org/abs/2606.24177)) 是一个围绕 [Prompt Economy](https://arxiv.org/abs/2606.08878) 构建的自动化科研系统, 即把 prompt engineering 当作工程问题, 并最小化工程师投入. 它把流程保持得尽量克制和简单明了: `topic -> idea -> proposal -> experiment`.
+**Agon** ([论文](https://arxiv.org/abs/2606.24177)) 把一个科研项目从一句话的课题一路推到跑起来的实验. 各个 agent 在闭环里互相规划, 实现, 审计和评审, 每一次交接都经由磁盘上的文件 —— 一次运行因此可恢复, 可审计, 也可跨项目复用. 流程保持最小且显式: `topic → idea → proposal → experiment`.
 
-Agon 已用于十余个研究领域, 部署细节见[论文](https://arxiv.org/abs/2606.24177).
+Agon 构建于 [**Prompt Economy**](https://arxiv.org/abs/2606.08878) 之上: 把 prompt engineering 当作工程问题, 并最小化它对人的工程投入. 跨十余个研究领域的部署细节见[论文](https://arxiv.org/abs/2606.24177).
 
 ## 快速开始
 
