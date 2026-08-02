@@ -124,7 +124,7 @@ Tell `claude` or `claude-ds`: "call statusline-setup, I want `[5h:6% 7d:69%(2d17
 }
 ```
 
-## References
+## Acknowledgements
 
 - [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
 - [AutoResearch-SibylSystem](https://github.com/Sibyl-Research-Team/AutoResearch-SibylSystem)

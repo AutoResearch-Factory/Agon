@@ -122,7 +122,7 @@ claude-ds() {
 }
 ```
 
-## 友情链接
+## 致谢
 
 - [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
 - [AutoResearch-SibylSystem](https://github.com/Sibyl-Research-Team/AutoResearch-SibylSystem)
