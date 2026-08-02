@@ -104,7 +104,6 @@ Context 使用读法:
 - 为了杜绝你意外 idle 的情况 (which 偶尔就会发生), 你要用 `CronCreate` 排一个 2h 的唤醒, 提示词: "<reminder> 是否有 subagent 在工作? 实验是否进入 idle 状态了? 是否有 agent 卡住了?"
 - Cron 要设置 `durable: false`, 因为不需要跨 session 保持.
 - 2h 唤醒 Cron 的分钟字段用当前时刻的分钟数
-- 设置一个 12h timer, 每 12h 重新读取 local settings, 检查配置是否更新.
 - "agent 卡住了" 是指有 agent session wall-clock > 4h, 此时需要关注它是不是出了什么问题.
 - 如果 coder 报告实验还要多久才能自然完成, 你有两种合法选择:
     - 立即派一个新 coder 去检查
