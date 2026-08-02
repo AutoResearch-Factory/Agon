@@ -36,6 +36,8 @@ cd agon-artifacts
 claude --plugin-dir ../Agon --dangerously-skip-permissions --model claude-sonnet-5[1m]
 ```
 
+`--dangerously-skip-permissions` 是必需的, 因为这些循环本来就是无人值守跑的: 子 agent 会连续几小时写文件、起实验、调工具, 没有人守在键盘前, 一个权限确认框就会把整轮跑卡死. 介意的话, 给 Agon 单独一台机器, 一个容器, 或一个独立账号.
+
 进入 Claude Code 后, 用这些命令推进科研流程:
 
 - `/idea-tick`: 围绕 topic 创建、评审、修改 idea, 并做文献检查.

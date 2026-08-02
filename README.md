@@ -38,6 +38,8 @@ cd agon-artifacts
 claude --plugin-dir ../Agon --dangerously-skip-permissions --model claude-sonnet-5[1m]
 ```
 
+`--dangerously-skip-permissions` is required because the loops are meant to run unattended: subagents write files, launch experiments, and call tools for hours with nobody at the keyboard, and a permission prompt would stall the whole run. Give Agon its own machine, container, or user account if that matters to you.
+
 In Claude Code, use these commands to move the research forward:
 
 - `/idea-tick`: create, review, refine, and literature-check ideas for a topic.
