@@ -108,6 +108,20 @@ claude-ds() {
 
 直接和 `claude` 或者 `claude-ds` 说: "把 statusline-setup 叫出来, 我要 `[5h:6% 7d:69%(2d17h)] Ctx:7% Opus 4.6 (1M context)`"
 
+## 引用
+
+```bibtex
+@misc{sun2026agonautonomouslargescaleomnidisciplinary,
+      title={Agon: An Autonomous Large-Scale Omnidisciplinary Research System Built on Prompt Economy},
+      author={Youran Sun and Xingyu Ren and Chugang Yi and Jiaxuan Guo and Kejia Zhang and Jianda Du and Haizhao Yang},
+      year={2026},
+      eprint={2606.24177},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE},
+      url={https://arxiv.org/abs/2606.24177},
+}
+```
+
 ## 友情链接
 
 - [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep)
