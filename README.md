@@ -2,6 +2,10 @@
 
 ### Claude Code plugin for autonomous AI research — from a bare topic to running experiments, with no human-written experimental code
 
+[![arXiv](https://img.shields.io/badge/arXiv-2606.24177-b31b1b.svg)](https://arxiv.org/abs/2606.24177)
+[![Prompt Economy](https://img.shields.io/badge/arXiv-2606.08878-b31b1b.svg)](https://arxiv.org/abs/2606.08878)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-8A2BE2.svg)](https://claude.com/claude-code)
+
 English | [中文](README_zh.md)
 
 Agon ([paper](https://arxiv.org/abs/2606.24177)) is an automated research system built around [Prompt Economy](https://arxiv.org/abs/2606.08878): treat prompt engineering as engineering and minimize the engineering effort required from humans. It keeps the workflow minimal and explicit: `topic -> idea -> proposal -> experiment`.
