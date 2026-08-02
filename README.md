@@ -4,7 +4,6 @@
 
 [![Project page](https://img.shields.io/badge/project-page-1f6feb.svg)](https://haizhaoyang.github.io/research/autoresearch.html)
 [![arXiv](https://img.shields.io/badge/arXiv-2606.24177-b31b1b.svg)](https://arxiv.org/abs/2606.24177)
-[![Prompt Economy](https://img.shields.io/badge/arXiv-2606.08878-b31b1b.svg)](https://arxiv.org/abs/2606.08878)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-8A2BE2.svg)](https://claude.com/claude-code)
 
 English | [中文](README_zh.md)
