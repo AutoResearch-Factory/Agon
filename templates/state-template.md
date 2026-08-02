@@ -66,6 +66,19 @@ Method 段在 proposal.md, 本文档不重复. 历史在 experiment-log.md / git
 节点粒度: 每个语义阶段 (数据 / Prompt / 推理 / 后处理 / 指标) 一个节点, 分支项放进节点内容里用 bullet 列举, 不要每个分支拆成独立节点.
 参考 state-example-filled.md §2.1. -->
 
+```mermaid
+flowchart LR
+
+%% 在此填写节点与连线
+%% class A,B completed
+%% class C active
+%% class D blocked
+
+classDef completed fill:#A8C49A,color:black
+classDef active fill:#D9A441,color:black
+classDef blocked fill:#D33A3A,color:white
+```
+
 ### 2.2 核心指标
 
 | 指标 | 含义 | 计算 |
