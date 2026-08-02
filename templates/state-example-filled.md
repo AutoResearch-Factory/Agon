@@ -70,7 +70,7 @@ Method 段在 proposal.md, 本文档不重复. 历史在 experiment-log.md / git
 ### 2.1 实验流程
 
 ```mermaid
-flowchart TD
+flowchart LR
     DS["<b>SciFact 数据集</b> (科学事实验证, 100 条声明)<br/>• GOLD: 论文摘要, 结论 SUPPORTS / REFUTES<br/>• POISON: 伪造证据卡, 结论故意写反<br/>• BACKGROUND: 无关文献"]
 
     PROMPT["<b>构建 Prompt</b> (卡片列表 + 'Answer: SUPPORTS or REFUTES?')<br/>• CLEAN: 只有真证据 → 模型能答对吗?<br/>• POISON_FULL: 真 + 毒 → 毒能骗过模型吗?<br/>• LENGTH_ONLY_FULL: 真 + 等长良文本 → 排除'只是变长了'"]
@@ -82,6 +82,12 @@ flowchart TD
     METRIC["<b>指标</b>: ASR, paired ΔASR<br/>(同一 item 配对, bootstrap 2000 次做 95% CI)"]
 
     DS --> PROMPT --> INFER --> REPLAY --> METRIC
+
+    class DS,PROMPT completed
+    class INFER,REPLAY,METRIC active
+    classDef completed fill:#A8C49A,color:black
+    classDef active fill:#D9A441,color:black
+    classDef blocked fill:#D33A3A,color:white
 ```
 
 ### 2.2 核心指标

@@ -93,6 +93,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - 是否把历史流水账, 思考草稿, 决策树, run 细节, coder 旁注塞进战略层?
 - 是否有同一数字/结论多处重复, 旧结论未删, 行数失控, A1/A3/A6 职责混乱?
 - Claims 速查, 实验矩阵, Runs 表和 source path 是否能让新来的 agent 接力?
+- 核验 `proposal.md` / `STATE.md` Mermaid: 完成绿, 阻塞红, 进行中橙, 两文件一致. 重点抓“未经审计标绿”和“可行节点误标红”; 误标写 finding.
 - **直接整理 STATE.md (§5 除外): 删除过时/矛盾内容, 合并重复事实, 把内容移回正确章节, 恢复模板形状. 只能维护已有事实和证据链, 不凭空发明结果, claim 或新实验计划.**
 - **硬性规则: 写完 audit report 后, 跑 `wc -l STATE.md`. 如果 > 400 行, 你必须在本次 audit 中亲手删到 ≤ 400 行. 不是你 "建议 scientist 删", 是你亲手删. 优先删除: 旧的实验矩阵行, 过时的 run 细节, 已解决的 A6 条目, A5 里超过 10 条的历史记录, 任何出现在两处以上的重复内容, 任何实习生读一遍看不懂的段落. 如果删完还在 400 行以上, 继续删直到达标.**
 

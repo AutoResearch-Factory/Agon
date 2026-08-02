@@ -82,7 +82,7 @@
 
 - OPENAI_API_KEY: 可以调用 OpenAI 平台. 优先用 Batch API (半价, 实测不慢).
 - NVIDIA_API_KEY: 可以调用 NVIDIA NIM 托管平台 (https://integrate.api.nvidia.com/v1), 覆盖 Kimi / GLM / MiniMax / Qwen / Meta 等 140 个模型. 只要能用就是免费, 但是有限流: 40 RPM, per-model 独立计数.
-- 预算上限 (跨所有 API_KEY): 每个项目总计 $50, 超过前须先征得用户同意.
+- API 预算上限 (跨所有 API_KEY): 每个项目总计 $50, 超过前须先征得用户同意; 其他计算资源的限制以用户配置和资源提供方规则为准.
 - HF_TOKEN: 可以使用 Hugging Face; 不要把 token 写进共享 `HF_HOME`
 - HF_HOME: 可选。若使用 Hugging Face 资产, 用户应指向自己的缓存目录。
 - ARXIV_CACHE_DIR: deep-lit 使用的 arXiv 缓存目录, 由用户环境提供。

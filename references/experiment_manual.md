@@ -26,7 +26,7 @@ workspace/slug/                               ← 独立 git repo
 ├── STATE.md                                  ← 当前快照, dispatcher 的唯一读入 (yaml frontmatter + markdown body)
 ├── topic.md                                  ← 启动时从 topics/ copy 的学科上下文, read-only
 ├── idea.md                                   ← 启动时从 idea 最新版 copy 的原始研究 claim, read-only
-├── proposal.md                           ← 启动时从 proposal 最新版 copy, 只有 story-pivot 才能 amend
+├── proposal.md                           ← 从最新版 copy, scientist 可维护
 ├── experiment-log.md                         ← NOT in git, 跨 branch 持久, 时间倒序 append
 ├── audits/                                   ← auditor reports, latest path 由 STATE.md frontmatter.latest_audit 指向
 ├── src/slug/{models,data,training,utils,...}/

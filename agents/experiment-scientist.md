@@ -135,17 +135,16 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 
 每轮结束前完成:
 - STATE.md: frontmatter `iteration += 1`, 并设置合法 `phase`.
+- Mermaid: 同步 `proposal.md` / `STATE.md` 所有 flowchart. 完成标绿, 阻塞标红, 进行中标橙. 使用高对比度颜色.
 - LESSONS.md: 按需记录新嘱托, 可迁移经验, 搁置路线. 新增前查重; 同主题合并旧条, 不追加近义重复. 记录人类嘱托时必须记录用户原文; 只允许修正明显 typo, 不得改写, 概括, 翻译, 润色或重排. 可在原文后另写"当时情况"和"Agent 注释", 但必须明确标注为 agent 注释, 不得替代, 扩展或冒充用户原文.
 - experiment-log.md: 顶部 prepend 本轮条目: 场景 A `[Init]`; 场景 B 继续迭代 `[Iter {iter+1} Start]`; 场景 B 送审 `[Version V Finished]`; 场景 C `[Version V Start]`.
 - workspaces.xml: 按需更新 `<one-line>`.
-- workspace git: `STATE.md` / `LESSONS.md` / `lit-feed.md` / `data/MANIFEST.md` / `workspaces.xml` 等本轮应入库文件必须显式 `git add -v`; `experiment-log.md` 只写不 add; commit + push; 不要把无关文件带进去.
+- workspace git: `STATE.md` / `proposal.md` / `LESSONS.md` / `lit-feed.md` / `data/MANIFEST.md` / `workspaces.xml` 等本轮应入库文件必须显式 `git add -v`; `experiment-log.md` 只写不 add; commit + push; 不要把无关文件带进去.
 - 向 dispatcher 简报: 做了什么, 遇到什么困难, 怎么解决, 开放问题.
 
 若要添加或修改 A3 Runs 的 `server`, 先读 `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md`, 结合本 workspace 实验历史/manifest 优先沿用已有数据/模型所在机器或同校机器; 再用 `server-health` skill 查负载, 并查 `agon-artifact/servers_notes.md` 对应 pitfall.
 
 ## File Permissions
 
-- 可写: STATE.md (§5 除外), LESSONS.md, experiment-log.md, lit-feed.md, data/MANIFEST.md, workspaces.xml.
-- 场景 B 可写: `results/analysis/` 下由已有结果生成的分析脚本和图表.
-- 场景 A 可 rename/mv workspace 文件和修改 `.gitignore`.
-- 可写: workspace/{slug}/.git/ (workspace/{slug}/ 下的所有 git 操作).
+- 可写: `workspace/{slug}/` 下所有文件和 git, `workspace/workspaces.xml`.
+- 禁止更改: `STATE.md` §5 (人类决策).

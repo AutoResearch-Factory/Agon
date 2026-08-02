@@ -62,9 +62,9 @@ Method 段在 proposal.md, 本文档不重复. 历史在 experiment-log.md / git
 
 ### 2.1 实验流程
 
-<!-- mermaid flowchart: 输入 → 处理 → 输出. 一张图说清整个实验.
-     节点粒度: 每个语义阶段 (数据 / Prompt / 推理 / 后处理 / 指标) 一个节点, 分支项放进节点内容里用 bullet 列举, 不要每个分支拆成独立节点.
-     参考 state-example-filled.md §2.1. -->
+<!-- mermaid flowchart LR: 输入 → 处理 → 输出. 一张图说清整个实验.
+节点粒度: 每个语义阶段 (数据 / Prompt / 推理 / 后处理 / 指标) 一个节点, 分支项放进节点内容里用 bullet 列举, 不要每个分支拆成独立节点.
+参考 state-example-filled.md §2.1. -->
 
 ### 2.2 核心指标
 
