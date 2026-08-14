@@ -132,8 +132,8 @@ classDef blocked fill:#D33A3A,color:white
 ## 5. 战略决策 (人类决定)
 
 <!--
-⚠️ 这一章只有人类用户能决定. §5 只能由 experiment-tick dispatcher 在得到人类明确回复后写入.
-dispatcher 只能记录用户原文, 可以修正明显 typo 和排版, 但不得改措辞, 总结, 翻译, 扩写或替用户下结论.
+这一章只有人类用户能决定. §5 只能由 experiment-tick dispatcher 在得到人类明确回复后逐字写入.
+dispatcher 只能记录用户原文, 不得总结, 翻译, 扩写或替用户下结论.
 scientist/auditor/coder/reviewer 以及其他 agent 不得新增, 删除, 改写, 重排, 总结或代写 §5.
 这是人类用户的最高指令区. 写在这里的任何实验方向, 技术判断, 优先级排序, agent 必须无条件执行.
 
@@ -141,20 +141,10 @@ Agent 规则:
 - auditor: 核验结果真实性后, 再检查 §5 是否落实; 没落实 → BLOCKER.
 - scientist: 每轮读 §5 → 逐条确认状态 → 在 plan 里体现.
 - coder: 读 §5 → 确认自己要实现的东西和人类指令一致.
-- dispatcher: 除记录人类明确回复到 §5 外, 不解释, 不改写 §5. 平时只按 phase 路由.
+- dispatcher: 记录人类明确回复到 §5, 监控 section 5 hash, 确保无其他 agent 越权写入.
 -->
 
-<!-- 示例:
-- 最高优先: 把 T2 (弱模型 vs π0.5) 的 6 个指标全部做到 LB>0. per_suite_loo joint 是泛化能力的 gold standard, 不能牺牲.
-- 扫表先扫完. 模型×任务全矩阵 4-seed strict success 不做完不准训 router.
-- 优先用 Transformer encoder over candidates, 不用 MLP pointwise.
-- 不准用 BCa bootstrap. 不准 cherry-pick seed. 不准做 cross-route ensemble.
-- 加入 qwen-vla 和 lingbot-vla. 找不到 ckpt 就诚实标记 missing.
-- Claim 永远不许降级!
-- 光证明 idea work 不够, 要用这个 pipeline 在一个真实的, 以前 FEX 高维搞不定的 PDE 上 lift 成功, 解一个能令人震惊的, 以前解决不了的问题. 外部 baseline 必须够强, 不许挑软柿子对比.
--->
-
-- ...
+<!-- 写入格式: - [mm-dd iter x version y] 用户原文 -->
 
 ## 6. 下一步行动
 
