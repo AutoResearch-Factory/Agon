@@ -128,8 +128,10 @@ CRITICAL/BLOCKER report 再写:
 
 ```markdown
 ## Required Scientist Response
-- [AUD-<severity>-001]: scientist 需要回应的问题
+- [AUD-<severity>-001]: scientist 需要作出的判断
 ```
+
+Required Scientist Response 只写需要 scientist 判断什么; 具体实验计划由 scientist 编写.
 
 然后:
 - 更新 `STATE.md` frontmatter: `phase: needs_scientist`, `latest_audit: <report>`, `audit_verdict: PASS|WARN|CRITICAL|BLOCKER`.
