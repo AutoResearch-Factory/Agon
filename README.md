@@ -35,7 +35,7 @@ Then run Claude Code from the artifacts repository:
 
 ```
 cd agon-artifacts
-claude --plugin-dir ../Agon --dangerously-skip-permissions --model claude-sonnet-5[1m]
+claude --plugin-dir ../Agon --dangerously-skip-permissions --effort medium --model claude-sonnet-5[1m]
 ```
 
 `--dangerously-skip-permissions` is required because the loops are meant to run unattended: subagents write files, launch experiments, and call tools for hours with nobody at the keyboard, and a permission prompt would stall the whole run. Give Agon its own machine, container, or user account if that matters to you.

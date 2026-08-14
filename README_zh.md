@@ -33,7 +33,7 @@ git clone https://github.com/AutoResearch-Factory/agon-artifacts.git
 
 ```
 cd agon-artifacts
-claude --plugin-dir ../Agon --dangerously-skip-permissions --model claude-sonnet-5[1m]
+claude --plugin-dir ../Agon --dangerously-skip-permissions --effort medium --model claude-sonnet-5[1m]
 ```
 
 `--dangerously-skip-permissions` 是必需的, 因为这些循环本来就是无人值守跑的: 子 agent 会连续几小时写文件、起实验、调工具, 没有人守在键盘前, 一个权限确认框就会把整轮跑卡死. 介意的话, 给 Agon 单独一台机器, 一个容器, 或一个独立账号.
