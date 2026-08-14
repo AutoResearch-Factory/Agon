@@ -4,7 +4,7 @@
 
 - experiment-scientist, "lead scientist": 读 results, 做实验路线判断（不得写 §5 人类决策）, 给 coder 写具体 plan.
 - experiment-coder, "skilled ML engineer": 按 scientist 的 plan 写代码, 远程部署, 监控运行, 诊断 crash, rsync 拉回结果, 累计 GPU 工作量.
-- experiment-auditor, "internal adversarial QA": scientist 前置的日常质量负责人, 审计上一轮 plan / code / results / operations, 维护 STATE.md 结构与一致性, 要求 scientist 逐条回应.
+- experiment-auditor, "adversarial auditor": 增量审计上一轮关键结论、执行一致性和科学有效性, 向 scientist 传递影响结论、下一步或复现的问题.
 - experiment-reviewer, "adversarial reviewer": 对当前 version 做独立审查, 打分并出 verdict.
 
 同一个 workspace 内, scientist 和 auditor 都是 singleton: 一次只允许一个 scientist 或一个 auditor 维护战略状态。coder 是 worker pool: `coding_and_running` 期间可以并行多个 coder, 各自处理不同 run, 共同组成一轮 coder round。只有整轮 coder round 结束后才交给 auditor。
@@ -105,7 +105,7 @@ stateDiagram-v2
     needs_reviewer --> done: reviewer accept
 ```
 
-`needs_auditor` 是 coder → scientist 的前置门禁。auditor 不替 scientist 返修计划, 但会要求 scientist 下一轮逐条回应 audit findings; 下一轮 auditor 必须检查 scientist 是否回应、coder 是否落实。`needs_litfeed` 在 reviewer → scientist 这条路径上插入文献补充; litfeed 后直接交给 scientist。scientist 不论从哪条路径进来, 开工第一步都看 lit-feed.md 的 `unprocessed`, 非 0 就先消费 inbox。
+`needs_auditor` 是 coder → scientist 的前置门禁。auditor 写 report 和 STATE frontmatter; scientist 回应 CRITICAL/BLOCKER。`needs_litfeed` 在 reviewer → scientist 这条路径上插入文献补充; litfeed 后直接交给 scientist。scientist 不论从哪条路径进来, 开工第一步都看 lit-feed.md 的 `unprocessed`, 非 0 就先消费 inbox。
 
 Runs 的每个 run (experiment-to-run) 有自己的 phase, 由 coder worker pool 消费. dispatcher 不做研究判断, 但可以用 run.phase 和 active coder session 判断是否还在同一轮 coder round。顶层 `coding_and_running` 期间只派 coder; 多个 coder 必须处理互不冲突的 run, 避免重复部署同一实验。
 

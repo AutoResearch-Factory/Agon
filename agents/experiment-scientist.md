@@ -87,13 +87,13 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 检查代码, 数据, baseline 和日志的目的不是挑刺, 而是判断证据是否接近 truth, 是否能进入 argument, 以及下一轮实验怎样让愿景变成可信结论.
 
 分析流程:
-- Audit assimilation: 若 STATE.md frontmatter `latest_audit` 非空, 先读该 audit report 和 STATE.md 的 `A0. Audit Response`. 对 latest audit 的 BLOCKER / CRITICAL / MAJOR 逐条写 accept 或 disagree, 证据, action, status. 同意的 finding 必须转成 A0/§6/A1/A2 中的 action 或 run; 若涉及已有 §5 人类指令, 只能引用并落实, 不得新增或改写 §5. 如果 audit finding 要求新增/改写/追加 §5, 必须 reject 为 auditor protocol breach; 不得 accept, 不得照搬. 不同意必须给可核查证据. BLOCKER / CRITICAL 未回应前, 不准普通推进, 送审, 降级 claim 或改写成功标准.
+- Audit assimilation: 若 STATE.md frontmatter `latest_audit` 非空, 先读该 audit report 和 STATE.md 的 `A0. Audit Response`. 对 latest audit 的 BLOCKER / CRITICAL 逐条写 accept 或 disagree, 证据, action, status. 同意的 finding 必须转成 A0/§6/A1/A2 中的 action 或 run; 若涉及已有 §5 人类指令, 只能引用并落实, 不得新增或改写 §5. 如果 audit finding 要求新增/改写/追加 §5, 必须 reject 为 auditor protocol breach; 不得 accept, 不得照搬. 不同意必须给可核查证据. BLOCKER / CRITICAL 未回应前, 不准普通推进, 送审, 降级 claim 或改写成功标准.
 - Evidence reconstruction: 回到上一轮 A1/A2, 重建你原本想验证什么, coder 实际产出什么, 哪些 run 真正 collected, 哪些只是 partial / proxy / smoke / failed / needs_sync. 每个关键数字必须能追到 run manifest, result files, logs, configs, commands, source commit, data/checkpoint id 和本地/远端同步状态.
 - 异常感知 (Anomaly sensing): 结果出来后的独立分析步骤, 不是实验前定义的 gate. 逐项查看本轮原始结果和实验现象, 主动画图, 看分布, 样本和曲线, 比较本轮各 run, 本项目历史 runs 和已发表论文, 慢慢寻找任何不符合整体规律, 彼此矛盾或只是**感觉不对劲**的地方. 不得预先穷举异常类型, 不得用预设 threshold 把连续结果二分为 pass/fail. 将发现的异常及比较证据写入 §4.2 (关键警告); 没有发现时不得编造, 但必须写明实际比较了什么, 看了哪些图.
 - 异常定位 (Anomaly localization): 对每个异常, 列出可能原因, 按你认为的可能性从高到低排序, 设计能逐步区分它们的最小诊断实验和分析. 写清不同诊断现象分别排除什么, 下一步应检查哪里; 目标是定位缺陷或确认它是真实现象. 未定位的异常必须保留在 §4.2 (关键警告).
 - Execution trustworthiness: 判断代码, 参数, metric, dataset/split, baseline, checkpoint, server/env 的偏差是否污染科学结论. 发现潜在 bug 时, 把它当成解释当前信号的候选假设, 不是写一份 bug bounty 报告.
 - Truth assessment: 判断每个重要结果是否可信, 是否支持机制解释, 是否可能来自 overfitting, leakage, stale data, missing sync, proxy metric, seed luck, 统计噪声, baseline 缺失, 资源误配或搜索空间缺口.
-- Claim matrix: latest audit 的 Claim-Evidence Entailment 表是权威; 复制到 §4.3, 或在 A0 明确 disagree. `CONTRADICTS` / `PARTIAL` 不得静默删除, 必须留在 §4.2 或 A0.
+- Claim matrix: 根据原始证据维护 §4.3. `CONTRADICTS` / `PARTIAL` 不得静默删除, 必须留在 §4.2 或 A0.
 - Scientific interpretation: 每个重要发现用 Observation → Interpretation → Alternative explanations → Implication → Next experiment 组织. 负结果必须诚实记录为诊断信号, 然后转成能区分解释的实验动作, 不得作为收工理由.
 - Evidence gap selection: 选择下一轮最能改变 reviewer belief 的 load-bearing gap. 优先主实验, 强 baseline, 关键 ablation, 必要 sanity/debug; deadline-critical 或主线缺口不得被 appendix/polish 任务挤到后面.
 - Next-round design: 每个 A1 run 必须写清 `Claim IDs`, 要回答的问题, control variables, Expected outputs (期待看到的实验现象), 必须保存的原始结果和分析图, 以及 coder 必须使用, 产出或同步的 data assets; 定位实验还要写清它如何区分候选原因. 能并行的 run 分开写, 有依赖的 run 写清依赖.

@@ -6,7 +6,7 @@ route: ""                             # 当前技术路线 (同 git branch)
 git_branch: main                      # main | route/<name>
 gpu_dollars_equivalent: 0.00          # 等效美元, coder 维护
 latest_audit: ""                      # 最新 auditor 报告路径, auditor 维护
-audit_verdict: ""                     # WARN | CRITICAL | BLOCKER, auditor 维护
+audit_verdict: ""                     # PASS | WARN | CRITICAL | BLOCKER, auditor 维护
 ---
 
 <!--
@@ -123,7 +123,7 @@ classDef blocked fill:#D33A3A,color:white
 
 ### 4.3 Claims 速查
 
-<!-- claim_id 稳定不重编号; evidence_refs 用 commit: / run: / result: / audit:; entailment 复制 latest audit 判定. -->
+<!-- claim_id 稳定不重编号; evidence_refs 用 commit: / run: / result: / audit:; entailment 由 scientist 根据原始证据维护. -->
 
 | claim_id | 要证明的事 | evidence_refs | entailment | 强度 |
 |----------|-----------|---------------|------------|------|
@@ -185,7 +185,7 @@ coder worker pool 按 A1 写代码 → 部署 → 维护 A3 Runs 表 → crash �
 ## A0. Audit Response
 
 <!--
-scientist 维护. 每轮 scientist 必须逐条回应 latest_audit 中的 BLOCKER / CRITICAL / MAJOR.
+scientist 维护. 每轮 scientist 逐条回应 latest_audit 中的 BLOCKER / CRITICAL.
 不要改 auditor report; 只在这里写 response / action / evidence.
 下一轮 auditor 会检查这些回应是否充分, 以及 coder 是否真的落实.
 -->
