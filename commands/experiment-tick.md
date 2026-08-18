@@ -120,7 +120,7 @@ Context 使用读法:
 - 没有人会主动唤醒你继续 dispatch, 你要自己持续推进实验的进行
 - 不要被系统消息里的 weekly limit 误导: 你现在能运行, 就说明 weekly limit 已经重置了.
 - CLI 调用按 dispatch_manual 执行. 仅 fresh 时根据 STATE.md 当前场景从 `skills_aris/` 和 `skills_sibyl/` 合计选 3 个相关 mindset 填入下列 `TASK_PROMPT`; resume 不选、不注入 mindset.
-- 每次调用都用当前时间和 timezone 重新生成 `{dispatch_time}`.
+- 每次调用前运行 `date '+%Y-%m-%d %H:%M:%S %Z'`, 将原样输出填入 `{dispatch_time}`.
 - `experiment-coder` 的 `TASK_PROMPT`:
 ```
 runs: [{ASSIGNED_RUN_NAMES}]
