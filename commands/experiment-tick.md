@@ -143,7 +143,7 @@ CLAUDE_PLUGIN_ROOT=${ROOT}
 
 ## 如果 mcp-communicator-telegram 可用
 
-- 在 env_validator 检查无问题后用 notify_user 跟用户说: "实验工厂已开始"
+- 在 env_validator 检查无问题后用 notify_user 跟用户说: "Experiment factory started"
 - 在 reviewer subagent 完成后使用 notify_user 向用户简报, scientist/coder 完成后不简报. telegram 消息言简意赅(否则会刷屏), 一句话讲清, 60 字以内.
 - `注意`中的所有 "停下并报告" (e.g. agent 返回错误, 抱怨"看不到 CLAUDE_PLUGIN_ROOT") 换成用 ask_user 报告
 - 运行过程中 scientist 或 coder 遇到了自己无法解决的大问题或者重大决策难点 (卡点 和 Run Crash 都是小问题, 疑似调度问题或者死循环或者数据集需要用户同意协议是大问题), 你替他们用 ask_user 问我

@@ -48,7 +48,7 @@ C. idea refine + deep-lit loop。对 `topic_ideas` 反复执行下面的 iterati
       deep-lit-tick 内部 B4 报告的"饱和"是它自己的判断, 你要亲自复审。读本 iteration 各 scope 的 C 段汇总 + D 段 verdict: 新关键词里是否还有未追的方向? 引文/反引文里是否还有未读的相关论文? 任一 scope 仍在产出相关新论文, 判"未饱和"。
       把复审结论记进 trace `.aris/traces/idea-refine/<date>_runNN/deep-lit-audit.md`, 每个 iteration 一行: `iteration N: topic 新增 X 篇 / idea-<slug> 新增 Y 篇 / 判定: 饱和|未饱和 / 理由`。
       原则: 宁愿滥读一百, 也不放过一篇。判定饱和宜晚不宜早——只要还有相关方向没追, 就继续。
-      C3/C4 完成后 git add -v / commit / push (landscape + 本轮被改动的 idea 文件 + trace), commit msg 模板: "mmdd deep-lit integrated: {topic_slug} iteration N ({饱和|continuing})"。
+      C3/C4 完成后 git add -v / commit / push (landscape + 本轮被改动的 idea 文件 + trace), commit msg 模板: "mmdd deep-lit integrated: {topic_slug} iteration N ({saturated|continuing})"。
 
 D. 终止条件（双闸门，两个同时满足才停循环）
    - 闸门一 (idea 饱和): `topic_ideas` 中每个 idea 当前版本 >= floor(当前 score - 2)。
