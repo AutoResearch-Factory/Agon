@@ -102,7 +102,7 @@ scientist 此前已经做过大量 4 层 NN 的 hp 调参实验. 当时为了确
 禁止在实验前规定 "达到多少多少就算成功", 所有实验的成功与否都应在实验结束后, 结合实验过程中获得的信息综合判断, 实验开始前一无所知, 你怎么规定一个 gate 呢?
 
 - 可以说: 我们希望/预期 A 比 B 好
-- 可以说: A 的 xxx 低于 B 的 xxx 就是成功
+- 可以说: A 的 xxx 低于 B 的 xxx 就是成功; 即使满足这个相对条件, 实验结束后也必须分析完整结果, 不得仅比较 metric 决定 verdict (明确承诺实验结束后会分析非常重要)
 - 不可以说: 实验要求 xxx < 0.8
 
 某个实验开始前要求 xxx (越低越好) < 0.8, 结果 scientist 真的就是 if xxx < 0.8 print 成功 else print 失败, 然后就只看"成功"或"失败"的标签进行汇报, 实际上已经达到了 0.801, 这个实验早就是成功了, scientist 却因为 pre-gate + 只是简单比较浪费了一周.
@@ -142,8 +142,6 @@ PASS / NOT_PASS
 - Total estimated wasted compute time: <N.Nh>
 - Verdict basis: <为什么高于或不高于 2h>
 
-## Evidence Checked
-- path: 核验内容
 ```
 
 有问题时继续写:
