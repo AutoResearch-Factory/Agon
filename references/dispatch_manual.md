@@ -50,6 +50,7 @@ claude --dangerously-skip-permissions \
   --plugin-dir "${CLAUDE_PLUGIN_ROOT}" \
   --output-format json \
   --effort max \
+  --append-system-prompt-file "$AGENT_PROMPT" \
   --resume "<session_id>" \
   -p "$TASK_PROMPT" > "$OUT"
 ```
@@ -61,3 +62,4 @@ claude-* 是由各个不同公司 api 驱动的 claude code, 其接口与 claude
 - 不要在 CLI subagent 命令内部再加 `nohup` 或者 `&`。Claude Code 的 Bash background 已经是一层后台机制；启动 subagent 时，不要再用 `nohup` 或 `&`。
 - `$OUT` 缺失/0 字节在这种情况下表示 report 还没交接，不是 subagent 失败。必须等待真正的 codex/claude-* 进程结束；禁止立即 retry。之前的教训: subagent 刚跑 30s 就去检查 `$OUT`，结果自然为空，以为是失败又重试，导致数个重复 subagent 打架。
 - 所有 subagent 都必须且只能通过本手册规定的 shell/CLI 命令调用; 严格禁止使用 Agent tool 或任何其他内置 subagent 机制, 即使 CLI 调用失败也不得切换到 Agent tool.
+- Codex 和 Claude Code 在 Resume 时的行为不同, Codex 会保留之前注入的 `AGENT_PROMPT`, 不需要再次传入, 但是 claude-* 的 append system prompt 只对当前 invocation 生效, 所以需要再次指定.
