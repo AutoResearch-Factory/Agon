@@ -114,7 +114,7 @@ Context 使用读法:
 
 ## 注意
 
-- 如果 subagent 失败, 通过日志调查原因之后重试; 如果连续失败 3 次以上, 询问用户怎么办. 如果 auditor 连续 block 10 轮, 用 ask_user 问怎么办. 严格禁止你接手 subagent 的工作: 你没有足够上下文, 不能取代 subagent.
+- 如果 subagent 失败, 通过日志调查原因之后重试; 如果连续失败 3 次以上, 询问用户怎么办. 如果 screener 连续 NOT_PASS 5 轮或 auditor 连续 block 5 轮, 用 ask_user 问怎么办. 严格禁止你接手 subagent 的工作: 你没有足够上下文, 不能取代 subagent.
 - 如果 subagent 中途退出, 按当前调用方式恢复: bash/CLI 调用只能用明确的 role-specific session id, 禁止用 cwd 最近会话.
 - 遇到数据/模型许可, 登录授权, 受限下载的问题, 询问用户怎么办
 - 没有人会主动唤醒你继续 dispatch, 你要自己持续推进实验的进行
