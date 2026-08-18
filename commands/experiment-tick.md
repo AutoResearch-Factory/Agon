@@ -60,7 +60,7 @@ dispatch subagents 时, **科研层面**不要指导 subagent -- subagent 内部
   5. 总 coder 数 ≤ `parallelism`. 所有本轮 coder 都结束或明确无法继续, 且 STATE 中没有 `needs_impl/queued/running/needs_sync/needs_fix` 的可推进 run 后, dispatcher 才能置 `needs_auditor`.
   6. 为 **每个** coder 构造唯一的 TASK_PROMPT (见下方模板). `{ASSIGNED_RUN_NAMES}` 填该 coder 的逗号分隔 run names. 不需透露其他 coder 的分配.
   7. 特殊任务 coder (如检查服务器, 清理磁盘) 不属于 Task Group 体系, dispatcher 给它单独手写 prompt, 不计入 parallelism 配额.
-- `needs_auditor`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-auditor`. auditor 完成后必须把 `phase` 置为 `needs_scientist`.
+- `needs_auditor`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-auditor`.
 - `needs_reviewer`: 调用 `experiment-reviewer`. reviewer 负责写下一 phase; 主路径是 `needs_litfeed`.
 - `needs_litfeed`: 跑 `deep-lit-tick --scope experiment <slug>` 到饱和 (完整做法见下方 "文献补充" 章节), 写完 lit-feed.md inbox 后置 `needs_scientist`.
 - `done`: 不再派 agent.
