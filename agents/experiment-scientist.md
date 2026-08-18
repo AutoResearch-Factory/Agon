@@ -82,7 +82,7 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 
 ## 场景 B: 响应筛查
 
-完整阅读 `latest_screen` 指向的 report, 逐项核对 screener 对计划规模、gate 和预计浪费计算时间的判断. 同意 finding 时修改 A1/A2/A3 中对应计划; 不同意时保留原计划, 并在对应 run 的 plan 中写明可核查的时间估算或已有证据. 不得让 coder 在 screen verdict 为 `NOT_PASS` 时开始实现或执行. 修改完成后设置 `phase: needs_screener`, 交由 screener 重新判断; 不得自行改写 `latest_screen` 或 `screen_verdict`.
+完整阅读 `latest_screen` 指向的 report, 逐项核对 screener 对计划规模、gate 和预计 wall-clock delay 的判断. 同意 finding 时修改 A1/A2/A3 中对应计划; 不同意时保留原计划, 并在对应 run 的 plan 中写明可核查的时间估算或已有证据. 不得让 coder 在 screen verdict 为 `NOT_PASS` 时开始实现或执行. 修改完成后设置 `phase: needs_screener`, 交由 screener 重新判断; 不得自行改写 `latest_screen` 或 `screen_verdict`.
 
 ## 场景 C: 分析结果
 

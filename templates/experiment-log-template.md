@@ -14,7 +14,7 @@ experiment-log.md: 完整项目日志
 ## [Screen] YYYY-MM-DD HH:MM — verdict=PASS/NOT_PASS (iter N)
 
 - Report: audits/screen_iterN_YYYYMMDD_HHMM.md
-- Estimated wasted compute time: N.Nh
+- Estimated wall-clock delay: N.Nh
 - Findings: [没有问题, 或一句话列出导致浪费的规模/gate 问题]
 - Required scientist response: [NOT_PASS 时 scientist 必须重新判断什么; PASS 时写 none]
 

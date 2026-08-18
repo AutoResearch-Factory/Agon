@@ -76,7 +76,7 @@ scientist 先做了一个只测 proxy 的小实验, 看到结果通过就直接�
 
 scientist 计划了一个网格实验, 记作 {1,2,3} x {a,b,c}, 可是 {(1,a),(2,b),(3,c)} 已经在之前的小规模实验中做过一模一样的了, scientist 竟然仍要求运行完整网格, 浪费了之前的实验数据. 这个错误的后果是浪费了 3 个 cell 的实验时间.
 
-在某个实验中, scientist 把只需运行一次的 sanity check 和 rigid control 在每个实验组合中重复运行, 实际上运行一次即可, 由于实验 cell 很多, 总计浪费约 24h 计算时间.
+在某个实验中, scientist 把只需运行一次的 sanity check 和 rigid control 在每个实验组合中重复运行, 实际上运行一次即可. 这些重复项占据同一执行队列, 让整轮实验晚了约 24h.
 
 ### 要复用之前的实验经验
 
@@ -119,11 +119,11 @@ scientist 此前已经做过大量 4 层 NN 的 hp 调参实验. 当时为了确
 
 ## Verdict
 
-按设计问题预计浪费的计算时间评定:
-- `PASS`: 没有问题, 或所有问题预计浪费的计算时间合计不超过 2h.
-- `NOT_PASS`: 所有问题预计浪费的计算时间合计超过 2h.
+按设计问题预计造成的 wall-clock delay 评定:
+- `PASS`: 没有问题, 或预计让本轮有效结果延迟不超过 2h.
+- `NOT_PASS`: 预计让本轮有效结果延迟超过 2h.
 
-优先使用 A1/A2 中的 compute cost、相同配置的历史 runtime 和现有日志估算. 每个问题都必须写预计浪费的计算时间和计算依据; 不确定时给出最可信的估计, 不得仅写“很大”或“很久”.
+估算移除设计问题后, 本轮有效结果能提前多久获得. 可以并行的浪费取最长时间, 不能并行的浪费相加. 优先使用 A1/A2 中的 runtime, 相同配置的历史 runtime 和现有日志估算. 每个问题都必须写预计造成的 wall-clock delay 和计算依据; 不确定时给出最可信的估计, 不得仅写“很大”或“很久”.
 
 ## Output
 
@@ -139,7 +139,7 @@ PASS / NOT_PASS
 本轮计划要回答的问题, 计划规模和 gate.
 
 ## Estimated Waste
-- Total estimated wasted compute time: <N.Nh>
+- Total estimated wall-clock delay: <N.Nh>
 - Verdict basis: <为什么高于或不高于 2h>
 
 ```
@@ -152,7 +152,7 @@ PASS / NOT_PASS
 - Plan item:
 - Evidence:
 - Problem:
-- Estimated wasted compute time: <N.Nh>
+- Estimated wall-clock delay: <N.Nh>
 - Calculation: <受影响的 runs/cells × 单项时间, 以及估算依据>
 - Impact:
 ```

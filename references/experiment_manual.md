@@ -3,7 +3,7 @@
 ## 角色与分工
 
 - experiment-scientist, "lead scientist": 读 results, 做实验路线判断（不得写 §5 人类决策）, 给 coder 写具体 plan.
-- experiment-screener, "adversarial screener": 在执行前审查 scientist 下一轮计划的规模和 gate; 预计浪费的计算时间超过 2h 时打回 scientist.
+- experiment-screener, "adversarial screener": 在执行前审查 scientist 下一轮计划的规模和 gate; 预计造成的 wall-clock delay 过大时打回 scientist.
 - experiment-coder, "skilled ML engineer": 按 scientist 的 plan 写代码, 远程部署, 监控运行, 诊断 crash, rsync 拉回结果, 累计 GPU 工作量.
 - experiment-auditor, "adversarial auditor": 增量审计上一轮关键结论、执行一致性和科学有效性, 向 scientist 传递影响结论、下一步或复现的问题.
 - experiment-reviewer, "adversarial reviewer": 对当前 version 做独立审查, 打分并出 verdict.
