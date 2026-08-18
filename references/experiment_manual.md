@@ -16,7 +16,7 @@ scientist 及其团队 (coder) 用 git branch 管理不同实验路线 — 一�
 
 STATE.md 的内容相当于一篇文章的核心结论和数据 (含 ablation / baseline). reviewer 据此审查是否达到顶会标准, 如果不能, 指出需要补充什么.
 
-experiment-log.md 是把 git graph 按时间倒序展平, 跨 branch 持久. 因此 experiment-log.md 不入 git — 否则 branch 切换时会丢失其他 branch 的条目.
+experiment-log.md 按时间倒序记录 workspace 的完整实验历史.
 
 ## workspace/ 目录结构
 
@@ -28,7 +28,7 @@ workspace/slug/                               ← 独立 git repo
 ├── topic.md                                  ← 启动时从 topics/ copy 的学科上下文, read-only
 ├── idea.md                                   ← 启动时从 idea 最新版 copy 的原始研究 claim, read-only
 ├── proposal.md                           ← 从最新版 copy, read-only; scientist 仅可更新既有 Mermaid 节点的颜色
-├── experiment-log.md                         ← NOT in git, 跨 branch 持久, 时间倒序 append
+├── experiment-log.md                         ← 完整实验历史, 时间倒序 append
 ├── audits/                                   ← auditor + screener reports, latest path 由 STATE.md frontmatter 指向
 ├── src/slug/{models,data,training,utils,...}/
 ├── conf/
@@ -146,7 +146,7 @@ stateDiagram-v2
 
 ## experiment-log.md 格式
 
-不在 git 里, 跨 branch 持久. 新条目 prepend (时间倒序). 谁维护哪类条目:
+新条目 prepend (时间倒序). 谁维护哪类条目:
 
 | Agent     | 可写条目类型 |
 |-----------|------------|

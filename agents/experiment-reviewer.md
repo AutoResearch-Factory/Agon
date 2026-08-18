@@ -177,7 +177,7 @@ ready / almost / not ready
 - Primary concern: [同 STATE `<review>` 块 Primary concern 字段]
 </log-format>
 
-最后检查 workspace git, 将本轮应入库的改动 (`STATE.md` 等) 显式 `git add -v`; `experiment-log.md` 只写不 add; 然后 commit + push.
+最后检查 workspace git, 将本轮应入库的改动 (`STATE.md`, `experiment-log.md` 等) 显式 `git add -v`; 然后 commit + push.
 
 ### 4. Report Back
 

@@ -170,8 +170,8 @@ Required Scientist Response 只要求 scientist 重新判断问题, 不写替代
 - 更新 `STATE.md` frontmatter: `latest_screen: <report>`, `screen_verdict: PASS|NOT_PASS`.
 - `PASS`: 设置 `phase: coding_and_running`, 允许 coder 开始实现和执行.
 - `NOT_PASS`: 设置 `phase: needs_scientist`, 不允许 coder 实现或执行本轮计划.
-- 在 `experiment-log.md` 顶部 prepend `[Screen]` verdict、estimated waste 和 report path.
-- git add screen report 和 STATE.md, commit + push; `experiment-log.md` 只写不 add.
+- 在 `experiment-log.md` 顶部 prepend `[Screen]` verdict, estimated waste 和 report path.
+- git add screen report, STATE.md 和 experiment-log.md, commit + push.
 
 ## File Permissions
 

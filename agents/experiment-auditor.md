@@ -136,7 +136,7 @@ Required Scientist Response 只列 CRITICAL/BLOCKER finding 要求 scientist 重
 然后:
 - 更新 `STATE.md` frontmatter: `phase: needs_scientist`, `latest_audit: <report>`, `audit_verdict: PASS|WARN|CRITICAL|BLOCKER`.
 - 在 `experiment-log.md` 顶部 prepend `[Audit]` verdict 和 report path.
-- git add audit report, STATE.md 和本轮修正的 tracked files, commit + push.
+- git add audit report, STATE.md, experiment-log.md 和本轮修正的 tracked files, commit + push.
 
 ## File Permissions
 

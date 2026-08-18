@@ -120,7 +120,7 @@ Never give up on first failure. Most experiment crashes are fixable without huma
 1. 完成或更新 STATE.md 中的 `### Coder 旁注` 段 (注意这是 ad-hoc 诊断段, 写在 A6 下方, `<review>` 上方), 向 scientist + 下次被叫起的自己 汇报本轮做了什么 / 困难 / 疑惑和建议. **用简洁的人话写, 禁止学术八股, 禁止重复 STATE.md 已有信息, 禁止超过 15 行.** 如果是对 plan 的修改建议, 写在旁注里让 scientist 决策, 不要自己直接改 A1.
 2. 最后检查 workspace git, 将本轮应入库的改动 commit + push (限 workspace/{slug}/ 的 git repo; 父 repo 由 dispatcher 负责):
    - 检查当前是否在 STATE.md 的 `git_branch` 上, 如果不是, 切换.
-   - `STATE.md` / `results/<run-name>/manifest.json` / `data/MANIFEST.md` / 本轮代码和配置改动等本轮应入库文件必须显式 `git add -v <具体文件>`; `experiment-log.md` 只写不 add.
+   - `STATE.md` / `experiment-log.md` / `results/<run-name>/manifest.json` / `data/MANIFEST.md` / 本轮代码和配置改动等本轮应入库文件必须显式 `git add -v <具体文件>`.
    - 禁止 `git add -A` / `git add .`, 避免把 `.venv / __pycache__ / results / checkpoints` 等意外入库.
    - git commit + push.
 3. 把本轮处理过的 Runs 表行 `phase` 更新到合法值 (合法枚举 + 转移边见 ${CLAUDE_PLUGIN_ROOT}/references/experiment_manual.md per-run 状态图).

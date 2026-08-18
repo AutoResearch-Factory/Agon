@@ -71,7 +71,6 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 - 主分支叫 main, 不叫 master.
 - workspace 目录布局符合 experiment_manual.
 - idea 工厂材料整理进合适目录, 不摊平在根目录.
-- `experiment-log.md` 加进 `workspace/{slug}/.gitignore`.
 - 提交到 workspace git, push 到当前 GitHub 账号下的 private repo, 并按 experiment_manual 维护 workspaces.xml.
 
 2. 写首轮 plan:
@@ -143,7 +142,7 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 - LESSONS.md: 按需记录新嘱托, 可迁移经验, 搁置路线. 新增前查重; 同主题合并旧条, 不追加近义重复. 记录人类嘱托时必须记录用户原文; 只允许修正明显 typo, 不得改写, 概括, 翻译, 润色或重排. 可在原文后另写"当时情况"和"Agent 注释", 但必须明确标注为 agent 注释, 不得替代, 扩展或冒充用户原文.
 - experiment-log.md: 顶部 prepend 本轮条目: 场景 A `[Init]`; 场景 B `[Iter {iter+1} Start]`; 场景 C 继续迭代 `[Iter {iter+1} Start]`; 场景 C 送审 `[Version V Finished]`; 场景 D `[Version V Start]`.
 - workspaces.xml: 按需更新 `<one-line>`.
-- workspace git: `STATE.md` / `proposal.md` / `LESSONS.md` / `lit-feed.md` / `data/MANIFEST.md` / `workspaces.xml` 等本轮应入库文件必须显式 `git add -v`; `experiment-log.md` 只写不 add; commit + push; 不要把无关文件带进去.
+- workspace git: `STATE.md` / `proposal.md` / `LESSONS.md` / `lit-feed.md` / `experiment-log.md` / `data/MANIFEST.md` / `workspaces.xml` 等本轮应入库文件必须显式 `git add -v`; commit + push; 不要把无关文件带进去.
 - 向 dispatcher 简报: 做了什么, 遇到什么困难, 怎么解决, 开放问题.
 
 若要添加或修改 A3 Runs 的 `server`, 先读 `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md`, 结合本 workspace 实验历史/manifest 优先沿用已有数据/模型所在机器或同校机器; 再用 `server-health` skill 查负载, 并查 `agon-artifact/servers_notes.md` 对应 pitfall.

@@ -1,7 +1,7 @@
 # Experiment Log: [slug]
 
 <!--
-experiment-log.md: 跨 branch 持久的完整项目日志
+experiment-log.md: 完整项目日志
 新条目 **prepend** (时间倒序, 最新在顶部).
 -->
 
