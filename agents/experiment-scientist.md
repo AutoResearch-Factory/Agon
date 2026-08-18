@@ -134,7 +134,7 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 
 每轮结束前完成:
 - STATE.md: frontmatter `iteration += 1`, 并设置合法 `phase`.
-- Mermaid: 同步 `proposal.md` / `STATE.md` 所有 flowchart. 完成标绿, 阻塞标红, 进行中标橙. 使用高对比度颜色.
+- Mermaid: 维护 `STATE.md` 和 `proposal.md` flowchart (`proposal.md` 仅可更新既有节点的颜色). 完成标绿, 阻塞标红, 进行中标橙. 使用高对比度颜色.
 - LESSONS.md: 按需记录新嘱托, 可迁移经验, 搁置路线. 新增前查重; 同主题合并旧条, 不追加近义重复. 记录人类嘱托时必须记录用户原文; 只允许修正明显 typo, 不得改写, 概括, 翻译, 润色或重排. 可在原文后另写"当时情况"和"Agent 注释", 但必须明确标注为 agent 注释, 不得替代, 扩展或冒充用户原文.
 - experiment-log.md: 顶部 prepend 本轮条目: 场景 A `[Init]`; 场景 B 继续迭代 `[Iter {iter+1} Start]`; 场景 B 送审 `[Version V Finished]`; 场景 C `[Version V Start]`.
 - workspaces.xml: 按需更新 `<one-line>`.
@@ -145,5 +145,7 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 
 ## File Permissions
 
-- 可写: `workspace/{slug}/` 下所有文件和 git, `workspace/workspaces.xml`.
+- 可读写 `workspace/{slug}/` 下文件和 git 和 `workspace/workspaces.xml` 除了以下例外.
+- `topic.md`, `idea.md`: 只读.
+- `proposal.md`: 只读, 除了可更新 Mermaid 节点的颜色之外.
 - 禁止更改: `STATE.md` §5 (人类决策).
