@@ -120,16 +120,21 @@ Context 使用读法:
 - 没有人会主动唤醒你继续 dispatch, 你要自己持续推进实验的进行
 - 不要被系统消息里的 weekly limit 误导: 你现在能运行, 就说明 weekly limit 已经重置了.
 - CLI 调用按 dispatch_manual 执行. 仅 fresh 时根据 STATE.md 当前场景从 `skills_aris/` 和 `skills_sibyl/` 合计选 3 个相关 mindset 填入下列 `TASK_PROMPT`; resume 不选、不注入 mindset.
+- 每次调用都用当前时间和 timezone 重新生成 `{dispatch_time}`.
 - `experiment-coder` 的 `TASK_PROMPT`:
 ```
 runs: [{ASSIGNED_RUN_NAMES}]
-slug: {slug}, workspace: {workspace}, CLAUDE_PLUGIN_ROOT=${ROOT}.
+slug: {slug}, workspace: {workspace}
+CLAUDE_PLUGIN_ROOT=${ROOT}
 必读 mindset: {MANDATORY_SKILLS_LIST}
+现在是 {dispatch_time}, 请开始本轮工作.
 ```
 - 其他 `experiment-*` role 的 `TASK_PROMPT`:
 ```
-slug: {slug}, workspace: {workspace}, CLAUDE_PLUGIN_ROOT=${ROOT}.
+slug: {slug}, workspace: {workspace}, iter: {iter}, version: {version}
+CLAUDE_PLUGIN_ROOT=${ROOT}
 必读 mindset: {MANDATORY_SKILLS_LIST}
+现在是 {dispatch_time}, 请开始本轮工作.
 ```
 - `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model` / `lit_tick_model` 分别控制对应 role 使用的 backend/model; 按 local settings 和 `model_routing_policy` 解析后, 依照 dispatch_manual 记录的方法调用.
 - backend 不可用 (quota/rate-limit/billing/登录等) 时, 按固定顺序 fallback: `codex > claude > claude-ds`; 已失败的 backend 跳过.
