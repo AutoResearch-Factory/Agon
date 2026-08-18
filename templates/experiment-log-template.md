@@ -11,6 +11,13 @@ experiment-log.md: 跨 branch 持久的完整项目日志
 - Claim 主攻: [本 version 主要 push 什么]
 - Plan 简述: [本 version 要跑哪几个 runs, 期望看到什么]
 
+## [Screen] YYYY-MM-DD HH:MM — verdict=PASS/NOT_PASS (iter N)
+
+- Report: audits/screen_iterN_YYYYMMDD_HHMM.md
+- Estimated wasted compute time: N.Nh
+- Findings: [没有问题, 或一句话列出导致浪费的规模/gate 问题]
+- Required scientist response: [NOT_PASS 时 scientist 必须重新判断什么; PASS 时写 none]
+
 ## [Audit] YYYY-MM-DD HH:MM — verdict=PASS/WARN/CRITICAL/BLOCKER (iter N)
 
 - Report: audits/audit_iterN_YYYYMMDD_HHMM.md

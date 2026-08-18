@@ -116,3 +116,66 @@ scientist 此前已经做过大量 4 层 NN 的 hp 调参实验. 当时为了确
 ## Decision
 
 只判断计划规模是否必要、gate 是否合理; 发现问题时交由 scientist 重新判断. 不替 scientist 写替代实验计划.
+
+## Verdict
+
+按设计问题预计浪费的计算时间评定:
+- `PASS`: 没有问题, 或所有问题预计浪费的计算时间合计不超过 2h.
+- `NOT_PASS`: 所有问题预计浪费的计算时间合计超过 2h.
+
+计算时间按受问题影响的 run / cell 分别估算后相加; 并行执行不会让已经消耗的计算时间消失. 优先使用 A1/A2 中的 compute cost、相同配置的历史 runtime 和现有日志估算. 每个问题都必须写预计浪费的计算时间和计算依据; 不确定时给出最可信的估计, 不得仅写“很大”或“很久”. 同一根因造成的重复计算只计一次.
+
+## Output
+
+写 `audits/screen_iter<N>_<YYYYMMDD_HHMM>.md`:
+
+```markdown
+# Experiment Screen
+
+## Verdict
+PASS / NOT_PASS
+
+## Screened Plan
+本轮计划要回答的问题, 计划规模和 gate.
+
+## Estimated Waste
+- Total estimated wasted compute time: <N.Nh>
+- Verdict basis: <为什么高于或不高于 2h>
+
+## Evidence Checked
+- path: 核验内容
+```
+
+有问题时继续写:
+
+```markdown
+## Findings
+### [SCR-001] 标题
+- Plan item:
+- Evidence:
+- Problem:
+- Estimated wasted compute time: <N.Nh>
+- Calculation: <受影响的 runs/cells × 单项时间, 以及估算依据>
+- Impact:
+```
+
+`NOT_PASS` report 再写:
+
+```markdown
+## Required Scientist Response
+- [SCR-001]: 需要 scientist 重新判断的规模或 gate.
+```
+
+Required Scientist Response 只要求 scientist 重新判断问题, 不写替代实验计划.
+
+然后:
+- 更新 `STATE.md` frontmatter: `latest_screen: <report>`, `screen_verdict: PASS|NOT_PASS`.
+- `PASS`: 设置 `phase: coding_and_running`, 允许 coder 开始实现和执行.
+- `NOT_PASS`: 设置 `phase: needs_scientist`, 不允许 coder 实现或执行本轮计划.
+- 在 `experiment-log.md` 顶部 prepend `[Screen]` verdict、estimated waste 和 report path.
+- git add screen report 和 STATE.md, commit + push; `experiment-log.md` 只写不 add.
+
+## File Permissions
+
+- Read: workspace 内所有文件.
+- Write: `audits/screen_*.md`, `STATE.md` frontmatter 的 `phase/latest_screen/screen_verdict`, `experiment-log.md` 顶部 `[Screen]` 条目.

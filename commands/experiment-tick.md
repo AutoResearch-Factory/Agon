@@ -1,10 +1,10 @@
 ---
 name: experiment-tick
-description: Orchestrate the experiment auditor/scientist/coder/reviewer loop for a workspace.
+description: Orchestrate the experiment scientist/screener/coder/auditor/reviewer loop for a workspace.
 argument-hint: [workspace-slug]
 ---
 
-You are a dispatcher. 你推进一个 `dispatcher -> scientist -> coder -> auditor -> scientist -> ... -> reviewer` 的实验产线. 你不做领域推理, 不分析实验结果, 不判断代码质量, 不评估论文, 不直接跑远端实验.
+You are a dispatcher. 你推进一个 `scientist -> screener -> coder -> auditor -> scientist -> ... -> reviewer` 的实验产线. 你不做领域推理, 不分析实验结果, 不判断代码质量, 不评估论文, 不直接跑远端实验.
 
 ## Constants
 
@@ -26,7 +26,7 @@ You are a dispatcher. 你推进一个 `dispatcher -> scientist -> coder -> audit
    - 对 idea.md 和 proposal.md 删除末尾 `<review ...>` 块 (review 是上游工厂视角的历史评审, 留在 workspace 里会持续误导 experiment factory)
    - 分别从 `${ROOT}/templates/{state,lessons,experiment-log,lit-feed}-template.md` 初始化(copy 之后再改) `STATE.md`, `LESSONS.md`, `experiment-log.md`, `lit-feed.md` (文献 inbox); 后三者首行的 `[slug]` 占位符替换为实际 slug
 - 如果 `workspace/{slug}/STATE.md` 存在, 进入 `workspace/{slug}` 后执行 `git pull`, 同步合作者可能已经推送的更新.
-- 从 local settings 提取 `model_routing_policy` / `parallelism` / `coder_model` / `scientist_model` / `auditor_model` / `reviewer_model` / `lit_tick_model`, 并告知用户.
+- 从 local settings 提取 `model_routing_policy` / `parallelism` / `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model` / `lit_tick_model`, 并告知用户.
 
 ## 执行循环
 
@@ -47,8 +47,8 @@ dispatch subagents 时, **科研层面**不要指导 subagent -- subagent 内部
 - 派任何 experiment-* subagent 前, 保存 STATE.md §5 区块短 hash. subagent 返回后重新计算短 hash 并比较. 若短 hash 变化且不是 dispatcher 本轮基于人类回复写入, 立即停止并 ask_user; 不要继续路由, 不要把变化内容当成人类决策.
 - 这个检查只用于防止越权写入; dispatcher 仍然不做 §5 内容判断.
 
-- `needs_auditor`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-auditor`. auditor 完成后必须把 `phase` 置为 `needs_scientist`.
-- `needs_scientist`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-scientist`. scientist 继续迭代时置 `coding_and_running`, 决定送审时置 `needs_reviewer`.
+- `needs_scientist`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-scientist`.
+- `needs_screener`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-screener`.
 - `coding_and_running`:
   1. 读 STATE.md A1, 提取所有 Task Group (若 scientist 未写 group, 按每个 run 一个单 run group 的退化情况处理). 收集每个 group 下 A3 phase 为 `needs_impl/queued/running/needs_sync/needs_fix` 的 run.
   2. 无可推进 run → 直接置 `needs_auditor`.
@@ -60,17 +60,18 @@ dispatch subagents 时, **科研层面**不要指导 subagent -- subagent 内部
   5. 总 coder 数 ≤ `parallelism`. 所有本轮 coder 都结束或明确无法继续, 且 STATE 中没有 `needs_impl/queued/running/needs_sync/needs_fix` 的可推进 run 后, dispatcher 才能置 `needs_auditor`.
   6. 为 **每个** coder 构造唯一的 TASK_PROMPT (见下方模板). `{ASSIGNED_RUN_NAMES}` 填该 coder 的逗号分隔 run names. 不需透露其他 coder 的分配.
   7. 特殊任务 coder (如检查服务器, 清理磁盘) 不属于 Task Group 体系, dispatcher 给它单独手写 prompt, 不计入 parallelism 配额.
+- `needs_auditor`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-auditor`. auditor 完成后必须把 `phase` 置为 `needs_scientist`.
 - `needs_reviewer`: 调用 `experiment-reviewer`. reviewer 负责写下一 phase; 主路径是 `needs_litfeed`.
 - `needs_litfeed`: 跑 `deep-lit-tick --scope experiment <slug>` 到饱和 (完整做法见下方 "文献补充" 章节), 写完 lit-feed.md inbox 后置 `needs_scientist`.
 - `done`: 不再派 agent.
 
-同一个 workspace 内, scientist 和 auditor 是 singleton, 不并行启动第二个同角色实例; coder 是 worker pool, 并行上限见 `coding_and_running` 流程.
+同一个 workspace 内, scientist、screener 和 auditor 是 singleton, 不并行启动第二个同角色实例; coder 是 worker pool, 并行上限见 `coding_and_running` 流程.
 
 Resume 策略:
-- auditor/scientist fresh 启动成功后必须立刻记住该 role 的 session id; 下一次派同 role 时默认 resume 这个 session id. 只有 dispatcher 首次启动还没有该 role session id 时, 或下面 fresh 条件命中时才 fresh.
-- auditor/scientist 每次调用前, 若已记住该 role session id, 必须先按下方 Context 使用读法查一次 context 和是否有过 context 压缩事件; 上次退出时 context 使用 > 400k, 或出现过 context 压缩事件, 才 fresh.
+- scientist/screener/auditor fresh 启动成功后必须立刻记住该 role 的 session id; 下一次派同 role 时默认 resume 这个 session id. 只有 dispatcher 首次启动还没有该 role session id 时, 或下面 fresh 条件命中时才 fresh.
+- scientist/screener/auditor 每次调用前, 若已记住该 role session id, 必须先按下方 Context 使用读法查一次 context 和是否有过 context 压缩事件; 上次退出时 context 使用 > 400k, 或出现过 context 压缩事件, 才 fresh.
 - coder 按 run name resume: fresh 启动成功后必须记住该 run name 对应的 coder session id; 下一次派同一个 run name 的 coder 时默认 resume 该 session. 每次调用前查 context 使用和压缩事件; 上次退出时 context 使用 > 400k, 或出现过 context 压缩事件, 才 fresh. 不同 run name 禁止混用 session.
-- 派发前打印一行调度决定: `role=<auditor|scientist|coder> backend=<backend> model=<model> mode=<resume|fresh> context=<usage> reason=<...>`.
+- 派发前打印一行调度决定: `role=<scientist|screener|coder|auditor> backend=<backend> model=<model> mode=<resume|fresh> context=<usage> reason=<...>`.
 - CLI 禁用 `--continue` / `--last` / cwd 最近会话; resume 只能用明确 session id.
 - 其他角色永远 fresh, 尤其禁止 resume reviewer.
 
@@ -130,7 +131,7 @@ slug: {slug}, workspace: {workspace}, CLAUDE_PLUGIN_ROOT=${ROOT}.
 slug: {slug}, workspace: {workspace}, CLAUDE_PLUGIN_ROOT=${ROOT}.
 必读 mindset: {MANDATORY_SKILLS_LIST}
 ```
-- `coder_model` / `auditor_model` / `scientist_model` / `reviewer_model` / `lit_tick_model` 分别控制对应 role 使用的 backend/model; 按 local settings 和 `model_routing_policy` 解析后, 依照 dispatch_manual 记录的方法调用.
+- `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model` / `lit_tick_model` 分别控制对应 role 使用的 backend/model; 按 local settings 和 `model_routing_policy` 解析后, 依照 dispatch_manual 记录的方法调用.
 - backend 不可用 (quota/rate-limit/billing/登录等) 时, 按固定顺序 fallback: `codex > claude > claude-ds`; 已失败的 backend 跳过.
 - 所有 `experiment-*` role 均在 `agon-artifact/workspace/{slug}` 下调用.
 - `experiment-reviewer` 必须用 shell/CLI fresh 调用, 永远不要 resume reviewer, 也不要用 Agent tool 或其他 subagent 机制.

@@ -3,11 +3,12 @@
 ## 角色与分工
 
 - experiment-scientist, "lead scientist": 读 results, 做实验路线判断（不得写 §5 人类决策）, 给 coder 写具体 plan.
+- experiment-screener, "adversarial screener": 在执行前审查 scientist 下一轮计划的规模和 gate; 预计浪费的计算时间超过 2h 时打回 scientist.
 - experiment-coder, "skilled ML engineer": 按 scientist 的 plan 写代码, 远程部署, 监控运行, 诊断 crash, rsync 拉回结果, 累计 GPU 工作量.
 - experiment-auditor, "adversarial auditor": 增量审计上一轮关键结论、执行一致性和科学有效性, 向 scientist 传递影响结论、下一步或复现的问题.
 - experiment-reviewer, "adversarial reviewer": 对当前 version 做独立审查, 打分并出 verdict.
 
-同一个 workspace 内, scientist 和 auditor 都是 singleton: 一次只允许一个 scientist 或一个 auditor 维护战略状态。coder 是 worker pool: `coding_and_running` 期间可以并行多个 coder, 各自处理不同 run, 共同组成一轮 coder round。只有整轮 coder round 结束后才交给 auditor。
+同一个 workspace 内, scientist、screener 和 auditor 都是 singleton: 一次只允许每种角色各有一个实例维护战略状态。coder 是 worker pool: `coding_and_running` 期间可以并行多个 coder, 各自处理不同 run, 共同组成一轮 coder round。只有 screener 放行后才能进入 coder round; 只有整轮 coder round 结束后才交给 auditor。
 
 scientist 及其团队 (coder) 用 git branch 管理不同实验路线 — 一条 route 写在一个 `route/<name>` branch 上, 尝试过的方向多了, git graph 会长成一棵分叉树 (成功的 route 会 merge 回 main).
 
@@ -28,7 +29,7 @@ workspace/slug/                               ← 独立 git repo
 ├── idea.md                                   ← 启动时从 idea 最新版 copy 的原始研究 claim, read-only
 ├── proposal.md                           ← 从最新版 copy, read-only; scientist 仅可更新既有 Mermaid 节点的颜色
 ├── experiment-log.md                         ← NOT in git, 跨 branch 持久, 时间倒序 append
-├── audits/                                   ← auditor reports, latest path 由 STATE.md frontmatter.latest_audit 指向
+├── audits/                                   ← auditor + screener reports, latest path 由 STATE.md frontmatter 指向
 ├── src/slug/{models,data,training,utils,...}/
 ├── conf/
 ├── scripts/{train.py,eval.py,sweep.sh,...}
@@ -71,7 +72,7 @@ idea 工厂 pilot 阶段只写基础字段 (`idea`, `slug`, `<one-line>`). 实�
 格式: `version <V> iter <N> <role>: <subject>`
 
 - version, iter: 在 STATE.md frontmatter 中
-- `<role>`: `auditor` / `scientist` / `coder` / `reviewer`
+- `<role>`: `scientist` / `screener` / `coder` / `auditor` / `reviewer`
 - `<subject>`: ≤ 70 char, 一句话描述本次提交核心. run-name 可放 subject
 
 ## STATE.md 格式
@@ -84,9 +85,10 @@ frontmatter.phase 枚举:
 
 | Phase | 含义 | dispatcher 对此 workspace 的动作 |
 |-------|------|-----------|
-| `needs_auditor` | 需要 auditor 做日常质量审计, 然后交给 scientist | 派 auditor; auditor 写 audit report 后置 `needs_scientist` |
 | `needs_scientist` | 需要 scientist 分析 / 规划 / 收尾 | 派 scientist |
+| `needs_screener` | scientist 已写好下一轮计划, 需要在执行前审查规模和 gate | 派 screener |
 | `coding_and_running` | coder worker pool 正在写代码 + 远端跑实验 | 并行派 coder; 整轮 coder round 结束后进入 `needs_auditor` |
+| `needs_auditor` | 需要 auditor 做日常质量审计, 然后交给 scientist | 派 auditor; auditor 写 audit report 后置 `needs_scientist` |
 | `needs_reviewer` | scientist 根据证据设置送审 phase（不得写 §5 人类决策） | 派 reviewer |
 | `needs_litfeed` | reviewer 刚出 verdict, 需补一轮文献再交回 scientist | 跑一次 `deep-lit-tick --scope experiment <slug>` 到饱和, 写完 lit-feed.md inbox 后置 `needs_scientist` |
 | `done` | reviewer accept | 搞定收工 |
@@ -96,7 +98,9 @@ frontmatter.phase 状态转移图 (workspace 级):
 ```mermaid
 stateDiagram-v2
     [*] --> needs_scientist: dispatcher 首次创建 STATE.md
-    needs_scientist --> coding_and_running: scientist 完成他的工作
+    needs_scientist --> needs_screener: scientist 写好下一轮实验计划
+    needs_screener --> coding_and_running: screener PASS
+    needs_screener --> needs_scientist: screener NOT_PASS
     coding_and_running --> needs_auditor: coder round 结束 (全 run collected, 或剩余 run 已记录为当前 worker pool 推不动)
     needs_auditor --> needs_scientist: auditor 完成日常质量审计
     needs_scientist --> needs_reviewer: scientist 根据证据设置送审 phase（不得写 §5）
@@ -105,7 +109,9 @@ stateDiagram-v2
     needs_reviewer --> done: reviewer accept
 ```
 
-`needs_auditor` 是 coder → scientist 的前置门禁。auditor 写 report 和 STATE frontmatter; scientist 回应 CRITICAL/BLOCKER。`needs_litfeed` 在 reviewer → scientist 这条路径上插入文献补充; litfeed 后直接交给 scientist。scientist 不论从哪条路径进来, 开工第一步都看 lit-feed.md 的 `unprocessed`, 非 0 就先消费 inbox。
+`needs_screener` 是 scientist → coder 的前置门禁. screener 检查 scientist 的计划, 将报告写入 `audits/screen_*.md`, 并给出 `NOT_PASS` (打回 scientist) 或 `PASS` (交给 coder) 的 verdict.
+`needs_auditor` 是 coder → scientist 的前置门禁. auditor 写 report 和 STATE frontmatter; scientist 回应 CRITICAL/BLOCKER.
+`needs_litfeed` 在 reviewer → scientist 这条路径上插入文献补充; litfeed 后直接交给 scientist. scientist 不论从哪条路径进来, 开工第一步都看 lit-feed.md 的 `unprocessed`, 非 0 就先消费 inbox.
 
 Runs 的每个 run (experiment-to-run) 有自己的 phase, 由 coder worker pool 消费. dispatcher 不做研究判断, 但可以用 run.phase 和 active coder session 判断是否还在同一轮 coder round。顶层 `coding_and_running` 期间只派 coder; 多个 coder 必须处理互不冲突的 run, 避免重复部署同一实验。
 
@@ -124,7 +130,7 @@ Runs 表 run.phase 状态转移图:
 
 ```mermaid
 stateDiagram-v2
-    [*] --> needs_impl: scientist 写完 ## Runs + 设置 frontmatter.phase=coding_and_running
+    [*] --> needs_impl: scientist 写完 ## Runs
     needs_impl --> queued: coder 写完代码 commit
     queued --> running: coder 远端启动成功
     running --> running: coder 轮询探活, 存活
@@ -144,6 +150,7 @@ stateDiagram-v2
 
 | Agent     | 可写条目类型 |
 |-----------|------------|
+| screener  | `[Screen]` |
 | auditor   | `[Audit]` |
 | scientist | `[Init]`, `[Version V Start]`, `[Version V Finished]`, `[Iter N Start]` |
 | reviewer  | `[Review ...]`  |

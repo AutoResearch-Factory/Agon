@@ -1,10 +1,12 @@
 ---
-phase: needs_scientist                # dispatcher 状态机: needs_scientist | coding_and_running | needs_auditor | needs_reviewer | needs_litfeed | done
+phase: needs_scientist                # dispatcher 状态机: needs_scientist | needs_screener | coding_and_running | needs_auditor | needs_reviewer | needs_litfeed | done
 version: 0                            # 当前送审次数, reviewer 维护
 iteration: 0                          # 当前迭代号, scientist 维护
 route: ""                             # 当前技术路线 (同 git branch)
 git_branch: main                      # main | route/<name>
 gpu_dollars_equivalent: 0.00          # 等效美元, coder 维护
+latest_screen: ""                     # 最新 screener 报告路径, screener 维护
+screen_verdict: ""                    # PASS | NOT_PASS, screener 维护
 latest_audit: ""                      # 最新 auditor 报告路径, auditor 维护
 audit_verdict: ""                     # PASS | WARN | CRITICAL | BLOCKER, auditor 维护
 ---
