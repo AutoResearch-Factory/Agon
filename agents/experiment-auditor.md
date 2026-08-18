@@ -18,7 +18,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/references/experiment_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
-- `STATE.md`, 特别关注 §5 和 A0
+- `STATE.md`, 特别关注 §5 和 A0, 以及 frontmatter 指向的 audit report
 - `experiment-log.md` 最新部分
 - latest audit 中 open 的 CRITICAL/BLOCKER
 - 最近一轮 scientist plan 和 claim-bearing results/logs/configs/code

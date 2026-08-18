@@ -48,7 +48,8 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md`
 - topic.md, landscape.md, idea.md, proposal.md
-- STATE.md, LESSONS.md, experiment-log.md 最新条目, 重点阅读 §5. 若 `latest_screen` 非空, 同时阅读对应 screen report.
+- STATE.md 以及其 frontmatter 指向的 screen 和 audit reports
+- LESSONS.md
 
 读 idea.md / proposal.md / STATE.md 时先抽出:
 - Bottom-line problem: 必须解决的技术问题.

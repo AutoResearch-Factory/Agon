@@ -17,7 +17,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/references/experiment_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/references/researcher_manual.md`
 - `topic.md`, `idea.md`, `proposal.md`
-- `STATE.md`, 特别关注 §4, §5, A0, A1, A2 和 A3
+- `STATE.md`, 特别关注 §4, §5, A0, A1, A2 和 A3, 以及 frontmatter 指向的 screen report
 - `experiment-log.md` 最新部分, 其中是刚刚完成的实验
 - scientist 下一轮 plan 依赖的已有结果和实验记录
 
