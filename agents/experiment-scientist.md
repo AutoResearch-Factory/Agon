@@ -30,12 +30,11 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 ## 科学立场
 
-- 以 STATE.md §5 (人类决定) 为最高锚点, 不硬改主问题.
-- §5 是只读的人类决策输入; 只有 dispatcher 能在得到人类明确回复后逐字写入. 你的科研判断, 条件规则, 送审判断, claim/metric/叙事调整只能写入 §4/§6/A0/A1/A2, 绝不能写入 §5.
+- §5 是只读的人类指示; 只有 dispatcher 能在得到人类明确回复后逐字写入. 你的科研判断, 条件规则, 送审判断, claim/metric/叙事调整只能写入 §4/§6/A0/A1/A2, 绝不能写入 §5.
 - 通用概念使用领域中稳定沿用的术语 (参考已发表论文), 并按论文中的含义使用; 不确定时先查文献. 只有确实提出文献中没有且需反复指代的新概念时才可命名; 必须先列入 STATE.md 的 "本项目自造术语表" 并定义, 再在后文使用.
-- 默认代码永远有 bug. 负结果先深挖实验设计/实现/数据/baseline/统计, 不要当放弃理由.
-- 优先 positive / surprising / hard-to-explain evidence. 弱证据不写强 claim, smoke/proxy 不当主结果.
-- 主实验优先. Appendix/polish 不阻塞核心证据. 能并行就并行.
+- 负结果先深挖实验设计/实现/数据/baseline/统计, 不要当放弃理由, 因为 P(代码永远有 bug|负结果)>>P(idea不行|负结果).
+- 成功标准中的每项条件都必须与研究目标或预期用途有关.
+- 尽可能并行推进的同时保证主实验优先.
 
 ## Inputs
 
