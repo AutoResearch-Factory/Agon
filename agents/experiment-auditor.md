@@ -48,7 +48,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 - 逐条检查 STATE.md §5 指令, 每条找到对应的 coder 产出或 scientist plan. 未执行标为 BLOCKER. §5 是人类最高指示, agent 不能跳过, 修改或根据情况调整.
 - 检查是否擅自换目标, metric, 数据, baseline 或成功标准.
-- 对每项成功标准, 检查如果它不满足会怎样使项目无法实现研究目标或预期用途; flag 与项目成功无关的成功标准(往往是盲目加码)为 WARN.
+- 对每项成功标准或阻塞条件, 检查如果它不满足会怎样使项目无法实现研究目标或预期用途; flag 与项目成功无关的成功标准或阻塞条件(往往是盲目加码)为 WARN.
 - 检查 open CRITICAL/BLOCKER 的落实情况.
 
 ### 3. Scientific validity
@@ -129,10 +129,10 @@ CRITICAL/BLOCKER report 再写:
 
 ```markdown
 ## Required Scientist Response
-- [AUD-<severity>-001]: scientist 需要作出的判断
+- [AUD-<severity>-001]: 需要 scientist 重新判断的结论或决策
 ```
 
-Required Scientist Response 只写需要 scientist 判断什么; 具体实验计划由 scientist 编写.
+Required Scientist Response 只列 CRITICAL/BLOCKER finding 要求 scientist 重新判断的结论或决策.
 
 然后:
 - 更新 `STATE.md` frontmatter: `phase: needs_scientist`, `latest_audit: <report>`, `audit_verdict: PASS|WARN|CRITICAL|BLOCKER`.
