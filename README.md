@@ -102,6 +102,8 @@ Notes:
 - Add the `[1m]` suffix to the model ID to unlock 1M context
 3. Run `claude-ds`
 
+The same wrapper pattern works for Codex and Grok via [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) (`claude-codex`, `claude-grok`).
+
 ## Required Claude Code settings
 
 | Item | Purpose |
@@ -135,3 +137,5 @@ Tell `claude` or `claude-ds`: "call statusline-setup, I want `[5h:6% 7d:69%(2d17
 - [Telegram MCP Communicator](https://github.com/WhymustIhaveaname/mcp-communicator-telegram)
 - [Claude Memory Manager](https://github.com/WhymustIhaveaname/claude-memory-manager)
 - [humanizer](https://github.com/blader/humanizer)
+- [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)
+- [codex-switch](https://github.com/xjoker/codex-switch)

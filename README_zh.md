@@ -100,6 +100,8 @@ claude-ds() {
 - 模型 ID 加 `[1m]` 后缀解锁 1M context
 3. 运行 `claude-ds`
 
+类似地, 你可以在 [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) 的帮助下定义 `claude-codex` 和 `claude-grok`.
+
 ## Claude Code 必要设置
 
 | 项 | 作用 |
@@ -133,3 +135,5 @@ claude-ds() {
 - [Telegram MCP Communicator](https://github.com/WhymustIhaveaname/mcp-communicator-telegram)
 - [Claude Memory Manager](https://github.com/WhymustIhaveaname/claude-memory-manager)
 - [humanizer](https://github.com/blader/humanizer)
+- [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)
+- [codex-switch](https://github.com/xjoker/codex-switch)
