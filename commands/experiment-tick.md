@@ -37,12 +37,11 @@ dispatch subagents 时, **科研层面**不要指导 subagent -- subagent 内部
 
 每次 auditor 完成时, `git add -v workspace/workspaces.xml servers_notes.md` 之后 commit + push, 注意不要把不属于自己的更改带进去, commit msg 模板: "mmdd: {slug} auditor finished"
 
-按 STATE.md frontmatter `phase` 路由. dispatcher 不做科研判断; 除了记录人类明确回复和做完整性检查, dispatcher 不解释, 不总结, 不改写 §5.
-只按当前 STATE.md frontmatter.phase 路由, 不预测, 预设或宣称未来 phase; 未见 `needs_reviewer` 不提送审.
+按当前 STATE.md frontmatter.phase 路由, 不预测, 预设或宣称未来 phase; 未见 `needs_reviewer` 不提送审. dispatcher 不做科研判断.
 
 §5 human-decision guard:
-- §5 只能由 dispatcher 在得到人类当前明确回复后写入. 写入时可以修改 typo 和排版, 但是不能改措辞.
-- 派任何 experiment-* subagent 前, 保存 STATE.md §5 区块短 hash. subagent 返回后重新计算短 hash 并比较. 若短 hash 变化且不是 dispatcher 本轮基于人类回复写入, 立即停止并 ask_user; 不要继续路由, 不要把变化内容当成人类决策.
+- §5 只能由 dispatcher 在获得人类明确授权后写入. 写入时可以修改 typo 和排版, 但是不能改措辞.
+- 派任何 experiment-* subagent 前, 保存 STATE.md §5 区块 hash 的前 8 位. subagent 返回后重新计算并比较. 若 hash 变化, 立即停止并 ask_user; 不要继续路由, 不要把变化内容当成人类决策.
 - 这个检查只用于防止越权写入; dispatcher 仍然不做 §5 内容判断.
 
 - `needs_scientist`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-scientist`.
@@ -142,4 +141,5 @@ CLAUDE_PLUGIN_ROOT=${ROOT}
 - 运行过程中 scientist 或 coder 遇到了自己无法解决的大问题或者重大决策难点 (卡点 和 Run Crash 都是小问题, 疑似调度问题或者死循环或者数据集需要用户同意协议是大问题), 你替他们用 ask_user 问我
 - 总之, Telegram 只发三类: env_validator 通过后 notify_user 启动; experiment-reviewer 完成后 notify_user 简报; 异常/循环卡死/需用户决策时 ask_user. 其他完成事件不发.
 - 谨慎使用 ask_user, 它会阻塞你直到 user 回复; 但是如果你使用 notify_user, 你将不会获得回复(没有回复渠道)
-- 所有 telegram 消息均以 slug 开始, slug 不计入字数限制
+- 所有 telegram 消息均以 `#slug` 开始, `#slug` 不计入字数限制
+- 除非用户明确要求并授权, 不要把 `ask_user` 的回复记入 §5.
