@@ -27,12 +27,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 ## Materiality
 
-问题会改变以下至少一项时写 finding:
-- 关键结论是否成立;
-- 下一轮实验选择是否合理;
-- 关键结果能否被核验或复现.
-
-同一根因合并成一个 finding.
+问题会改变关键结论或下一步决策时写 finding.
 
 ## Checks
 
@@ -121,17 +116,8 @@ WARN/CRITICAL/BLOCKER report 继续写:
 ## Findings
 ### [AUD-<severity>-001] 标题
 - Evidence:
-- Impact:
+- Affected claim/decision:
 ```
-
-CRITICAL/BLOCKER report 再写:
-
-```markdown
-## Required Scientist Response
-- [AUD-<severity>-001]: 需要 scientist 重新判断的结论或决策
-```
-
-Required Scientist Response 只列 CRITICAL/BLOCKER finding 要求 scientist 重新判断的结论或决策.
 
 然后:
 - 更新 `STATE.md` frontmatter: `phase: needs_scientist`, `latest_audit: <report>`, `audit_verdict: PASS|WARN|CRITICAL|BLOCKER`.
