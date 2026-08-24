@@ -58,10 +58,8 @@ TASK_PROMPT="完整执行 deep-lit-tick: --scope idea <topic_slug> --idea {slug}
    - 调用返回后读 `$OUT` 当 report, 然后 `rm "$OUT"` 避免 /tmp 堆积.
 - reviewer_model: 控制 `proposal-reviewer` 使用的模型.
    - `reviewer_model = "claude"` (默认): 照原流程调用 `proposal-reviewer` subagent. 如果 Claude quota/rate-limit 失败, 自动 fallback 到下一个.
-   - `reviewer_model = "deepseek"`: 在 agon-artifact 目录下按 dispatch_manual 的 claude-* 模板执行, 命令名用 `claude-ds`; `TASK_PROMPT` 使用当前调用点里 `proposal-reviewer` 的 prompt.
 - lit_tick_model: 控制 `deep-lit-tick` dispatcher 使用的模型.
-   - `lit_tick_model = "deepseek"` (默认): 按 dispatch_manual 的 claude-* 模板执行, 命令名用 `claude-ds`.
-   - `lit_tick_model = "claude"`: 按 dispatch_manual 的 claude 模板执行.
+   - `lit_tick_model = "claude"` (默认): 按 dispatch_manual 的 claude 模板执行.
    - `lit_tick_model = "codex"`: 按 dispatch_manual 的 codex 模板执行.
 - 如果 subagent 中途退出, 用 SendMessage resume 原 agent 继续.
 

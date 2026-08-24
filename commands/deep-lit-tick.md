@@ -183,8 +183,7 @@ TASK_PROMPT="arxiv_id: <arxiv_id> topic_slug: <topic_slug> CLAUDE_PLUGIN_ROOT=${
 OUT="/tmp/$USER/<topic_slug>-deep-lit-reader-<arxiv_id>.txt"
 ```
 
-- `lit_reader_model = "claude-ds"` (默认): 用 claude-* 模板，命令名 `claude-ds`.
-- `lit_reader_model = "claude"`: 用 claude 模板.
+- `lit_reader_model = "claude"` (默认): 用 claude 模板.
 - `lit_reader_model = "codex"`: 用 codex 模板.
 
 B5 派发 reader 后必须等待所有 subagents 返回，并确认每篇论文的 result JSON 存在且非空；缺失、空文件或失败的 reader 必须重试/恢复，全部产物有效后才能继续 B7 或退出 deep-lit-tick。禁止在 reader 仍是 Claude Bash 后台任务时输出完成或退出。

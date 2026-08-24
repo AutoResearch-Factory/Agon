@@ -1,6 +1,6 @@
 ## How to start a claude-*/codex subagent?
 
-本文档教你如何用命令行启动 claude (包括 claude-ds, claude-grok, claude-codex 等变种, 接口一致) 和 codex 作为 subagents.
+本文档教你如何用命令行启动 claude (包括 claude-grok, claude-codex 等变种, 接口一致) 和 codex 作为 subagents.
 
 首先你需要准备:
 - AGENT_PROMPT="${CLAUDE_PLUGIN_ROOT}/agents/${AGENT_NAME}.md" 会进入 subagent 的 system message
@@ -55,7 +55,7 @@ claude --dangerously-skip-permissions \
   -p "$TASK_PROMPT" > "$OUT"
 ```
 
-claude-* 是由各个不同公司 api 驱动的 claude code, 其接口与 claude 完全一致, 目前可用的有: claude-ds (deepseek v4 pro 驱动), claude-grok (xAI 公司), claude-codex (gpt 驱动)
+claude-* 是由各个不同公司 api 驱动的 claude code, 其接口与 claude 完全一致, 目前可用的有: claude-grok (xAI 公司), claude-codex (gpt 驱动)
 
 ## 注意
 

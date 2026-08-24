@@ -63,14 +63,11 @@ D. 终止条件（双闸门，两个同时满足才停循环）
 - refiner_model: 控制 `idea-refiner` 使用的模型.
    - `refiner_model = "claude"`: 照原流程调用 `idea-refiner` subagent. 如果 quota/rate-limit 失败, 自动 fallback 到下一个.
    - `refiner_model = "codex"`: 在 agon-artifact 目录下按 dispatch_manual 的 codex 模板执行; `TASK_PROMPT` 使用 C1 循环主体里 `idea-refiner` 的 prompt.
-   - `refiner_model = "deepseek"`: 在 agon-artifact 目录下按 dispatch_manual 的 claude-* 模板执行, 命令名用 `claude-ds`; `TASK_PROMPT` 使用 C1 循环主体里 `idea-refiner` 的 prompt.
-   - codex/deepseek 调用返回后立即 Read `$OUT` 当 report → `rm "$OUT"` 防 /tmp 堆积.
+   - codex 调用返回后立即 Read `$OUT` 当 report → `rm "$OUT"` 防 /tmp 堆积.
 - reviewer_model: 控制 `idea-reviewer` 使用的模型.
    - `reviewer_model = "claude"` (默认): 照原流程调用 `idea-reviewer` subagent. 如果 quota/rate-limit 失败, 自动 fallback 到下一个.
-   - `reviewer_model = "deepseek"`: 在 agon-artifact 目录下按 dispatch_manual 的 claude-* 模板执行, 命令名用 `claude-ds`; `TASK_PROMPT` 使用当前调用点里 `idea-reviewer` 的 prompt.
 - lit_tick_model: 控制 `deep-lit-tick` dispatcher 使用的模型.
-   - `lit_tick_model = "deepseek"` (默认): 按 dispatch_manual 的 claude-* 模板执行, 命令名用 `claude-ds`.
-   - `lit_tick_model = "claude"`: 按 dispatch_manual 的 claude 模板执行.
+   - `lit_tick_model = "claude"` (默认): 按 dispatch_manual 的 claude 模板执行.
    - `lit_tick_model = "codex"`: 按 dispatch_manual 的 codex 模板执行.
 - 如果 subagent 中途退出, 用 SendMessage resume 原 agent 继续.
 
