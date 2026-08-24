@@ -110,7 +110,7 @@ stateDiagram-v2
 ```
 
 `needs_screener` 是 scientist → coder 的前置门禁. screener 检查 scientist 的计划, 将报告写入 `audits/screen_*.md`, 并给出 `NOT_PASS` (打回 scientist) 或 `PASS` (交给 coder) 的 verdict.
-`needs_auditor` 是 coder → scientist 的前置门禁. auditor 写 report 和 STATE frontmatter; scientist 回应 CRITICAL/BLOCKER.
+`needs_auditor` 是 coder → scientist 的前置门禁. auditor 写 report 和 STATE frontmatter; scientist 回应 CRITICAL.
 `needs_litfeed` 在 reviewer → scientist 这条路径上插入文献补充; litfeed 后直接交给 scientist. scientist 不论从哪条路径进来, 开工第一步都看 lit-feed.md 的 `unprocessed`, 非 0 就先消费 inbox.
 
 Runs 的每个 run (experiment-to-run) 有自己的 phase, 由 coder worker pool 消费. dispatcher 不做研究判断, 但可以用 run.phase 和 active coder session 判断是否还在同一轮 coder round。顶层 `coding_and_running` 期间只派 coder; 多个 coder 必须处理互不冲突的 run, 避免重复部署同一实验。

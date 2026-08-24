@@ -18,7 +18,7 @@ experiment-log.md: 完整项目日志
 - Findings: [没有问题, 或一句话列出导致浪费的规模/gate 问题]
 - Required scientist response: [NOT_PASS 时 scientist 必须重新判断什么; PASS 时写 none]
 
-## [Audit] YYYY-MM-DD HH:MM — verdict=PASS/WARN/CRITICAL/BLOCKER (iter N)
+## [Audit] YYYY-MM-DD HH:MM — verdict=PASS/WARN/CRITICAL (iter N)
 
 - Report: audits/audit_iterN_YYYYMMDD_HHMM.md
 - Load-bearing issues: [一句话列最重要的 1-3 个问题]

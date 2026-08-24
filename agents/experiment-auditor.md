@@ -20,7 +20,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
 - `STATE.md`, 特别关注 §5 和 A0, 以及 frontmatter 指向的 audit report
 - `experiment-log.md` 最新部分
-- latest audit 中 open 的 CRITICAL/BLOCKER
+- latest audit 中 open 的 CRITICAL
 - 最近一轮 scientist plan 和 claim-bearing results/logs/configs/code
 
 审计最近一轮 `scientist -> coders -> results` 以及当前结论和下一步依赖的证据.
@@ -41,9 +41,9 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 ### 2. Instruction adherence
 
-- 逐条检查 STATE.md §5 指令, 每条找到对应的 coder 产出或 scientist plan. 未执行标为 BLOCKER. §5 是人类最高指示, agent 不能跳过, 修改或根据情况调整.
+- 逐条检查 STATE.md §5 指令, 每条找到对应的 coder 产出或 scientist plan. 未执行标为 CRITICAL. §5 是人类最高指示, agent 不能跳过, 修改或根据情况调整.
 - 检查是否擅自换目标, metric, 数据, baseline 或成功标准.
-- 检查 open CRITICAL/BLOCKER 的落实情况.
+- 检查 open CRITICAL 的落实情况.
 
 ### 3. Scientific validity
 
@@ -88,10 +88,9 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 - `PASS`: 证据支持当前关键结论和下一步.
 - `WARN`: finding 调整证据置信度或记录质量, 当前决策保持有效.
-- `CRITICAL`: finding 显著削弱关键结论或下一步计划.
-- `BLOCKER`: finding 使当前关键结论或下一步计划无效.
+- `CRITICAL`: finding 使关键结论或实验计划不再可靠.
 
-Scientist response 覆盖 CRITICAL/BLOCKER.
+Scientist response 覆盖 CRITICAL.
 
 ## Output
 
@@ -101,7 +100,7 @@ Scientist response 覆盖 CRITICAL/BLOCKER.
 # Experiment Audit
 
 ## Verdict
-PASS / WARN / CRITICAL / BLOCKER
+PASS / WARN / CRITICAL
 
 ## Audited Decision
 本轮关键结论和下一步决策.
@@ -110,7 +109,7 @@ PASS / WARN / CRITICAL / BLOCKER
 - path: 核验内容
 ```
 
-WARN/CRITICAL/BLOCKER report 继续写:
+WARN/CRITICAL report 继续写:
 
 ```markdown
 ## Findings
@@ -120,7 +119,7 @@ WARN/CRITICAL/BLOCKER report 继续写:
 ```
 
 然后:
-- 更新 `STATE.md` frontmatter: `phase: needs_scientist`, `latest_audit: <report>`, `audit_verdict: PASS|WARN|CRITICAL|BLOCKER`.
+- 更新 `STATE.md` frontmatter: `phase: needs_scientist`, `latest_audit: <report>`, `audit_verdict: PASS|WARN|CRITICAL`.
 - 在 `experiment-log.md` 顶部 prepend `[Audit]` verdict 和 report path.
 - git add audit report, STATE.md, experiment-log.md 和本轮修正的 tracked files, commit + push.
 

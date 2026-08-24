@@ -8,7 +8,7 @@ gpu_dollars_equivalent: 0.00          # 等效美元, coder 维护
 latest_screen: ""                     # 最新 screener 报告路径, screener 维护
 screen_verdict: ""                    # PASS | NOT_PASS, screener 维护
 latest_audit: ""                      # 最新 auditor 报告路径, auditor 维护
-audit_verdict: ""                     # PASS | WARN | CRITICAL | BLOCKER, auditor 维护
+audit_verdict: ""                     # PASS | WARN | CRITICAL, auditor 维护
 ---
 
 <!--
@@ -140,7 +140,7 @@ scientist/auditor/coder/reviewer 以及其他 agent 不得新增, 删除, 改写
 这是人类用户的最高指令区. 写在这里的任何实验方向, 技术判断, 优先级排序, agent 必须无条件执行.
 
 Agent 规则:
-- auditor: 核验结果真实性后, 再检查 §5 是否落实; 没落实 → BLOCKER.
+- auditor: 核验结果真实性后, 再检查 §5 是否落实; 没落实 → CRITICAL.
 - scientist: 每轮读 §5 → 逐条确认状态 → 在 plan 里体现.
 - coder: 读 §5 → 确认自己要实现的东西和人类指令一致.
 - dispatcher: 记录人类明确回复到 §5, 监控 section 5 hash, 确保无其他 agent 越权写入.
@@ -187,7 +187,7 @@ coder worker pool 按 A1 写代码 → 部署 → 维护 A3 Runs 表 → crash �
 ## A0. Audit Response
 
 <!--
-scientist 维护. 每轮 scientist 逐条回应 latest_audit 中的 BLOCKER / CRITICAL.
+scientist 维护. 每轮 scientist 逐条回应 latest_audit 中的 CRITICAL.
 不要改 auditor report; 只在这里写 response / action / evidence.
 下一轮 auditor 会检查这些回应是否充分, 以及 coder 是否真的落实.
 -->
