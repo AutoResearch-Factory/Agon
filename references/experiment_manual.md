@@ -5,7 +5,7 @@
 - experiment-scientist, "lead scientist": 读 results, 做实验路线判断（不得写 §5 人类决策）, 给 coder 写具体 plan.
 - experiment-screener, "adversarial screener": 在执行前审查 scientist 下一轮计划的规模和 gate; 预计造成的 wall-clock delay 过大时打回 scientist.
 - experiment-coder, "skilled ML engineer": 按 scientist 的 plan 写代码, 远程部署, 监控运行, 诊断 crash, rsync 拉回结果, 累计 GPU 工作量.
-- experiment-auditor, "adversarial auditor": 增量审计上一轮关键结论、执行一致性和科学有效性, 向 scientist 传递影响结论、下一步或复现的问题.
+- experiment-auditor, "adversarial auditor": 增量审计上一轮关键结论、执行一致性和科学有效性, 向 scientist 传递影响结论或复现的问题.
 - experiment-reviewer, "adversarial reviewer": 对当前 version 做独立审查, 打分并出 verdict.
 
 同一个 workspace 内, scientist、screener 和 auditor 都是 singleton: 一次只允许每种角色各有一个实例维护战略状态。coder 是 worker pool: `coding_and_running` 期间可以并行多个 coder, 各自处理不同 run, 共同组成一轮 coder round。只有 screener 放行后才能进入 coder round; 只有整轮 coder round 结束后才交给 auditor。

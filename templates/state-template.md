@@ -189,7 +189,7 @@ coder worker pool 按 A1 写代码 → 部署 → 维护 A3 Runs 表 → crash �
 <!--
 scientist 维护. 每轮 scientist 逐条回应 latest_audit 中的 CRITICAL.
 不要改 auditor report; 只在这里写 response / action / evidence.
-下一轮 auditor 会检查这些回应是否充分, 以及 coder 是否真的落实.
+下一轮 auditor 检查这些回应是否有证据支持.
 -->
 
 | audit issue | scientist response | action/evidence | status |

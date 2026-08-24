@@ -22,8 +22,6 @@ experiment-log.md: 完整项目日志
 
 - Report: audits/audit_iterN_YYYYMMDD_HHMM.md
 - Load-bearing issues: [一句话列最重要的 1-3 个问题]
-- Required scientist response: [下一轮 scientist 必须回应什么]
-
 
 ## [Review of Version V] YYYY-MM-DD HH:MM — score=Y/10
 
