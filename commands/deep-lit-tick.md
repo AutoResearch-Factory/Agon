@@ -183,7 +183,7 @@ TASK_PROMPT="arxiv_id: <arxiv_id> topic_slug: <topic_slug> CLAUDE_PLUGIN_ROOT=${
 OUT="/tmp/$USER/<topic_slug>-deep-lit-reader-<arxiv_id>.txt"
 ```
 
-- `lit_reader_model = "deepseek"` (默认): 用 claude-* 模板，命令名 `claude-ds`.
+- `lit_reader_model = "claude-ds"` (默认): 用 claude-* 模板，命令名 `claude-ds`.
 - `lit_reader_model = "claude"`: 用 claude 模板.
 - `lit_reader_model = "codex"`: 用 codex 模板.
 

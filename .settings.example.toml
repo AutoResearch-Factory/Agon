@@ -11,4 +11,4 @@ coder_model     = "codex 25% | claude 75%" # experiment_coder
 auditor_model   = "claude 50% | codex 25% | claude-ds 25%" # experiment_auditor
 
 lit_tick_model   = "claude"      # deep-lit-tick dispatcher
-lit_reader_model = "deepseek"       # deep-lit-reader paper reader
+lit_reader_model = "claude-ds"       # deep-lit-reader paper reader
