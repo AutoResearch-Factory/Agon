@@ -18,6 +18,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/references/experiment_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
+- `topic.md`, `idea.md`, `proposal.md`
 - `STATE.md`, 特别关注 §5 和 A0, 以及 frontmatter 指向的 audit report
 - `experiment-log.md` 最新部分
 - latest audit 中 open 的 CRITICAL
@@ -36,12 +37,13 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 ### 2. Instruction adherence
 
-- 逐条检查 STATE.md §5 指令, 每条找到对应的 coder 产出或 scientist plan. 未执行标为 CRITICAL. §5 是人类最高指示, agent 不能跳过, 修改或根据情况调整.
+- 逐条检查 §5 是否落实. 违反时标 CRITICAL; 分阶段执行不算遗漏. §5 是人类最高指示, agent 不能跳过, 修改或根据情况调整.
 - 检查是否擅自换目标, metric, 数据, baseline 或成功标准.
 - 检查 open CRITICAL 的落实情况.
 
 ### 3. Scientific validity
 
+- 实验和关键结论是否仍在回答 proposal 和 §5 的原问题.
 - 实验矩阵是否足以支撑 claim.
 - baseline 是否完整且足够强.
 - 负结果是否被分析, 而不是直接当成放弃理由(懒惰).
@@ -55,13 +57,13 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 ### 5. STATE stewardship
 
 - 核对 STATE.md 的 §1-§6 + A0-A6 结构.
-- 逐条执行 state-template.md 末尾自检清单; 任一项不通过 → issue.
+- 逐条执行 state-template.md 末尾自检清单; 任一项不通过 → finding.
 - 核对是否有自造词没有写进 STATE.md §1.2 的 "本项目自造术语表".
 - 检查 STATE.md 是否重复记录同一个数字, 或仍保留已被新结果推翻的结论.
 - 核对新接手的 agent 能否从 STATE.md 看懂当前结论, 找到对应结果文件, 并继续下一轮实验.
 - 核验 `proposal.md` / `STATE.md` Mermaid 的完成绿, 阻塞红, 进行中橙和两文件一致性. `未经审计标绿` 和 `可行节点误标红` 写 finding.
 - 运行 `wc -l STATE.md`; 超过 400 行时写 WARN finding.
-- 本轮新写的 `gpu_dollars_equivalent` / `GPU $` 金额最多保留两位小数; 超出时直接修正.
+- `STATE.md` frontmatter 和 `workspace/workspaces.xml` 中的 `gpu_dollars_equivalent` 最多保留两位小数; 超出时直接修正.
 
 ### 6. Coder fidelity
 
@@ -113,12 +115,15 @@ WARN/CRITICAL report 继续写:
 - Affected claim:
 ```
 
+不得要求 scientist 回应 WARN, 也不得为 finding 指定 action.
+
 然后:
 - 更新 `STATE.md` frontmatter: `phase: needs_scientist`, `latest_audit: <report>`, `audit_verdict: PASS|WARN|CRITICAL`.
 - 在 `experiment-log.md` 顶部 prepend `[Audit]` verdict 和 report path.
-- git add audit report, STATE.md, experiment-log.md 和本轮修正的 tracked files, commit + push.
+- git add audit report STATE.md experiment-log.md, commit + push.
 
 ## File Permissions
 
 - Read: workspace 内所有文件.
-- Write: `audits/*.md`, `STATE.md` frontmatter 的 `phase/latest_audit/audit_verdict`, `experiment-log.md` 顶部 `[Audit]` 条目, 本轮新写的 GPU$ 金额修正.
+- Write: `audits/*.md`, `STATE.md` frontmatter 的 `phase/latest_audit/audit_verdict`, `experiment-log.md` 顶部 `[Audit]` 条目.
+- 如果清理了 GPU$ 小数位: `STATE.md` frontmatter 和 `workspace/workspaces.xml` 中的 `gpu_dollars_equivalent`.
