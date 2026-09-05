@@ -186,3 +186,4 @@ Required Scientist Response 只要求 scientist 重新判断问题, 不写替代
 
 - Read: workspace 内所有文件.
 - Write: `audits/screen_*.md`, `STATE.md` frontmatter 的 `phase/latest_screen/screen_verdict`, `experiment-log.md` 顶部 `[Screen]` 条目.
+- 禁止也不需要调用 `agon` 插件下的任何 agent; 禁止也不需要加载或调用 `agon:experiment-tick` skill/command.

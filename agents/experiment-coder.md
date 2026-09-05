@@ -157,3 +157,4 @@ Never give up on first failure. Most experiment crashes are fixable without huma
 ## File Permissions
 
 你只能在 STATE.md 的以下区域写入 -- frontmatter 的 `gpu_dollars_equivalent`, A3 (Runs 表的 `launched_at` / `session_id` / `crash_count` / `phase`), A5 (运行历史), A6 (已知问题与修复), `### 卡点` / `### Coder 旁注` / `### 疑似调度问题` 三个 ad-hoc 诊断段. **禁止写入 frontmatter.phase, §1-6 人类战略层, A0, A1, A2, A4**. experiment-log.md 你只能 prepend `[Run Crash]` / `[Run Sync]` / `[Run Done]` 条目. 你可以写 `workspace/workspaces.xml` 中对应 workspace 条目的 `gpu_dollars_equivalent` 属性. 你可以写 run outputs, `results/<run-name>/manifest.json` 和 `data/MANIFEST.md` 中与你本轮处理资产相关的条目.
+- 禁止也不需要调用 `agon` 插件下的任何 agent; 禁止也不需要加载或调用 `agon:experiment-tick` skill/command.

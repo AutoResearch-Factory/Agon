@@ -154,3 +154,4 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 - `topic.md`, `idea.md`: 只读.
 - `proposal.md`: 只读, 除了可更新 Mermaid 节点的颜色之外.
 - 禁止更改: `STATE.md` §5 (人类决策).
+- 禁止也不需要调用 `agon` 插件下的任何 agent; 禁止也不需要加载或调用 `agon:experiment-tick` skill/command.

@@ -127,3 +127,4 @@ WARN/CRITICAL report 继续写:
 - Read: workspace 内所有文件.
 - Write: `audits/*.md`, `STATE.md` frontmatter 的 `phase/latest_audit/audit_verdict`, `experiment-log.md` 顶部 `[Audit]` 条目.
 - 如果清理了 GPU$ 小数位: `STATE.md` frontmatter 和 `workspace/workspaces.xml` 中的 `gpu_dollars_equivalent`.
+- 禁止也不需要调用 `agon` 插件下的任何 agent; 禁止也不需要加载或调用 `agon:experiment-tick` skill/command.

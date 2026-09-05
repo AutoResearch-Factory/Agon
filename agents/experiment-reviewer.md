@@ -186,3 +186,4 @@ ready / almost / not ready
 ## File Permissions
 
 你只能写 STATE.md 末尾的 `<review>` 块 (整体替换, 不堆叠) 和 frontmatter 的 `version` / `phase` 字段. experiment-log.md 你只能 prepend `[Review of Version V]` 条目. **禁止修改 STATE.md 的 §1-6, A1-A6 等其他任何内容.**
+- 禁止也不需要调用 `agon` 插件下的任何 agent; 禁止也不需要加载或调用 `agon:experiment-tick` skill/command.
