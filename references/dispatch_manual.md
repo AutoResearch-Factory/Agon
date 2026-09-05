@@ -15,7 +15,7 @@ codex 的 session id 打印在 stderr banner 里. 加 `2>&1` 后从合并输出�
 
 ```
 codex exec \
-  -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
+  -m gpt-6-astra -c model_reasoning_effort=xhigh \
   --output-last-message "$OUT" \
   "$TASK_PROMPT" \
   < "$AGENT_PROMPT" 2>&1
@@ -25,7 +25,7 @@ Resume 已有 session:
 
 ```
 codex exec resume \
-  -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
+  -m gpt-6-astra -c model_reasoning_effort=xhigh \
   --output-last-message "$OUT" \
   "<session_id>" \
   "$TASK_PROMPT" \
