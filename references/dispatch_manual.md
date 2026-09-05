@@ -15,7 +15,7 @@ codex 的 session id 打印在 stderr banner 里. 加 `2>&1` 后从合并输出�
 
 ```
 codex exec --dangerously-bypass-approvals-and-sandbox \
-  -m gpt-5.6-sol -c model_reasoning_effort=max \
+  -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
   --output-last-message "$OUT" \
   "$TASK_PROMPT" \
   < "$AGENT_PROMPT" 2>&1
@@ -25,7 +25,7 @@ Resume 已有 session:
 
 ```
 codex exec resume --dangerously-bypass-approvals-and-sandbox \
-  -m gpt-5.6-sol -c model_reasoning_effort=max \
+  -m gpt-5.6-sol -c model_reasoning_effort=xhigh \
   --output-last-message "$OUT" \
   "<session_id>" \
   "$TASK_PROMPT" \
@@ -39,7 +39,7 @@ claude --dangerously-skip-permissions \
   --plugin-dir "${CLAUDE_PLUGIN_ROOT}" \
   --disallowed-tools "Read(/${CLAUDE_PLUGIN_ROOT}/commands/**)" \
   --output-format json \
-  --effort max \
+  --effort xhigh \
   --append-system-prompt-file "$AGENT_PROMPT" \
   -p "$TASK_PROMPT" > "$OUT"
 ```
@@ -51,7 +51,7 @@ claude --dangerously-skip-permissions \
   --plugin-dir "${CLAUDE_PLUGIN_ROOT}" \
   --disallowed-tools "Read(/${CLAUDE_PLUGIN_ROOT}/commands/**)" \
   --output-format json \
-  --effort max \
+  --effort xhigh \
   --append-system-prompt-file "$AGENT_PROMPT" \
   --resume "<session_id>" \
   -p "$TASK_PROMPT" > "$OUT"
