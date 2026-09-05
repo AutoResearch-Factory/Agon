@@ -130,7 +130,7 @@ CLAUDE_PLUGIN_ROOT=${ROOT}
 现在是 {dispatch_time}, 请开始本轮工作.
 ```
 - `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model` / `lit_tick_model` 分别控制对应 role 使用的 backend/model; 按 local settings 和 `model_routing_policy` 解析后, 依照 dispatch_manual 记录的方法调用.
-- backend 不可用 (rate-limit/billing/登录等) 时, 本次调用按固定顺序 fallback: `claude-grok > codex > claude`. fallback 只管这一次; 下一次照常按 local settings 选 backend, 禁止 resume fallback session.
+- backend 不可用 (rate-limit/billing/登录等) 时, 本次调用按固定顺序 fallback: `claude-grok > codex > claude`. fallback 只管这一次, 不可用一般 10-20 min 就会恢复(包括 session limit); 下一次照常按 local settings 选 backend, 禁止 resume fallback session.
 - 所有 `experiment-*` role 均在 `agon-artifact/workspace/{slug}` 下调用.
 - `experiment-reviewer` 必须用 shell/CLI fresh 调用, 永远不要 resume reviewer, 也不要用 Agent tool 或其他 subagent 机制.
 
