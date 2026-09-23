@@ -88,7 +88,7 @@ Context 使用读法:
    ```
    读 `$OUT` 拿 C 段汇总 + D 段 verdict + 本次新增论文清单, 然后 `rm "$OUT"`. 进程异常退出或 `$OUT` 不完整: 直接重跑同一条命令 (deep-lit 内部用 wiki / JSON 缓存做 resume, 已读论文不会重读).
 
-2. 该 tick 自己会写好 `workspace/{slug}/idea.md` (文献总账) 和 `lit-feed.md` (inbox + `unprocessed`), 你不碰这两个文件.
+2. 该 tick 自己会写好 `workspace/{slug}/landscape.md` (文献总账) 和 `lit-feed.md` (inbox + `unprocessed`), 你不碰这两个文件.
 
 3. 完成后置 `needs_scientist`. `cd workspace/{slug}` 后 git add -v / commit / push, commit msg 模板: "mmdd litfeed: {slug} (inbox {unprocessed})".
 
