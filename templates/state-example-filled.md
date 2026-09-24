@@ -2,8 +2,6 @@
 phase: coding_and_running
 version: 0
 iteration: 8
-route: iter8-c3-recovery-and-replay
-git_branch: route/iter8-c3-recovery-and-replay
 gpu_dollars_equivalent: 100.99
 latest_screen: audits/screen_iter8_example.md
 screen_verdict: PASS

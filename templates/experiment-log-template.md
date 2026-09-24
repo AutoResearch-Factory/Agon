@@ -5,9 +5,8 @@ experiment-log.md: 完整项目日志
 新条目 **prepend** (时间倒序, 最新在顶部).
 -->
 
-## [Version V+1 Start] YYYY-MM-DD HH:MM — 一句话概述 (route: <route-name>)
+## [Version V+1 Start] YYYY-MM-DD HH:MM — 一句话概述
 
-- route: route/<name>
 - Claim 主攻: [本 version 主要 push 什么]
 - Plan 简述: [本 version 要跑哪几个 runs, 期望看到什么]
 
@@ -29,13 +28,13 @@ experiment-log.md: 完整项目日志
 - Primary concern: [同 STATE.md `<review>` 块的 Primary concern]
 
 
-## [Version V Finished] YYYY-MM-DD HH:MM — 一句话结论 (route: <route-name>)
+## [Version V Finished] YYYY-MM-DD HH:MM — 一句话结论
 
 - Changes: [本 version 累积的主要变化]
 - Result: [关键指标]
 
 
-## [Iter N Start] YYYY-MM-DD HH:MM — 一句话概述 (route: <route-name>)
+## [Iter N Start] YYYY-MM-DD HH:MM — 一句话概述
 
 - Claim 主攻: [本 iter 主要 push 哪条 claim]
 - Plan 简述: [本 iter 要跑哪几个 runs, 期望看到什么]
@@ -67,11 +66,7 @@ experiment-log.md: 完整项目日志
 
 ## [Init] YYYY-MM-DD HH:MM — workspace 接手 (slug: <slug>)
 
-- Topic: topics/<mmdd-slug>.md
-- Landscape: topics/<mmdd-slug>-landscape.md
-- Idea: ideas/<slug>.vN.md
-- Proposal: ideas/<slug>-proposal.vN.md
+- Proposal: proposal.md
 - Cleanup commit: <hash> on main
-- First route: route/<name>
 - Claim 主攻: [本 version 主要 push 哪条 sub-claim]
 - Plan 简述: [本 version 要跑哪几个 runs, 期望看到什么]

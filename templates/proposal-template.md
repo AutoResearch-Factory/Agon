@@ -1,6 +1,6 @@
 <!-- 书写报告使用中文 -->
 ---
-idea: slug
+slug: slug
 title: "[Title]"
 version: 1
 date: YYYY-MM-DD
