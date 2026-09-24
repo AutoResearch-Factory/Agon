@@ -14,10 +14,10 @@
 
 ## 快速开始
 
-Clone [AgonLite](https://github.com/AutoResearch-Factory/AgonLite), 并创建独立的数据 workspace:
+Clone [Agon 的 lite 分支](https://github.com/AutoResearch-Factory/Agon/tree/lite), 并创建独立的数据 workspace:
 
 ```
-git clone https://github.com/AutoResearch-Factory/AgonLite.git
+git clone --branch lite --single-branch https://github.com/AutoResearch-Factory/Agon.git AgonLite
 mkdir -p agon-artifacts/workspace/my-experiment
 ```
 

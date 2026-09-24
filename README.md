@@ -14,10 +14,10 @@ The original Agon system is built on [**Prompt Economy**](https://arxiv.org/abs/
 
 ## Quick start
 
-Clone [AgonLite](https://github.com/AutoResearch-Factory/AgonLite) and create a separate data workspace:
+Clone [Agon's lite branch](https://github.com/AutoResearch-Factory/Agon/tree/lite) and create a separate data workspace:
 
 ```
-git clone https://github.com/AutoResearch-Factory/AgonLite.git
+git clone --branch lite --single-branch https://github.com/AutoResearch-Factory/Agon.git AgonLite
 mkdir -p agon-artifacts/workspace/my-experiment
 ```
 
