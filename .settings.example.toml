@@ -1,12 +1,9 @@
 # Agon local settings
 model_routing_policy = "'|' 表示 fresh start 时使用 Bresenham's line algorithm 分配 backend/model, 保证长期比例纠偏到目标权重；resume 时沿用该 session 原来的 backend/model, 不重新抽样"
 
-reviewer_model  = "claude"       # idea/proposal/experiment reviewers; avoid codex (reviewers call codex second opinion)
+reviewer_model  = "claude"       # experiment reviewer; avoid codex (reviewer calls codex second opinion)
 
 scientist_model = "codex 75% | claude 25%" # experiment_scientist,
 screener_model  = "codex 75% | claude 25%" # experiment_screener
 coder_model     = "codex 25% | claude 75%" # experiment_coder
 auditor_model   = "claude 50% | codex 25% | claude-ds 25%" # experiment_auditor
-
-lit_tick_model   = "claude"      # deep-lit-tick dispatcher
-lit_reader_model = "claude"          # deep-lit-reader paper reader

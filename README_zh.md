@@ -1,6 +1,6 @@
-# Agon
+# AgonLite
 
-### 面向自主 AI 科研的 Claude Code 插件 —— 从一句课题描述到跑起来的实验, 全程无人编写实验代码
+### 从用户提供的 proposal 开始自主实验的 Claude Code 插件
 
 [![Project page](https://img.shields.io/badge/project-page-1f6feb.svg)](https://haizhaoyang.github.io/research/autoresearch.html)
 [![arXiv](https://img.shields.io/badge/arXiv-2606.24177-b31b1b.svg)](https://arxiv.org/abs/2606.24177)
@@ -8,65 +8,62 @@
 
 [English](README.md) | 中文
 
-**Agon** ([论文](https://arxiv.org/abs/2606.24177)) 把一个科研项目从一句话的课题一路推到跑起来的实验. 各个 agent 在闭环里互相规划, 实现, 审计和评审, 每一次交接都经由磁盘上的文件 —— 一次运行因此可恢复, 可审计, 也可跨项目复用. 流程保持最小且显式: `topic → idea → proposal → experiment`.
+**AgonLite** 是 [Agon](https://arxiv.org/abs/2606.24177) 的纯实验版本. 用户将 proposal 直接放在 `workspace/<slug>/proposal.md`, scientist、screener、coder、auditor 和 reviewer 随后执行实验闭环. 每一次交接都经由磁盘上的文件, 运行因此可恢复、可审计. 流程为 `proposal → experiment`.
 
-Agon 构建于 [**Prompt Economy**](https://arxiv.org/abs/2606.08878) 之上: 把 prompt engineering 当作工程问题, 并最小化它对人的工程投入. 跨十余个研究领域的部署细节见[论文](https://arxiv.org/abs/2606.24177).
+原版 Agon 构建于 [**Prompt Economy**](https://arxiv.org/abs/2606.08878) 之上: 把 prompt engineering 当作工程问题, 并最小化它对人的工程投入. 完整系统及其部署细节见[论文](https://arxiv.org/abs/2606.24177).
 
 ## 快速开始
 
-Clone [Agon](https://github.com/AutoResearch-Factory/Agon) 和 [agon-artifacts](https://github.com/AutoResearch-Factory/agon-artifacts):
+Clone [AgonLite](https://github.com/AutoResearch-Factory/AgonLite), 并创建独立的数据 workspace:
 
 ```
-git clone https://github.com/AutoResearch-Factory/Agon.git
-git clone https://github.com/AutoResearch-Factory/agon-artifacts.git
+git clone https://github.com/AutoResearch-Factory/AgonLite.git
+mkdir -p agon-artifacts/workspace/my-experiment
 ```
 
 两个目录并排放置:
 
 ```
 .
-├── Agon/
+├── AgonLite/
 └── agon-artifacts/
 ```
 
-然后在 artifacts 仓库里启动 Claude Code:
+将 proposal 写入 `agon-artifacts/workspace/my-experiment/proposal.md`. 将数据 workspace 和每个实验目录分别初始化为独立 Git repo, 配置各自的 private remote, 完成首次 commit 和 push 并设置 upstream. 父仓库应忽略各实验目录, 但保留对 `workspace/workspaces.xml` 等共享文件的追踪.
+
+然后在数据 workspace 里启动 Claude Code:
 
 ```
 cd agon-artifacts
-claude --plugin-dir ../Agon --dangerously-skip-permissions --effort medium
+claude --plugin-dir ../AgonLite --dangerously-skip-permissions --effort medium
 ```
 
-`--dangerously-skip-permissions` 是必需的, 因为这些循环本来就是无人值守跑的: 子 agent 会连续几小时写文件、起实验、调工具, 没有人守在键盘前, 一个权限确认框就会把整轮跑卡死. 介意的话, 给 Agon 单独一台机器, 一个容器, 或一个独立账号.
+`--dangerously-skip-permissions` 是必需的, 因为这些循环本来就是无人值守跑的: 子 agent 会连续几小时写文件、起实验、调工具, 没有人守在键盘前, 一个权限确认框就会把整轮跑卡死. 介意的话, 给 AgonLite 单独一台机器, 一个容器, 或一个独立账号.
 
-进入 Claude Code 后, 用这些命令推进科研流程:
+进入 Claude Code 后, 启动实验闭环:
 
-- `/idea-tick`: 围绕 topic 创建、评审、修改 idea, 并做文献检查.
-- `/proposal-tick`: 把选中的 idea 变成 proposal.
-- `/experiment-tick`: 为一个 workspace 调度 scientist、coder、auditor、reviewer.
-- `/deep-lit-tick`: 其他阶段共用的深度文献循环.
+- `/experiment-tick my-experiment`: 为 `workspace/my-experiment/` 调度 scientist、screener、coder、auditor 和 reviewer.
+
+AgonLite 不负责 idea discovery、生成 proposal、管理 route branch 或自动向闭环提供文献. 用户直接在实验 workspace 中提供并维护 proposal.
 
 ## 示例 Prompt
 
 ```
-/deep-lit-tick 穷尽 <topic> 相关文献, 结果写到 topics/mmdd-<slug>-landscape.md
-/idea-tick <topic-slug> <topic> 最近很火, 帮我 brainstorm 几个 idea
-/idea-tick <idea-slug> 我有一个关于 <topic> 的 vague idea. 帮我创建 topic file、idea file, 并 refine idea
-/proposal-tick <idea-1> <idea-2> <idea-3> 为这几个 idea 生成 proposal
 /experiment-tick <slug> 开干!
 /experiment-tick <slug> 这是一次调试过程. 先解释完整流程, 每调用完一个 agent 都停下来等我确认
 ```
 
 ## 结构
 
-Agon 本身是一个 Claude Code plugin. 运行时建议使用独立的数据 workspace, 通常命名为 `agon-artifacts`, 这样 prompts/code 和 research data 可以分开管理.
+AgonLite 是一个 Claude Code plugin, 内部 plugin 名称仍为 `agon`. 运行时建议使用独立的数据 workspace, 通常命名为 `agon-artifacts`, 这样 prompts/code 和 research data 可以分开管理.
 
 预期的数据 workspace 结构:
 
 ```
 agon-artifacts/
-├── topics/
-├── ideas/
 └── workspace/
+    └── <slug>/
+        └── proposal.md
 ```
 
 本地设置可以写在 `.settings.toml` (从复制 `.settings.example.toml` 开始).

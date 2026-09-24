@@ -1,6 +1,6 @@
-# Agon
+# AgonLite
 
-### Claude Code plugin for autonomous AI research — from a bare topic to running experiments, with no human-written experimental code
+### Claude Code plugin for autonomous experiments from a user-provided proposal
 
 [![Project page](https://img.shields.io/badge/project-page-1f6feb.svg)](https://haizhaoyang.github.io/research/autoresearch.html)
 [![arXiv](https://img.shields.io/badge/arXiv-2606.24177-b31b1b.svg)](https://arxiv.org/abs/2606.24177)
@@ -8,67 +8,62 @@
 
 English | [中文](README_zh.md)
 
-**Agon** ([paper](https://arxiv.org/abs/2606.24177)) takes a research project from a one-line topic to running experiments. Agents plan, implement, audit and review each other in closed loops, and every handoff goes through a file on disk — so a run is recoverable, auditable, and reusable across projects. The workflow stays minimal and explicit: `topic → idea → proposal → experiment`.
+**AgonLite** is the experiment-only version of [Agon](https://arxiv.org/abs/2606.24177). Place your proposal at `workspace/<slug>/proposal.md`; scientist, screener, coder, auditor, and reviewer agents then run the experiment loop. Every handoff goes through a file on disk, so a run is recoverable and auditable. The workflow is `proposal → experiment`.
 
-Agon is built on [**Prompt Economy**](https://arxiv.org/abs/2606.08878): treat prompt engineering as engineering, and minimize the engineering effort it demands from humans. See the [paper](https://arxiv.org/abs/2606.24177) for deployment details across more than ten research domains.
-
-![Agon workflow](figures/figure_xp.png)
+The original Agon system is built on [**Prompt Economy**](https://arxiv.org/abs/2606.08878): treat prompt engineering as engineering, and minimize the engineering effort it demands from humans. See the [paper](https://arxiv.org/abs/2606.24177) for the full system and its deployments.
 
 ## Quick start
 
-Clone [Agon](https://github.com/AutoResearch-Factory/Agon) and [agon-artifacts](https://github.com/AutoResearch-Factory/agon-artifacts):
+Clone [AgonLite](https://github.com/AutoResearch-Factory/AgonLite) and create a separate data workspace:
 
 ```
-git clone https://github.com/AutoResearch-Factory/Agon.git
-git clone https://github.com/AutoResearch-Factory/agon-artifacts.git
+git clone https://github.com/AutoResearch-Factory/AgonLite.git
+mkdir -p agon-artifacts/workspace/my-experiment
 ```
 
 Put the two directories side by side:
 
 ```
 .
-├── Agon/
+├── AgonLite/
 └── agon-artifacts/
 ```
 
-Then run Claude Code from the artifacts repository:
+Write your proposal to `agon-artifacts/workspace/my-experiment/proposal.md`. Initialize the data workspace and each experiment directory as separate Git repositories, configure their own private remotes, and complete an initial commit and push with upstream tracking. Have the parent repository ignore experiment directories while keeping shared files such as `workspace/workspaces.xml` tracked.
+
+Then run Claude Code from the data workspace:
 
 ```
 cd agon-artifacts
-claude --plugin-dir ../Agon --dangerously-skip-permissions --effort medium
+claude --plugin-dir ../AgonLite --dangerously-skip-permissions --effort medium
 ```
 
-`--dangerously-skip-permissions` is required because the loops are meant to run unattended: subagents write files, launch experiments, and call tools for hours with nobody at the keyboard, and a permission prompt would stall the whole run. Give Agon its own machine, container, or user account if that matters to you.
+`--dangerously-skip-permissions` is required because the loops are meant to run unattended: subagents write files, launch experiments, and call tools for hours with nobody at the keyboard, and a permission prompt would stall the whole run. Give AgonLite its own machine, container, or user account if that matters to you.
 
-In Claude Code, use these commands to move the research forward:
+In Claude Code, start the experiment loop:
 
-- `/idea-tick`: create, review, refine, and literature-check ideas for a topic.
-- `/proposal-tick`: turn selected ideas into reviewed proposals.
-- `/experiment-tick`: coordinate scientist, coder, auditor, and reviewer roles for one workspace.
-- `/deep-lit-tick`: run the shared deep literature loop used by the other stages.
+- `/experiment-tick my-experiment`: coordinate scientist, screener, coder, auditor, and reviewer roles for `workspace/my-experiment/`.
+
+AgonLite does not discover ideas, generate proposals, manage route branches, or automatically feed literature into the loop. You provide and maintain the proposal directly in the experiment workspace.
 
 ## Example Prompts
 
 ```
-/deep-lit-tick Exhaustively survey the literature on <topic>, and write the result to topics/mmdd-<slug>-landscape.md.
-/idea-tick <topic-slug> <topic> is becoming important. Brainstorm several research ideas.
-/idea-tick <idea-slug> I have a vague idea about <topic>. Create the topic file, create the idea file, and refine the idea.
-/proposal-tick <idea-1> <idea-2> <idea-3> Generate proposals for these ideas.
 /experiment-tick <slug> Start the experiment.
 /experiment-tick <slug> This is a debugging run. First explain the full procedure, then pause for my approval after each agent call.
 ```
 
 ## Layout
 
-Agon itself is a Claude Code plugin. Run it from a separate data workspace, commonly named `agon-artifacts`, so prompts/code and research data can evolve independently.
+AgonLite is a Claude Code plugin; its internal plugin name remains `agon`. Run it from a separate data workspace, commonly named `agon-artifacts`, so prompts/code and research data can evolve independently.
 
 Expected data workspace layout:
 
 ```
 agon-artifacts/
-├── topics/
-├── ideas/
 └── workspace/
+    └── <slug>/
+        └── proposal.md
 ```
 
 Optional local settings live at `.settings.toml`. Start from `.settings.example.toml` when you need to customize model routing or parallelism.

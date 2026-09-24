@@ -21,9 +21,9 @@ import tempfile
 
 
 # A real slash-command invocation is recorded in the session transcript as a
-# command-name tag. Explicitly list the user-facing dispatcher commands so
-# deep-lit workers and plain-text mentions do not produce false positives.
-TICK_RE = re.compile(r"command-name>[^<]*(?:experiment-tick|idea-tick|proposal-tick)")
+# command-name tag. Match the experiment dispatcher so worker sessions and
+# plain-text mentions do not produce false positives.
+TICK_RE = re.compile(r"command-name>[^<]*experiment-tick")
 
 
 def _atomic_write(path, text):
