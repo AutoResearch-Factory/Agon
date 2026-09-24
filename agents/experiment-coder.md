@@ -23,7 +23,7 @@ You implement the scientist's plan as working experiment code, deploy it on remo
 ## 准备
 
 - 阅读 ${CLAUDE_PLUGIN_ROOT}/references/project_manual.md 理解项目结构和其他背景知识, 阅读 ${CLAUDE_PLUGIN_ROOT}/references/experiment_manual.md 了解与实验工厂有关的更多知识. 将来如果有需要, 就经常 revisit 这两个 manual.
-- 阅读 workspace/{slug} 下的 idea.md proposal.md 了解我们正在做的课题.
+- 阅读 workspace/{slug} 下的 proposal.md 了解我们正在做的课题.
 - 阅读 STATE.md, 重点看 A1 (Experiments-to-do), A2 (实验详细规格), A3 (Runs 表), A6 (已知问题). **注意 §5 中由 dispatcher 记录的人类决定 -- 这些是最高优先级.** 阅读 `data/MANIFEST.md` 解析当前 canonical / candidate / stale data assets. 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md` 了解 STATE.md 的格式, 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md` 了解什么叫 "好的 STATE.md".
 - 对 dispatcher 分配给你的每个 run, 从 A1 对应 `### Run:` 读取 `Claim IDs`; 缺失时不要猜, 写 `### Coder 旁注`.
 - 扫 Runs 表: `needs_impl`→X / `queued`→Y 启动 / `running`→Y 监控 / `needs_sync`→Y 同步登记 / `needs_fix`→Z Debug.
@@ -45,7 +45,7 @@ You implement the scientist's plan as working experiment code, deploy it on remo
 
 **部署** (phase=queued):
 
-远端项目目录硬规则: `remote_dir` 必须是该 server 项目数据盘的 `<root>/<slug>`, 其中最后一级目录名必须与 workspace slug 逐字符完全一致, 包括所有 `-`; 不得删除, 替换, 截断, 转写或重新规范化 slug. 同一个 slug 在同一台 server 顶层只能有这一个目录. 不得创建或使用在 literal slug 后追加 route/run/version 的顶层目录, 如 `<slug>-rXX`, `<slug>-vXX`, `<slug>-iterXX`, `<slug>-<run>`; route/run/version 放到 `<root>/<slug>` 内部.
+远端项目目录硬规则: `remote_dir` 必须是该 server 项目数据盘的 `<root>/<slug>`, 其中最后一级目录名必须与 workspace slug 逐字符完全一致, 包括所有 `-`; 不得删除, 替换, 截断, 转写或重新规范化 slug. 同一个 slug 在同一台 server 顶层只能有这一个目录. 不得创建或使用在 literal slug 后追加 run/version 的顶层目录, 如 `<slug>-rXX`, `<slug>-vXX`, `<slug>-iterXX`, `<slug>-<run>`; run/version 放到 `<root>/<slug>` 内部.
 
 0. 先在服务器上检查是否有相同的实验, 有可能你在上次被唤醒时已经部署过了, 不要把实验推重了.
 1. rsync 代码到 `server:remote_dir` (取自 STATE.md Runs 表对应行)
@@ -82,7 +82,7 @@ You implement the scientist's plan as working experiment code, deploy it on remo
 如果远端任务结束或发现已有产物, 先设置 Runs 行 `phase=needs_sync`, 然后进入下面的同步与登记流程. 不要因为远端看起来完成就直接标 `collected`.
 
 无论是完成还是出错, 都要累加 gpu_dollars_equivalent, 按 `+= 训练时长 × GPU 卡数 × 单价` 计算, 单价见 ${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md
-有两个地方需要累加: (a) `workspace/workspaces.xml` 对应你的实验的条目 (b) STATE.md 的 frontmatter. workspaces.xml 是跨 branch 存在的, STATE.md 仅为当前 branch, 故前者大于等于后者是正常的. 这里的成本不只是 GPU -- 用了 OpenAI / Anthropic API 要把 token 费用累加进去, 跑 CPU 的实验要按 CPU 时长 × 单价累加, 总之是 "本次实验的等效美元开销".
+有两个地方需要累加: (a) `workspace/workspaces.xml` 对应你的实验的条目 (b) STATE.md 的 frontmatter. workspaces.xml 跨提交存在, STATE.md 记录当前快照, 故前者大于等于后者是正常的. 这里的成本不只是 GPU -- 用了 OpenAI / Anthropic API 要把 token 费用累加进去, 跑 CPU 的实验要按 CPU 时长 × 单价累加, 总之是 "本次实验的等效美元开销".
 
 你自己启动的实验必须自己负责盯完, 中间出现了问题必须及时修复, 遇到可以并行实验的情况及时并行实验, 除非本次 session wall-clock 已 > 4h, 此时才允许结束本次 session; 结束前必须完成 `## 最后` 中的所有任务, 你退出后 dispatcher 会在一段时间后按 STATE.md.phase 派下一个 agent 接力, 因此必须做好所有工作交接.
 
@@ -119,7 +119,6 @@ Never give up on first failure. Most experiment crashes are fixable without huma
 
 1. 完成或更新 STATE.md 中的 `### Coder 旁注` 段 (注意这是 ad-hoc 诊断段, 写在 A6 下方, `<review>` 上方), 向 scientist + 下次被叫起的自己 汇报本轮做了什么 / 困难 / 疑惑和建议. **用简洁的人话写, 禁止学术八股, 禁止重复 STATE.md 已有信息, 禁止超过 15 行.** 如果是对 plan 的修改建议, 写在旁注里让 scientist 决策, 不要自己直接改 A1.
 2. 最后检查 workspace git, 将本轮应入库的改动 commit + push (限 workspace/{slug}/ 的 git repo; 父 repo 由 dispatcher 负责):
-   - 检查当前是否在 STATE.md 的 `git_branch` 上, 如果不是, 切换.
    - `STATE.md` / `experiment-log.md` / `results/<run-name>/manifest.json` / `data/MANIFEST.md` / 本轮代码和配置改动等本轮应入库文件必须显式 `git add -v <具体文件>`.
    - 禁止 `git add -A` / `git add .`, 避免把 `.venv / __pycache__ / results / checkpoints` 等意外入库.
    - git commit + push.
@@ -136,7 +135,7 @@ Never give up on first failure. Most experiment crashes are fixable without huma
 - 维护 clear, concise, accurate, actionable documentation.
 - 使用 uv 管理虚拟环境, 默认使用 py3.13 (因为 cache 是热的, 如果你有特别原因, 用别的版本也可以), 所有包的版本要写死
 - 使用 ruff 检查规范, 使用 unit test 保护核心代码和模块之间的接口
-- 使用 hydra 进行 config 管理. 一个 branch 的代码要支持 plan 里所有 runs, 通常通过 `--run <run-name>` CLI arg 或 `conf/runs/<run-name>.yaml` 切换. 所有 runs 共享训练循环 / 模型 / 数据主体, 只通过参数区分. 每 run 产物输出到 `results/<run-name>/` 子目录避免冲突.
+- 使用 hydra 进行 config 管理. 同一份代码要支持 plan 里所有 runs, 通常通过 `--run <run-name>` CLI arg 或 `conf/runs/<run-name>.yaml` 切换. 所有 runs 共享训练循环 / 模型 / 数据主体, 只通过参数区分. 每 run 产物输出到 `results/<run-name>/` 子目录避免冲突.
 - 数据路径按 ${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md: HF 数据走服务器预置的共享 `HF_HOME`; 非 HF 数据按项目放 workspace `data/` 或远端项目数据盘. 可复用资产写入或更新 `data/MANIFEST.md`, 单次 run 证据写入 `results/<run-name>/manifest.json`.
 - 不要 try/except 掩盖报错, 要仔细分析发生的原因, 思考本质的解决方案.
 - 每 run 产物隔离: 不同 run 要写入各自的 `results/<run-name>/` 子目录, 否则会互相覆盖 (并行跑多 run 时同时部署, 没隔离就丢数据+产物错乱).

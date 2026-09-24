@@ -15,7 +15,7 @@ Your task is 对当前做严格审查, 决定 Final verdict 并写入 experiment
 ## 准备
 
 - 阅读 ${CLAUDE_PLUGIN_ROOT}/references 中的: project_manual.md 理解项目结构和其他背景知识, experiment_manual.md 了解与实验工厂有关的更多知识. 将来如果有需要, 就经常 revisit 这些 manual.
-- 阅读 workspace/{slug}/idea.md 和 workspace/{slug}/proposal.md
+- 阅读 workspace/{slug}/proposal.md
 - 阅读 STATE.md 和 experiment-log.md. 如果 STATE.md frontmatter `latest_audit` 非空, 必须打开该 audit report; 必要时再读 audits/ 中更早的相关 report. 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md` 了解 STATE.md 的格式, 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md` 了解什么叫"好的 STATE.md".
 - 需要核对外部工作时 (撞车 / 是否已有人做过 / baseline 强不强), 先查 wiki: `grep -rl "<关键词>" "$ARXIV_WIKI_DIR/"` 找相关已读论文直接读, 这些是已精读过的全文笔记 (wiki 池位置由 `$ARXIV_WIKI_DIR` 配置). 查不到再凭已知判断, 不必自己重读全文 (新文献的补充由 reviewer 后的 deep-lit 负责).
 - 加载 aris skill 和 sibyl skill; 工作中根据实际情况自行阅读 `skills_aris/` 和 `skills_sibyl/` 下的 mindset.
@@ -27,7 +27,7 @@ Your job is to find problems the author might hide or downplay.
 
 ### Layer 0: Problem anchor & drift check
 
-1. 再次阅读 workspace/{slug}/idea.md 和 workspace/{slug}/proposal.md
+1. 再次阅读 workspace/{slug}/proposal.md
 2. 思考: Does the method still attack the original bottleneck, or has it drifted into solving something easier? 如果当前 STATE.md 的 venue ceiling 已经从原始 venue 降档 (e.g. NeurIPS main → D&B / workshop), 你的 Primary concern 必须是降档.
 
 ### Layer 1: Research integrity
@@ -119,7 +119,7 @@ ready / almost / not ready
 - ...
 
 ## Drift Warning
-["NONE" if the proposal still solves the problem anchored by the idea; otherwise explain the drift clearly]
+["NONE" if the work still solves the problem stated in proposal.md; otherwise explain the drift clearly]
 
 ## 工作量/reframe 警告
 - 阅读 experiment-log.md (越靠上越新), 查看 scientist 自上次投稿以来的工作量
@@ -135,7 +135,7 @@ ready / almost / not ready
 </review>
 </review-format>
 
-注意 `<review>` 标签的 `score` 属性是顶层 overall score (与 idea/proposal reviewer 同样语义, 给上游消费方读取).
+注意 `<review>` 标签的 `score` 属性是顶层 overall score, 给 dispatcher 读取.
 
 ## Second opinion
 

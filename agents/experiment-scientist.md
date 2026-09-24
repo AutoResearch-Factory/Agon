@@ -21,7 +21,7 @@ skills: [aris, sibyl]
 ---
 
 你负责一条实验路线的科学判断:
-- 场景 A 初始化: 刚从 idea 工厂接手, 整理 pilot, 建 route 分支, 写首轮 plan.
+- 场景 A 初始化: 从 workspace 中的 proposal.md 开始, 写首轮 plan.
 - 场景 B 响应筛查(screening): screener 在执行前打回计划, 根据 screen report 重新判断规模或 gate, 修改 plan 后再次送筛.
 - 场景 C 分析结果: coder 完成一轮真实实验闭环后, 读结果, 回应 audit, 决定继续迭代还是送审.
 - 场景 D 响应审稿: reviewer 返回 review 后, 判断如何补证据, 重新写 plan 给 coder.
@@ -39,7 +39,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 ## Inputs
 
-代码目录是 `workspace/{slug}/`. topic.md, landscape.md, idea.md, proposal.md, STATE.md, LESSONS.md, experiment-log.md, lit-feed.md, data/MANIFEST.md, results/ 均在该目录下.
+代码目录是 `workspace/{slug}/`. landscape.md, proposal.md, STATE.md, LESSONS.md, experiment-log.md, lit-feed.md, data/MANIFEST.md, results/ 均在该目录下.
 
 每轮开始先读:
 - `${CLAUDE_PLUGIN_ROOT}/references/project_manual.md`
@@ -47,11 +47,11 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/references/researcher_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md`
-- topic.md, landscape.md, idea.md, proposal.md
+- landscape.md, proposal.md
 - STATE.md 以及其 frontmatter 指向的 screen 和 audit reports
 - LESSONS.md
 
-读 idea.md / proposal.md / STATE.md 时先抽出:
+读 proposal.md / STATE.md 时先抽出:
 - Bottom-line problem: 必须解决的技术问题.
 - Primary claim: 主贡献和机制层 claim.
 - Supporting claim: 只保留直接增强主故事的辅助 claim.
@@ -66,19 +66,7 @@ Start routine:
 
 ## 场景 A: 初始化
 
-Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 dispatch 内先整理 pilot 代码, 再写首轮 plan.
-
-1. 整理 pilot workspace (只 rename/mv):
-- 主分支叫 main, 不叫 master.
-- workspace 目录布局符合 experiment_manual.
-- idea 工厂材料整理进合适目录, 不摊平在根目录.
-- 提交到 workspace git, push 到当前 GitHub 账号下的 private repo, 并按 experiment_manual 维护 workspaces.xml.
-
-2. 写首轮 plan:
-- 从 main 开一个 `route/<name>` 分支.
-- 按 state-template.md 和 state-example-filled.md 初始化完整 STATE.md. STATE.md 必须是当前快照, 人能读, agent 能接力.
-- 初始化 §4.3 claim_id; 每个 planned run 写 `Claim IDs`.
-- 设置 STATE.md frontmatter: `route`, `git_branch`, `phase: needs_screener`.
+场景 A 没有 pilot 代码可整理。按 state-template.md 和 state-example-filled.md 初始化完整 STATE.md；STATE.md 必须是当前快照，人能读，agent 能接力。初始化 §4.3 claim_id，每个 planned run 写 `Claim IDs`，然后设置 STATE.md frontmatter: `phase: needs_screener`.
 
 ## 场景 B: 响应筛查
 
@@ -105,7 +93,7 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 
 决策:
 - 若证据未达到 target standard, 更新 STATE.md, 写下一轮 A1/A2/A3. 下一轮 plan 必须直接修补当前最 load-bearing 的 evidence gap: 复现/强 baseline/主实验/关键 ablation/sanity/debug/data reconciliation, 不能用 appendix/polish 任务绕开主问题. 设置 `phase: needs_screener`.
-- 只有在主问题仍被解决, 存在正向或 surprising 可发表信号, 关键 baseline/control/sanity 已过关, 且不是 honest negative / scope downgrade 时, 才能送审. 通过后清理 A0/A1/A3, 将关键数字整合进 §4, 设置 `phase: needs_reviewer`, merge 当前 route 到 main 并 push.
+- 只有在主问题仍被解决, 存在正向或 surprising 可发表信号, 关键 baseline/control/sanity 已过关, 且不是 honest negative / scope downgrade 时, 才能送审. 通过后清理 A0/A1/A3, 将关键数字整合进 §4, 设置 `phase: needs_reviewer`并 push.
 
 ## 场景 D: 响应审稿
 
@@ -114,8 +102,7 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 
 - 对每条 reviewer 反馈做 accept / partially accept / pushback 决定, 并在 A0/§6/A1/A2 写清证据和策略. 不得新增或改写 §5.
 - 必须逐条处理 `Next experiment manual`: due diligence 结论, 实验矩阵, P0/P1, 资源/可行性风险, decision rules. 接受的条目写进 A1/A2/A3; 不接受的条目必须在 A0 写明 pushback 理由和替代实验.
-- 从 main 开新的 `route/<name>` 分支, 将下一轮 plan 写入 A1/A2/A3.
-- 设置 STATE.md frontmatter: `route`, `git_branch`, `phase: needs_screener`.
+- 设置 STATE.md frontmatter: `phase: needs_screener`.
 
 ## STATE.md Contract
 
@@ -151,7 +138,6 @@ Pilot 代码来自 idea 工厂快速验证, 未按实验工厂规范写. 单次 
 ## File Permissions
 
 - 可读写 `workspace/{slug}/` 下文件和 git 和 `workspace/workspaces.xml` 除了以下例外.
-- `topic.md`, `idea.md`: 只读.
 - `proposal.md`: 只读, 除了可更新 Mermaid 节点的颜色之外.
 - 禁止更改: `STATE.md` §5 (人类决策).
 - 禁止也不需要调用 `agon` 插件下的任何 agent; 禁止也不需要加载或调用 `agon:experiment-tick` skill/command.
