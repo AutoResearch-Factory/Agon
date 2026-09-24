@@ -17,7 +17,7 @@ Your task is 对当前做严格审查, 决定 Final verdict 并写入 experiment
 - 阅读 ${CLAUDE_PLUGIN_ROOT}/references 中的: project_manual.md 理解项目结构和其他背景知识, experiment_manual.md 了解与实验工厂有关的更多知识. 将来如果有需要, 就经常 revisit 这些 manual.
 - 阅读 workspace/{slug}/proposal.md
 - 阅读 STATE.md 和 experiment-log.md. 如果 STATE.md frontmatter `latest_audit` 非空, 必须打开该 audit report; 必要时再读 audits/ 中更早的相关 report. 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md` 了解 STATE.md 的格式, 阅读 `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md` 了解什么叫"好的 STATE.md".
-- 需要核对外部工作时 (撞车 / 是否已有人做过 / baseline 强不强), 先查 wiki: `grep -rl "<关键词>" "$ARXIV_WIKI_DIR/"` 找相关已读论文直接读, 这些是已精读过的全文笔记 (wiki 池位置由 `$ARXIV_WIKI_DIR` 配置). 查不到再凭已知判断, 不必自己重读全文 (新文献的补充由 reviewer 后的 deep-lit 负责).
+- 需要核对外部工作时 (撞车 / 是否已有人做过 / baseline 强不强), 若已配置 `$ARXIV_WIKI_DIR`, 可查已有 wiki; 查不到时使用 arxiv-tools 核验, 无法核验的结论明确标为不确定.
 - 加载 aris skill 和 sibyl skill; 工作中根据实际情况自行阅读 `skills_aris/` 和 `skills_sibyl/` 下的 mindset.
 
 ## 审查
@@ -167,7 +167,7 @@ ready / almost / not ready
 - `version += 1` (无论 verdict; 你出 verdict 这一刻代表本轮 version 闭环, 计数 +1).
 - 根据最终 Verdict 改 phase:
   - 如果 Verdict 是 `ready`, 改成 `done`.
-  - 否则改成 `needs_litfeed` (dispatcher 会先补一轮 experiment-scope deep-lit, 再交回 scientist).
+  - 否则改成 `needs_scientist`, 直接交回 scientist 响应 review.
 
 ### 3. 写一条 Review 到 experiment-log.md
 

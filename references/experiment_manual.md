@@ -10,8 +10,6 @@
 
 同一个 workspace 内, scientist、screener 和 auditor 都是 singleton: 一次只允许每种角色各有一个实例维护战略状态。coder 是 worker pool: `coding_and_running` 期间可以并行多个 coder, 各自处理不同 run, 共同组成一轮 coder round。只有 screener 放行后才能进入 coder round; 只有整轮 coder round 结束后才交给 auditor。
 
-scientist 及其团队 (coder) 用 git branch 管理不同实验路线 — 一条 route 写在一个 `route/<name>` branch 上, 尝试过的方向多了, git graph 会长成一棵分叉树 (成功的 route 会 merge 回 main).
-
 用 STATE.md 记录当前的状态, git graph 每个节点都有自己的 STATE.md, 记录该节点当时的状态.
 
 STATE.md 的内容相当于一篇文章的核心结论和数据 (含 ablation / baseline). reviewer 据此审查是否达到顶会标准, 如果不能, 指出需要补充什么.
@@ -20,14 +18,13 @@ experiment-log.md 按时间倒序记录 workspace 的完整实验历史.
 
 ## workspace/ 目录结构
 
-idea factory 已经创建好 `workspace/slug/` 并跑了 pilot experiments, 但是实验工厂要以项目的要求管理 workspace.
+用户创建 `workspace/slug/`, 放入 proposal.md 和可选的 landscape.md. AgonLite 在该目录中初始化实验状态文件并推进实验.
 
 ```
 workspace/slug/                               ← 独立 git repo
 ├── STATE.md                                  ← 当前快照, dispatcher 的唯一读入 (yaml frontmatter + markdown body)
-├── topic.md                                  ← 启动时从 topics/ copy 的学科上下文, read-only
-├── idea.md                                   ← 启动时从 idea 最新版 copy 的原始研究 claim, read-only
-├── proposal.md                           ← 从最新版 copy, read-only; scientist 仅可更新既有 Mermaid 节点的颜色
+├── landscape.md                              ← 可选的已有文献背景
+├── proposal.md                               ← 用户提供的研究定义, read-only; scientist 仅可更新既有 Mermaid 节点的颜色
 ├── experiment-log.md                         ← 完整实验历史, 时间倒序 append
 ├── audits/                                   ← auditor + screener reports, latest path 由 STATE.md frontmatter 指向
 ├── src/slug/{models,data,training,utils,...}/
@@ -48,24 +45,14 @@ workspace/slug/                               ← 独立 git repo
 
 ## workspaces.xml 扩展 Schema
 
-idea 工厂 pilot 阶段只写基础字段 (`idea`, `slug`, `<one-line>`). 实验工厂接管后扩展:
+Agon 初始化时直接创建 workspace 条目:
 
 ```xml
 <workspace slug="short-slug" date="YYYY-MM-DD"
            gpu_dollars_equivalent="N.NN">           <!-- 仅 coder 写 -->
-  <one-line>沿用 idea 工厂 pilot 阶段的一句话</one-line>
+  <one-line>沿用 proposal 的一句话研究描述</one-line>
 </workspace>
 ```
-
-## Git Branch 命名
-
-- `main` — 已接受的进展, 只通过 merge 写入
-- `route/<route-name>` — 技术路线分支
-
-操作:
-- 每个新思路(route)从 main 开新分支 `cd workspace/slug`, `git checkout main`, `git checkout -b route/<name>`
-- 如果最终这个 route 成功则由 scientist merge 回 main
-- 如果最终放弃这个 route 则 scientist checkout main 再开新分支 (旧 branch 留着不删).
 
 ## Git commit msg 格式
 
@@ -77,9 +64,9 @@ idea 工厂 pilot 阶段只写基础字段 (`idea`, `slug`, `<one-line>`). 实�
 
 ## STATE.md 格式
 
-STATE.md 在 git 里, 随 branch 切换. Agent 读此文件做决策. 初始骨架见 `CLAUDE_PLUGIN_ROOT/templates/state-template.md`.
+STATE.md 在 git 里. Agent 读此文件做决策. 初始骨架见 `CLAUDE_PLUGIN_ROOT/templates/state-template.md`.
 
-STATE.md 的 frontmatter 记载了项目级别(branch级别)的状态, STATE.md 的 `## Runs` 章节记载每个小实验的进度. dispatcher 据此调度.
+STATE.md 的 frontmatter 记载了项目级别的状态, STATE.md 的 `## Runs` 章节记载每个小实验的进度. dispatcher 据此调度.
 
 frontmatter.phase 枚举:
 
@@ -90,7 +77,6 @@ frontmatter.phase 枚举:
 | `coding_and_running` | coder worker pool 正在写代码 + 远端跑实验 | 并行派 coder; 整轮 coder round 结束后进入 `needs_auditor` |
 | `needs_auditor` | 需要 auditor 做日常质量审计, 然后交给 scientist | 派 auditor; auditor 写 audit report 后置 `needs_scientist` |
 | `needs_reviewer` | scientist 根据证据设置送审 phase（不得写 §5 人类决策） | 派 reviewer |
-| `needs_litfeed` | reviewer 刚出 verdict, 需补一轮文献再交回 scientist | 跑一次 `deep-lit-tick --scope experiment <slug>` 到饱和, 写完 lit-feed.md inbox 后置 `needs_scientist` |
 | `done` | reviewer accept | 搞定收工 |
 
 frontmatter.phase 状态转移图 (workspace 级):
@@ -104,14 +90,13 @@ stateDiagram-v2
     coding_and_running --> needs_auditor: coder round 结束 (全 run collected, 或剩余 run 已记录为当前 worker pool 推不动)
     needs_auditor --> needs_scientist: auditor 完成日常质量审计
     needs_scientist --> needs_reviewer: scientist 根据证据设置送审 phase（不得写 §5）
-    needs_reviewer --> needs_litfeed: reviewer almost/not ready
-    needs_litfeed --> needs_scientist: dispatcher 跑完 experiment-scope deep-lit, 写满 inbox
+    needs_reviewer --> needs_scientist: reviewer almost/not ready
     needs_reviewer --> done: reviewer accept
 ```
 
 `needs_screener` 是 scientist → coder 的前置门禁. screener 检查 scientist 的计划, 将报告写入 `audits/screen_*.md`, 并给出 `NOT_PASS` (打回 scientist) 或 `PASS` (交给 coder) 的 verdict.
 `needs_auditor` 是 coder → scientist 的前置门禁. auditor 写 report 和 STATE frontmatter; scientist 回应 CRITICAL.
-`needs_litfeed` 在 reviewer → scientist 这条路径上插入文献补充; litfeed 后直接交给 scientist. scientist 不论从哪条路径进来, 开工第一步都看 lit-feed.md 的 `unprocessed`, 非 0 就先消费 inbox.
+reviewer 给出 almost/not ready 后直接交回 scientist, 由 scientist 响应 review 并规划下一轮实验.
 
 Runs 的每个 run (experiment-to-run) 有自己的 phase, 由 coder worker pool 消费. dispatcher 不做研究判断, 但可以用 run.phase 和 active coder session 判断是否还在同一轮 coder round。顶层 `coding_and_running` 期间只派 coder; 多个 coder 必须处理互不冲突的 run, 避免重复部署同一实验。
 

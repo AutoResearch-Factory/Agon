@@ -12,21 +12,14 @@ You are a dispatcher. 你推进一个 `scientist -> screener -> coder -> auditor
 
 ## 准备
 
-- 确认用户提供了 slug/path; 没有就停下.
-- 调用 `env-validator`: workspace_slug_or_path: {workspace_slug_or_path}. 若报告问题, 停下提醒用户.
+- 确认用户提供了 slug/path, 且 `workspace/{slug}/proposal.md` 已存在; 否则停下提醒用户.
 - 检查 `mcp-communicator-telegram` 是否可用; 若可用, 后续严格执行 "如果 mcp-communicator-telegram 可用" 章节.
 - 阅读 ${ROOT}/references/project_manual.md 理解项目结构. 阅读 ${ROOT}/references/experiment_manual.md 理解实验工厂规范, 特别是 frontmatter.phase 和 run.phase 两张状态图.
 - 阅读 ${ROOT}/references/dispatch_manual.md 理解如何用命令行启动 claude/claude-* 和 codex subagent.
 - 如果 `workspace/{slug}/STATE.md` 不存在(第一次启动):
-   - cp/ln -s 四份上游材料到 workspace:
-     - 对应 topic (从 idea frontmatter `topic:` 字段读路径) → `workspace/{slug}/topic.md`
-     - 对应 landscape (从 idea frontmatter `landscape:` 字段读路径) → 相对 symlink 到 `workspace/{slug}/landscape.md`
-     - 最新 idea (`ideas/{slug}.v*.md`) → `workspace/{slug}/idea.md`
-     - 最新 proposal (`ideas/{slug}-proposal.v*.md`) → `workspace/{slug}/proposal.md`
-   - 对 idea.md 和 proposal.md 删除末尾 `<review ...>` 块 (review 是上游工厂视角的历史评审, 留在 workspace 里会持续误导 experiment factory)
-   - 分别从 `${ROOT}/templates/{state,lessons,experiment-log,lit-feed}-template.md` 初始化(copy 之后再改) `STATE.md`, `LESSONS.md`, `experiment-log.md`, `lit-feed.md` (文献 inbox); 后三者的 `[slug]` 占位符替换为实际 slug
+   - 分别从 `${ROOT}/templates/{state,lessons,experiment-log}-template.md` 初始化 `STATE.md`, `LESSONS.md`, `experiment-log.md`; 替换其中的 `[slug]` 占位符.
 - 如果 `workspace/{slug}/STATE.md` 存在, 进入 `workspace/{slug}` 后执行 `git pull`, 同步合作者可能已经推送的更新.
-- 从 local settings 提取 `model_routing_policy` / `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model` / `lit_tick_model`, 并告知用户.
+- 从 local settings 提取 `model_routing_policy` / `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model`, 并告知用户.
 
 ## 执行循环
 
@@ -57,8 +50,7 @@ dispatch subagents 时, **科研层面**不要指导 subagent -- subagent 内部
   5. 所有本轮 coder 都结束或明确无法继续, 且 STATE 中没有 `needs_impl/queued/running/needs_sync/needs_fix` 的可推进 run 后, dispatcher 才能置 `needs_auditor`.
   6. 为 **每个** coder 构造唯一的 TASK_PROMPT (见下方模板). `{ASSIGNED_RUN_NAMES}` 填该 coder 的逗号分隔 run names. 不需透露其他 coder 的分配.
 - `needs_auditor`: 先按下方 Resume 策略决定 resume/fresh, 再派唯一一个 `experiment-auditor`.
-- `needs_reviewer`: 调用 `experiment-reviewer`. reviewer 负责写下一 phase; 主路径是 `needs_litfeed`.
-- `needs_litfeed`: 跑 `deep-lit-tick --scope experiment <slug>` 到饱和 (完整做法见下方 "文献补充" 章节), 写完 lit-feed.md inbox 后置 `needs_scientist`.
+- `needs_reviewer`: 调用 `experiment-reviewer`. reviewer 负责写下一 phase: ready 时置 `done`, 否则置 `needs_scientist`.
 - `done`: 不再派 agent.
 
 同一个 workspace 内, scientist、screener 和 auditor 是 singleton, 不并行启动第二个同角色实例; coder 是 worker pool.
@@ -75,24 +67,6 @@ Context 使用读法:
 - claude-*: 用 `session_id` 找 `~/.claude*/projects/<encoded cwd>/<session_id>.jsonl`; Task subagent 看 parent `subagents/*.jsonl`. 取最后一个 assistant `message.usage`; 用 `grep -qF '"subtype":"compact_boundary"'` 查是否发生过压缩.
 - Codex: 找对应 `~/.codex/sessions/**/rollout-*.jsonl`, 取最后一个非零 `token_count.info.last_token_usage`; 用 `grep -qF '"type":"compacted"'` 查是否发生过压缩.
 - 不用累计 `usage`/`total_token_usage` 判断 context 使用, 它们会不断偏大.
-
-## 文献补充 (phase = needs_litfeed)
-
-你看到这个 phase 时, 跑一轮 experiment-scope 文献再继续:
-
-1. 完整运行一次 `deep-lit-tick --scope experiment {slug}`, 循环到它内部 B4 饱和. 在 agon-artifact 目录下 (工厂默认 CWD, 不要改目录), 按 `lit_tick_model` 和 dispatch_manual 启动完整 tick. 这里 `AGENT_PROMPT` 指向 command 文件而不是 agents 文件; paper reader 的模型由 `deep-lit-tick` 自己读取和控制.
-
-   ```bash
-   AGENT_PROMPT="${ROOT}/commands/deep-lit-tick.md"
-   TASK_PROMPT="完整执行 deep-lit-tick: --scope experiment {slug}. 跑到内部 B4 饱和为止. CLAUDE_PLUGIN_ROOT=${ROOT}"
-   ```
-   读 `$OUT` 拿 C 段汇总 + D 段 verdict + 本次新增论文清单, 然后 `rm "$OUT"`. 进程异常退出或 `$OUT` 不完整: 直接重跑同一条命令 (deep-lit 内部用 wiki / JSON 缓存做 resume, 已读论文不会重读).
-
-2. 该 tick 自己会写好 `workspace/{slug}/idea.md` (文献总账) 和 `lit-feed.md` (inbox + `unprocessed`), 你不碰这两个文件.
-
-3. 完成后置 `needs_scientist`. `cd workspace/{slug}` 后 git add -v / commit / push, commit msg 模板: "mmdd litfeed: {slug} (inbox {unprocessed})".
-
-你不读论文, 不评判内容, 只负责调度这次 deep-lit 并推进 phase. 饱和与否由该 tick 内部判断.
 
 ## Cron 与防止 idle
 
@@ -129,17 +103,17 @@ CLAUDE_PLUGIN_ROOT=${ROOT}
 必读 mindset: {MANDATORY_SKILLS_LIST}
 现在是 {dispatch_time}, 请开始本轮工作.
 ```
-- `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model` / `lit_tick_model` 分别控制对应 role 使用的 backend/model; 按 local settings 和 `model_routing_policy` 解析后, 依照 dispatch_manual 记录的方法调用.
+- `scientist_model` / `screener_model` / `coder_model` / `auditor_model` / `reviewer_model` 分别控制对应 role 使用的 backend/model; 按 local settings 和 `model_routing_policy` 解析后, 依照 dispatch_manual 记录的方法调用.
 - backend 不可用 (rate-limit/billing/登录等) 时, 本次调用按固定顺序 fallback: `claude-grok > codex > claude`. fallback 只管这一次, 不可用一般 10-20 min 就会恢复(包括 session limit); 下一次照常按 local settings 选 backend, 禁止 resume fallback session.
 - 所有 `experiment-*` role 均在 `agon-artifact/workspace/{slug}` 下调用.
 - `experiment-reviewer` 必须用 shell/CLI fresh 调用, 永远不要 resume reviewer, 也不要用 Agent tool 或其他 subagent 机制.
 
 ## 如果 mcp-communicator-telegram 可用
 
-- 在 env_validator 检查无问题后用 notify_user 跟用户说: "Experiment factory started"
+- 完成准备后用 notify_user 跟用户说: "Experiment factory started"
 - 在 reviewer subagent 完成后使用 notify_user 向用户简报, scientist/coder 完成后不简报. telegram 消息言简意赅(否则会刷屏), 一句话讲清, 60 字以内.
 - 运行过程中 scientist 或 coder 遇到了自己无法解决的大问题或者重大决策难点 (卡点 和 Run Crash 都是小问题, 疑似调度问题或者死循环或者数据集需要用户同意协议是大问题), 你替他们用 ask_user 问我
-- 总之, Telegram 只发三类: env_validator 通过后 notify_user 启动; experiment-reviewer 完成后 notify_user 简报; 异常/循环卡死/需用户决策时 ask_user. 其他完成事件不发.
+- 总之, Telegram 只发三类: 完成准备后 notify_user 启动; experiment-reviewer 完成后 notify_user 简报; 异常/循环卡死/需用户决策时 ask_user. 其他完成事件不发.
 - 谨慎使用 ask_user, 它会阻塞你直到 user 回复; 但是如果你使用 notify_user, 你将不会获得回复(没有回复渠道)
 - 所有 telegram 消息均以 `#slug` 开始, `#slug` 不计入字数限制
 - 除非用户明确要求并授权, 不要把 `ask_user` 的回复记入 §5.

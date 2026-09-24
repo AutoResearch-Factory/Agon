@@ -39,7 +39,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 
 ## Inputs
 
-代码目录是 `workspace/{slug}/`. landscape.md, proposal.md, STATE.md, LESSONS.md, experiment-log.md, lit-feed.md, data/MANIFEST.md, results/ 均在该目录下.
+代码目录是 `workspace/{slug}/`. proposal.md, STATE.md, LESSONS.md, experiment-log.md, data/MANIFEST.md, results/ 均在该目录下.
 
 每轮开始先读:
 - `${CLAUDE_PLUGIN_ROOT}/references/project_manual.md`
@@ -47,7 +47,7 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - `${CLAUDE_PLUGIN_ROOT}/references/researcher_manual.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-template.md`
 - `${CLAUDE_PLUGIN_ROOT}/templates/state-example-filled.md`
-- landscape.md, proposal.md
+- proposal.md; 若已有 landscape.md, 也读取作为文献背景.
 - STATE.md 以及其 frontmatter 指向的 screen 和 audit reports
 - LESSONS.md
 
@@ -60,9 +60,8 @@ Refinery skills are advisory only; priority is user/STATE/factory protocol/this 
 - Minimum convincing evidence: 强 reviewer 会相信每个 claim 所需的最小证据.
 
 Start routine:
-1. 处理 lit-feed.md inbox: 若 frontmatter `unprocessed > 0`, 读完条目, 将有用内容写入 STATE.md (§5 除外) 或 LESSONS.md, 删除已处理条目并置 `unprocessed: 0`.
-2. 判断场景: 无 experiment-log 条目 → 场景 A; 最新条目是 verdict 为 `NOT_PASS` 的 `[Screen]` → 场景 B; 最新条目是 `[Review ...]` → 场景 D; 其他 → 场景 C.
-3. 卡住或找 trick 时查 wiki: `grep -rl "<关键词>" "$ARXIV_WIKI_DIR/"`; wiki 解决不了就在 STATE.md 记录需要补文献的问题.
+1. 判断场景: 无 experiment-log 条目 → 场景 A; 最新条目是 verdict 为 `NOT_PASS` 的 `[Screen]` → 场景 B; 最新条目是 `[Review ...]` → 场景 D; 其他 → 场景 C.
+2. 卡住或找 trick 时, 若已配置 `$ARXIV_WIKI_DIR`, 可查已有 wiki; 需要新文献时使用 arxiv-tools 核验, 将相关依据写入 STATE.md 或 LESSONS.md.
 
 ## 场景 A: 初始化
 
@@ -98,7 +97,6 @@ Start routine:
 ## 场景 D: 响应审稿
 
 完整阅读 STATE.md 末尾 `<review>`, 尤其是 `Next experiment manual`. 不要只做 reframe 或 desk rewrite; 两次送审之间必须有实质性实验, 分析或证据改进.
-如果这是 reviewer 后 deep-lit 回流, 先确认 Start routine 已消费 lit-feed.md 的新增文献, 再响应 reviewer.
 
 - 对每条 reviewer 反馈做 accept / partially accept / pushback 决定, 并在 A0/§6/A1/A2 写清证据和策略. 不得新增或改写 §5.
 - 必须逐条处理 `Next experiment manual`: due diligence 结论, 实验矩阵, P0/P1, 资源/可行性风险, decision rules. 接受的条目写进 A1/A2/A3; 不接受的条目必须在 A0 写明 pushback 理由和替代实验.
@@ -130,7 +128,7 @@ Start routine:
 - LESSONS.md: 按需记录新嘱托, 可迁移经验, 搁置路线. 新增前查重; 同主题合并旧条, 不追加近义重复. 记录人类嘱托时必须记录用户原文; 只允许修正明显 typo, 不得改写, 概括, 翻译, 润色或重排. 可在原文后另写"当时情况"和"Agent 注释", 但必须明确标注为 agent 注释, 不得替代, 扩展或冒充用户原文.
 - experiment-log.md: 顶部 prepend 本轮条目: 场景 A `[Init]`; 场景 B `[Iter {iter+1} Start]`; 场景 C 继续迭代 `[Iter {iter+1} Start]`; 场景 C 送审 `[Version V Finished]`; 场景 D `[Version V Start]`.
 - workspaces.xml: 按需更新 `<one-line>`.
-- workspace git: `STATE.md` / `proposal.md` / `LESSONS.md` / `lit-feed.md` / `experiment-log.md` / `data/MANIFEST.md` / `workspaces.xml` 等本轮应入库文件必须显式 `git add -v`; commit + push; 不要把无关文件带进去.
+- workspace git: `STATE.md` / `proposal.md` / `LESSONS.md` / `experiment-log.md` / `data/MANIFEST.md` / `workspaces.xml` 等本轮应入库文件必须显式 `git add -v`; commit + push; 不要把无关文件带进去.
 - 向 dispatcher 简报: 做了什么, 遇到什么困难, 怎么解决, 开放问题.
 
 若要添加或修改 A3 Runs 的 `server`, 先读 `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md`, 结合本 workspace 实验历史/manifest 优先沿用已有数据/模型所在机器或同校机器; 再用 `server-health` skill 查负载, 并查 `agon-artifact/servers_notes.md` 对应 pitfall.
