@@ -1,28 +1,44 @@
 ---
 name: server-health
-description: Use when you need project-specific compute/server notes to pick a server or confirm a running task, if the project has filled its server manual or monitoring hooks.
+description: Check server load and resource availability to choose a server or verify a running experiment.
 ---
 
-# Server health snapshot
+# Server health
 
-Placeholder for project-specific compute availability.
+Read `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md` for server labels,
+access methods, and monitoring commands.
 
-This release intentionally ships no private server names, accounts, paths, queues, credentials, or monitoring scripts. Projects should fill `references/servers_manual.md` or replace this skill with their own health collector.
+## Choose a server
 
-## Usage Contract
+Use the access and monitoring commands in the server manual to check:
 
-- First read `${CLAUDE_PLUGIN_ROOT}/references/servers_manual.md`.
-- Use only project-provided server labels, paths, queues, and monitoring commands.
-- If the project has not configured compute resources, report `UNKNOWN` and ask the user for server information.
-- Do not guess private hostnames, usernames, storage roots, queues, or GPU availability.
+- CPU load and available system memory
+- GPU utilization, free GPU memory, and running processes
+- Free space on the project's data and output filesystems
+- Scheduler allocation and queue status, when applicable
+- Existing project jobs and the location of required data or checkpoints
 
-## Expected Project Notes
+If load history is available, compare recent averages with the current sample.
+Recommend a server based on the run's requirements and data location.
 
-The server manual should define:
+## Verify a running experiment
 
-- host labels and access method
-- GPU/CPU/RAM inventory
-- scheduler or launch rules
-- canonical remote project root
-- dataset/cache/checkpoint/result locations
-- how to check load, jobs, disk, and running experiments
+Use the run's recorded host, remote directory, and job/session ID to check:
+
+- Job or process status and owner
+- Resource utilization
+- Latest log entries and output timestamps
+- Completion status, exit code, or error messages
+
+Distinguish running, queued, completed, failed, and unverified tasks. A session
+existing by itself does not establish that the experiment is progressing.
+
+## Report
+
+For server selection, summarize each candidate's available resources, current
+jobs, and observation time. For task checks, report the task status and the
+log, process, or scheduler evidence supporting it.
+
+If a check fails or monitoring is unavailable, report `UNKNOWN` with the
+specific missing information or failed command. Do not interpret missing data
+as an idle server or a completed task.
