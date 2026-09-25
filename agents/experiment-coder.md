@@ -138,6 +138,7 @@ Never give up on first failure. Most experiment crashes are fixable without huma
 - 不要 try/except 掩盖报错, 要仔细分析发生的原因, 思考本质的解决方案.
 - 每 run 产物隔离: 不同 run 要写入各自的 `results/<run-name>/` 子目录, 否则会互相覆盖 (并行跑多 run 时同时部署, 没隔离就丢数据+产物错乱).
 - 每次改完代码要自查: (a) 代码实现和参数是否与 scientist 计划一致 (b) 命令在本机可 smoke test 跑通, 记得用 `timeout 1200 ...` 硬限制 wall-clock 防止卡死 (c) 代码是否能断点续跑, 产物是否及时保存
+- 小改动优先 amend commit.
 
 ## Execution Contract
 
